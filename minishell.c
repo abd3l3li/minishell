@@ -1,5 +1,37 @@
 #include "minishell.h"
-int status;
+
+void free_list(t_list *node) {
+    t_list *temp;
+    while (node) {
+        temp = node;
+        node = node->next;
+        if (temp->content)
+            free(temp->content);
+        free(temp);
+    }
+}
+
+void free_pcmd(char **pcmd) {
+    int i = 0;
+    if (!pcmd)
+        return;
+    while (pcmd[i]) {
+        free(pcmd[i]);
+        i++;
+    }
+    free(pcmd);
+}
+
+
+void free_cmd(t_ms *cmd) {
+    if (!cmd)
+        return;
+    if (cmd->node)
+        free_list(cmd->node);
+    if (cmd->pcmd)
+        free_pcmd(cmd->pcmd);
+    free(cmd);
+}
 
 void ft_lexer(char *s, t_ms *command)
 {
@@ -13,10 +45,9 @@ void ft_lexer(char *s, t_ms *command)
     while (s[i])
         i += ms_split(command, s + i);
 
-
 }
 
-void inpute(t_ms *command, t_env *env_list)
+void inpute(t_ms *command, char **env)
 {
     char *s;
 
@@ -28,22 +59,18 @@ void inpute(t_ms *command, t_env *env_list)
         if (s[0] != '\0' && !(spaces(s)))
             add_history(s);
         ft_lexer(s, command);
-        expand_env(command, env_list, status); //need first to get the env list
-
-    int i = 0;
-    while (command->node)
-    {
-        printf("num %d is %s\n", i, command->node->content);
-        i++;
-        command->node = command->node->next;
-    }
+        int i = 0;
+        printf("command->node->content  = %s\n", command->node->content);
+        checking(command->node, env, command);
+        free_cmd(command);
+        command = (t_ms *)malloc(sizeof(t_ms));
+        *command = (t_ms){ .node = NULL, .pcmd = NULL};
     }
 }
 
 int main(int ac, char **av, char **env)
 {
     t_ms *cmd;
-    t_env *env_list;
 
     if (ac != 1)
         exit(1);
@@ -52,5 +79,5 @@ int main(int ac, char **av, char **env)
         p_err("Malloc error", 54);
     *cmd = (t_ms){ .node = NULL, .pcmd = NULL};
    // signals();
-    inpute(cmd, env_list);
+    inpute(cmd,env);
 }

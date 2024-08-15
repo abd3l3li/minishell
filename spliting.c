@@ -7,7 +7,7 @@ int env_var(t_ms *command, char *s)
     i = 0;
     if (s[i] == '$' && s[i + 1] == '\0' || s[i + 1] == 32)
     {
-        ft_lstadd_back(&(command->node), ft_lstnew(s, 1, W));
+        ft_listadd_back(&(command->node), ft_listnew(s, 1, Word));
         i++;
         return (i);
     }
@@ -17,7 +17,7 @@ int env_var(t_ms *command, char *s)
     else
         while(alphanum(s[i]) && s[i] != '\0')
             i++;
-    ft_lstadd_back(&(command->node), ft_lstnew(s, i, E));
+    ft_listadd_back(&(command->node), ft_listnew(s, i, E));
     return (i);
 }
 
@@ -39,25 +39,27 @@ int to_be_continue(t_ms *command, char *s, int i)
     if (s[i] == '>')
         if (s[i + 1] == '>')
         {
-            ft_lstadd_back(&(command->node), ft_lstnew(s, 2, R_O));
+            ft_listadd_back(&(command->node), ft_listnew(s, 2, Rediracion_Out));
             i += 2;
         }
         else
         {
-            ft_lstadd_back(&(command->node), ft_lstnew(s, 1, R_O));
+            ft_listadd_back(&(command->node), ft_listnew(s, 1, Rediracion_Out));
             i++;
         }
     else if (s[i] == '<')
+    {
         if (s[i + 1] == '<')
         {
-            ft_lstadd_back(&(command->node), ft_lstnew(s, 2, H));
+            ft_listadd_back(&(command->node), ft_listnew(s, 2, Here_doc));
             i += 2;
         }
         else
         {
-            ft_lstadd_back(&(command->node), ft_lstnew(s, 1, R_I));
+            ft_listadd_back(&(command->node), ft_listnew(s, 1, Rediracion_In));
             i++;
         }
+    }
     return (i);
 }
 
@@ -69,25 +71,25 @@ int ms_split(t_ms *command, char *s)
     if (s[i] == 34 || s[i] == 39)
     {
         i += next_q(s, i + 1, s[i]);
-        ft_lstadd_back(&(command->node), ft_lstnew(s + 1, i - 1, W));
+        ft_listadd_back(&(command->node), ft_listnew(s + 1, i - 1, Word));
         i++;
     }
     else if (!ft_symbols(s[i]))
     {
         while (!ft_symbols(s[i]))
             i++;
-        ft_lstadd_back(&(command->node), ft_lstnew(s, i, W));
+        ft_listadd_back(&(command->node), ft_listnew(s, i, Word));
     }
     else if (s[i] == '|')
     {
-        ft_lstadd_back(&(command->node), ft_lstnew(s, 1, P));
+        ft_listadd_back(&(command->node), ft_listnew(s, 1, Pipe));
         i++;
     }
     else if (s[i] == '$')
         if ((ft_symbols(s[i + 1]) || s[i + 1] == '=') &&
                 (s[i + 1] != '\0' && s[i + 1] != 32))
         {
-            ft_lstadd_back(&(command->node), ft_lstnew(s, 2, W));
+            ft_listadd_back(&(command->node), ft_listnew(s, 2, Word));
             i += 2;
         }
         else
