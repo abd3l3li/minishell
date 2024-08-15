@@ -38,6 +38,7 @@ typedef struct s_env
 } t_env;
 
 
+void    get_init(t_ms **cmd);
 void    ft_check(char *s);
 void	*ft_memcpy(void *dest, const void *src, int n);
 char	*ft_substr(char const *s, unsigned int start, int len);
@@ -61,6 +62,6 @@ char	*ft_strdup(const char *src);
 int     ft_isdigit(int i);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_itoa(int n);
-
+void    free_cmd(t_ms *cmd);
 
 #endif

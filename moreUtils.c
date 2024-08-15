@@ -54,6 +54,9 @@ void    expand_env(t_ms *command, t_env *env_list, int status)
             }
         free(name);
         }
+        else if ((tmp->content[0] == '>' || (tmp->content[0] == '<' && tmp->content[1] == '\0'))
+                && (tmp->next && tmp->next->content[0] == '$'))
+                p_err("bash: ambiguous redirect", 1);
         tmp = tmp->next;
     }
 }

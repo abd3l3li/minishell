@@ -1,22 +1,30 @@
 #include "minishell.h"
 int status;
 
-void ft_lexer(char *s, t_ms *command)
+void    get_init(t_ms **cmd)
+{
+    *cmd = (t_ms *)malloc(sizeof(t_ms));
+    if (!(*cmd))
+        p_err("Malloc error", 54);
+    **cmd = (t_ms){ .node = NULL, .pcmd = NULL};
+}
+
+void    ft_lexer(char *s, t_ms *command)
 {
     int i;
 
     i = 0;
-    ft_check(s);
+    //ft_check(s);
     //while (s[i] == ' ' || s[i] == '\t')
         //i++;
-    //pipe_split(s + i, command);
+    //pipe_split(s + i, command); //to be used
     while (s[i])
         i += ms_split(command, s + i);
 
 
 }
 
-void inpute(t_ms *command, t_env *env_list)
+void    inpute(t_ms *command, t_env *env_list)
 {
     char *s;
 
@@ -24,12 +32,15 @@ void inpute(t_ms *command, t_env *env_list)
     {
         s = readline("minishell> ");
         if (!s)
-            p_err("exit", 0);
+            (free_cmd(command), p_err("exit", 0));
+            
         if (s[0] != '\0' && !(spaces(s)))
             add_history(s);
         ft_lexer(s, command);
-        expand_env(command, env_list, status); //need first to get the env list
+        //expand_env(command, env_list, status); //need first to get the env list
+        //*houssam call his funcs here
 
+    //printing node content
     int i = 0;
     while (command->node)
     {
@@ -37,6 +48,9 @@ void inpute(t_ms *command, t_env *env_list)
         i++;
         command->node = command->node->next;
     }
+        //freeing and re init
+        free_cmd(command);
+        get_init(&command);
     }
 }
 
@@ -47,10 +61,7 @@ int main(int ac, char **av, char **env)
 
     if (ac != 1)
         exit(1);
-    cmd = (t_ms *)malloc(sizeof(t_ms));
-    if (!cmd)
-        p_err("Malloc error", 54);
-    *cmd = (t_ms){ .node = NULL, .pcmd = NULL};
+    get_init(&cmd);
    // signals();
     inpute(cmd, env_list);
 }
