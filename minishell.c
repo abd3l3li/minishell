@@ -27,10 +27,12 @@ void    ft_lexer(char *s, t_ms *command)
 void    inpute(t_ms *command, t_env *env_list)
 {
     char *s;
+    const char  *prompt;
 
+    prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell " RESET "> ";
     while(1)
     {
-        s = readline("minishell> ");
+        s = readline(prompt);
         if (!s)
             (free_cmd(command), p_err("exit", 0));
             

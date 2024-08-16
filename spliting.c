@@ -48,6 +48,7 @@ int to_be_continue(t_ms *command, char *s, int i)
             i++;
         }
     else if (s[i] == '<')
+    {
         if (s[i + 1] == '<')
         {
             ft_lstadd_back(&(command->node), ft_lstnew(s, 2, H));
@@ -58,6 +59,7 @@ int to_be_continue(t_ms *command, char *s, int i)
             ft_lstadd_back(&(command->node), ft_lstnew(s, 1, R_I));
             i++;
         }
+    }
     return (i);
 }
 

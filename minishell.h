@@ -17,6 +17,11 @@
 # define E 6
 # define H 7
 
+# define CMAGENTA   "\x1B[35m"
+# define CCYAN     "\x1B[36m"    
+# define BOLD      "\x1B[1m"
+# define RESET     "\x1B[0m"
+
 typedef struct s_list
 {
 	char			*content;
