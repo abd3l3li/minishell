@@ -62,7 +62,7 @@ t_list	*ft_lstnew(char *content, int len, int type);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 int     env_var(t_ms *command, char *s);
 int     alphanum(char c);
-void    expand_env(t_ms *command, t_env *env_list, int status);
+void    expand_env(t_ms *command, t_env *env_list);
 char	*ft_strdup(const char *src);
 int     ft_isdigit(int i);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);

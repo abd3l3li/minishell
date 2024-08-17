@@ -1,4 +1,5 @@
 #include "minishell.h"
+
 int status;
 
 void    get_init(t_ms **cmd)
@@ -39,7 +40,7 @@ void    inpute(t_ms *command, t_env *env_list)
         if (s[0] != '\0' && !(spaces(s)))
             add_history(s);
         ft_lexer(s, command);
-        //expand_env(command, env_list, status); //need first to get the env list
+        //expand_env(command, env_list); //need first to get the env list
         //*houssam call his funcs here
 
     //printing node content

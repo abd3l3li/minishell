@@ -1,7 +1,10 @@
 #include "minishell.h"
 
+extern int status;
+
 void p_err(char *str, int n)
 {
+    status = n;
     printf("%s\n", str);
     exit(n);
 }

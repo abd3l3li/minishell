@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS =
+CFLAGS = 
 RM = rm -rf
 
 BOLD      = \033[1m

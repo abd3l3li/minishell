@@ -1,12 +1,14 @@
 #include "minishell.h"
 
+extern int status;
+
 int     alphanum(char c)
 {
     return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
             || (c >= '0' && c <= '9'));
 }
 
-void    expand_env(t_ms *command, t_env *env_list, int status)
+void    expand_env(t_ms *command, t_env *env_list)
 {
     t_list  *tmp;
 

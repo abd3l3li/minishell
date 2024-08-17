@@ -3,7 +3,6 @@
 void ft_check(char *s)
 {
     int last;
-    char *new_s;
 
     last = ft_strlen(s);
     if (check_q(s))

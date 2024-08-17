@@ -9,8 +9,6 @@ t_list	*ft_lstnew(char *content, int len, int type)
 	if (!new)
 		return (NULL);
     sub = ft_substr(content, 0, len);
-    if (!sub)
-        return (NULL);
 	new->content = sub;
 	new->next = NULL;
     new->type = type;
