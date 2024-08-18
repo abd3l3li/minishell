@@ -145,8 +145,9 @@ int free_tab(char **tab)
 
 int pwd(t_exc *vars)
 {
+	printf("2222222222222222222\n");
+
     char *pwd;
-    printf("in pwd //////////\n");
     pwd = getcwd(NULL, 0);
     printf("%s\n", pwd);
     free(pwd);
@@ -188,6 +189,7 @@ int echo(t_exc *vars)
     while (vars->cmd_args[i])
     {
         printf("%s", vars->cmd_args[i]);
+    
         i++;
     }
     if(check_option(vars->cmd_args[0]) == 0)

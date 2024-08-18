@@ -8,6 +8,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 # define Word 0
 # define Pipe 1
@@ -39,13 +40,25 @@ typedef struct s_env
     struct s_env *next;
 } t_env;
 
+typedef struct s_cmd_vars
+{
+	int		i;
+	char	*path;
+	char	*fullpath;
+	char	**splited_cmd;
+	int		result;
+	char	**paths;
+	char	*part_path;
+}	t_cmd_Vars;
+
 typedef struct s_exc
 {
     char **paths;
     char *tmp;
     char *cmd;
     char **cmd_args;
-    t_env *env;
+    int fd[2];
+    pid_t pid;
 } t_exc;
 
 
@@ -82,4 +95,5 @@ size_t  ascii_to_long(char *str);
 char	*ft_strchr(char const *str, int c);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
+char    **getpaths(char **envp);
 #endif

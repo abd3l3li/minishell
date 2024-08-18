@@ -60,11 +60,10 @@ void inpute(t_ms *command, char **env)
             add_history(s);
         ft_lexer(s, command);
         int i = 0;
-        printf("command->node->content  = %s\n", command->node->content);
-        checking(command->node, env, command);
-        free_cmd(command);
-        command = (t_ms *)malloc(sizeof(t_ms));
-        *command = (t_ms){ .node = NULL, .pcmd = NULL};
+            checking(command->node, env, command);
+            free_cmd(command);
+            command = (t_ms *)malloc(sizeof(t_ms));
+            *command = (t_ms){ .node = NULL, .pcmd = NULL};
     }
 }
 
