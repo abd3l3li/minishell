@@ -6,7 +6,7 @@ void p_err(char *str, int n)
 {
     status = n;
     printf("%s\n", str);
-    exit(n);
+    //need to handle readline re-calling
 }
 
 int spaces(char *s)
