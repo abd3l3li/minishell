@@ -30,7 +30,7 @@ void    inpute(t_ms *command, t_env *env_list)
     char *s;
     const char  *prompt;
 
-    prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell " RESET "> ";
+    prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
     while(1)
     {
         s = readline(prompt);
