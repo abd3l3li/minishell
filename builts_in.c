@@ -154,46 +154,50 @@ int pwd(t_exc *vars)
     return (0);
 }
 
-int check_option(char *str)
+int check_option(char **str)
 {
     int i;
+    int j;
+    int return_value;
 
-    i = 0;
+    return_value = 1;
+    j = 0;
+    i = 1;
     while(str[i])
     {
-        if(str[i] == '-' && str[i + 1] == 'n')
+        j = 0;
+        while(str[i][j])
         {
-            i++;
-            while(str[i])
+            if(str[i][j] == '-' && str[i][j + 1] == 'n')
             {
-                if(str[i] != 'n')
+                j++;
+                return_value += 1;
+                while(str[i][j])
                 {
-                    return (0);
+                    if(str[i][j] != 'n')
+                    {
+                        return_value = 1;
+                    }
+                    j++;
                 }
-                i++;
             }
-            return (1);
+            j++;
         }
         i++;
     }
-    return (0);
+    return (return_value);
 }
 
 int echo(t_exc *vars)
 {
     int i;
 
-    i = 0;
-    if(check_option(vars->cmd_args[0]) == 1)
-        i = 1;
+    i = check_option(vars->cmd_args);   
     while (vars->cmd_args[i])
     {
-        printf("%s", vars->cmd_args[i]);
-    
+        printf("%s ", vars->cmd_args[i]);
         i++;
     }
-    if(check_option(vars->cmd_args[0]) == 0)
-        printf("\n");
     return (0);
 }
 
