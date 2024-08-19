@@ -68,5 +68,6 @@ int     ft_isdigit(int i);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_itoa(int n);
 void    free_cmd(t_ms *cmd);
+void    ms_signal(void);
 
 #endif

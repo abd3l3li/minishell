@@ -65,6 +65,6 @@ int main(int ac, char **av, char **env)
     if (ac != 1)
         exit(1);
     get_init(&cmd);
-   // signals();
+    ms_signal();
     inpute(cmd, env_list);
 }

@@ -7,7 +7,7 @@ BOLD      = \033[1m
 CGREEN    = \033[32m
 CCYAN     = \033[36m
 
-SRC = checks.c free.c libft.c libftPlus.c list.c \
+SRC = checks.c free.c libft.c libftPlus.c list.c  signals.c\
 		minishell.c moreUtils.c spliting.c utils.c
 
 OBJ = ${SRC:.c=.o}
