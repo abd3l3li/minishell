@@ -6,7 +6,6 @@ void p_err(char *str, int n)
 {
     status = n;
     printf("%s\n", str);
-    exit(n);
 }
 
 int spaces(char *s)
@@ -52,14 +51,10 @@ int count_q(char *s, char c)
 
 int check_q(char *str)
 {
-    int count_d;
-    int count_s;
     int i;
     int s;
     int d;
 
-    count_d = 0;
-    count_s = 0;
     d = 0;
     s = 0;
     i = 0;
@@ -67,17 +62,15 @@ int check_q(char *str)
     {
         if (str[i] == 34 && !d)
         {
-            count_d = count_q(str, 34);
-            s = 1;
+            s = !s;
         }
         else if (str[i] == 39 && !s)
         {
-            count_s = count_q(str, 39);
-            d = 1;
+            d = !d;
         }
         i++;
     }
-    if ((count_d % 2 != 0 || count_s % 2 != 0))
+    if (s || d)
         return (1);
     else
         return (0);

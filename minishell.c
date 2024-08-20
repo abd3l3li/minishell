@@ -15,7 +15,6 @@ void    ft_lexer(char *s, t_ms *command)
     int i;
 
     i = 0;
-    //ft_check(s);
     //while (s[i] == ' ' || s[i] == '\t')
         //i++;
     //pipe_split(s + i, command); //to be used
@@ -39,6 +38,8 @@ void    inpute(t_ms *command, t_env *env_list)
             
         if (s[0] != '\0' && !(spaces(s)))
             add_history(s);
+        if (ft_check(s))
+            continue;
         ft_lexer(s, command);
         //expand_env(command, env_list); //need first to get the env list
         //*houssam call his funcs here

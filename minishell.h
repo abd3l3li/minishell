@@ -44,7 +44,7 @@ typedef struct s_env
 
 
 void    get_init(t_ms **cmd);
-void    ft_check(char *s);
+int     ft_check(char *s);
 void	*ft_memcpy(void *dest, const void *src, int n);
 char	*ft_substr(char const *s, unsigned int start, int len);
 int     ft_strlen(const char *str);
