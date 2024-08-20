@@ -35,7 +35,7 @@ void    inpute(t_ms *command, t_env *env_list)
     {
         s = readline(prompt);
         if (!s)
-            (free_cmd(command), p_err("exit", 0));
+            (free_cmd(command), p_err("exit", 0), exit(0));
             
         if (s[0] != '\0' && !(spaces(s)))
             add_history(s);
