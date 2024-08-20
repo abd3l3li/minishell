@@ -2,6 +2,8 @@
 
 extern int status;
 
+//handler for child process
+
 void    handler(int sig)
 {
     (void)sig;
@@ -9,7 +11,7 @@ void    handler(int sig)
     write(1, "\n", 1);
     rl_on_new_line();
     rl_redisplay();
-    status = 1;
+    status = 130;
 }
 void    ms_signal(void)
 {
