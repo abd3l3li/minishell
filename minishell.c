@@ -6,7 +6,7 @@ void    get_init(t_ms **cmd)
 {
     *cmd = (t_ms *)malloc(sizeof(t_ms));
     if (!(*cmd))
-        p_err("Malloc error", 54);
+        (p_err("Malloc error", 54), exit(54));
     **cmd = (t_ms){ .node = NULL, .pcmd = NULL};
 }
 
@@ -27,6 +27,7 @@ void    ft_lexer(char *s, t_ms *command)
 void    inpute(t_ms *command, t_env *env_list)
 {
     char *s;
+    int i = 0;;
     const char  *prompt;
 
     prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
@@ -36,16 +37,18 @@ void    inpute(t_ms *command, t_env *env_list)
         if (!s)
             (free_cmd(command), p_err("exit", 0), exit(0));
             
-        if (s[0] != '\0' && !(spaces(s)))
-            add_history(s);
+        //if (s[0] != '\0' && !(spaces(s))) //not needed ig
+        add_history(s);
         if (ft_check(s))
             continue;
         ft_lexer(s, command);
         //expand_env(command, env_list); //need first to get the env list
-        //*houssam call his funcs here
+        if (!ft_pars(command))
+            printf("I'am here\n");
+            //*houssam call his funcs here
+            
 
     //printing node content
-    int i = 0;
     while (command->node)
     {
         printf("num %d is %s\n", i, command->node->content);
@@ -53,7 +56,8 @@ void    inpute(t_ms *command, t_env *env_list)
         command->node = command->node->next;
     }
         //freeing and re init
-        free_cmd(command);
+        if (command->node)
+            free_cmd(command);
         get_init(&command);
     }
 }

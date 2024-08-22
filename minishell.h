@@ -65,9 +65,11 @@ int     alphanum(char c);
 void    expand_env(t_ms *command, t_env *env_list);
 char	*ft_strdup(const char *src);
 int     ft_isdigit(int i);
-int     ft_strncmp(const char *s1, const char *s2, size_t n);
+int     ft_strnotcmp(const char *s1, const char *s2, int n);
+int     ft_strncmp(const char *s1, const char *s2, int n);
 char	*ft_itoa(int n);
 void    free_cmd(t_ms *cmd);
 void    ms_signal(void);
+int     ft_pars(t_ms *cmd);
 
 #endif

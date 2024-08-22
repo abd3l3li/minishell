@@ -3,7 +3,8 @@
 void free_list(t_list *node)
 {
     t_list *temp;
-    while (node) {
+    while (node)
+    {
         temp = node;
         node = node->next;
         if (temp->content)
@@ -17,7 +18,8 @@ void free_pcmd(char **pcmd)
     int i = 0;
     if (!pcmd)
         return;
-    while (pcmd[i]) {
+    while (pcmd[i])
+    {
         free(pcmd[i]);
         i++;
     }
@@ -34,4 +36,5 @@ void free_cmd(t_ms *cmd)
     if (cmd->pcmd)
         free_pcmd(cmd->pcmd);
     free(cmd);
+    cmd->node = NULL;
 }

@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern int status;
+
 int env_var(t_ms *command, char *s)
 {
     int i;
@@ -68,7 +70,13 @@ int ms_split(t_ms *command, char *s)
     int i;
 
     i = 0;
-    if (s[i] == 34 || s[i] == 39)
+    if (s[i] == 32 || s[i] == ':' || s[i] == '!' || s[i] == '#')
+    {
+        if (s[i] == '!')
+            status = 1;
+        i++;
+    }
+    else if (s[i] == 34 || s[i] == 39)
     {
         i += next_q(s, i + 1, s[i]);
         ft_lstadd_back(&(command->node), ft_lstnew(s + 1, i - 1, W));
@@ -94,8 +102,6 @@ int ms_split(t_ms *command, char *s)
         }
         else
             i += env_var(command, s + i);
-    else if (s[i] == 32)
-        i++;
     else
         i += to_be_continue(command, s, i);
     return (i);
