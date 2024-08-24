@@ -50,7 +50,12 @@ void ft_lexer(char *s, t_ms *command)
 void inpute(t_ms *command, char **env)
 {
     char *s;
+    t_env *env_list;
+    t_env *export;
 
+    fill_env(&env_list, env);
+    fill_env(&export, env);
+    export_sort(&export,env);
     while(1)
     {
         s = readline("minishell> ");
@@ -60,7 +65,7 @@ void inpute(t_ms *command, char **env)
             add_history(s);
         ft_lexer(s, command);
         int i = 0;
-            checking(command->node, env, command);
+            checking(command->node, env, command,env_list,export);
             free_cmd(command);
             command = (t_ms *)malloc(sizeof(t_ms));
             *command = (t_ms){ .node = NULL, .pcmd = NULL};

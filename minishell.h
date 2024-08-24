@@ -1,4 +1,4 @@
-#ifndef MINISHELL_H
+# ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <readline/readline.h>
@@ -9,7 +9,11 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <fcntl.h>
+# include <stdbool.h>
 
+
+# define BUFFER_SIZE 10
 # define Word 0
 # define Pipe 1
 # define Singl_Quot 2
@@ -18,6 +22,7 @@
 # define Rediracion_Out 5
 # define E 6
 # define Here_doc 7
+# define Rediracion_Out_Append 8
 
 typedef struct s_list
 {
@@ -58,10 +63,22 @@ typedef struct s_exc
     char *cmd;
     char **cmd_args;
     int fd[2];
+    char *file;
     pid_t pid;
 } t_exc;
 
+typedef struct s_glist
+{
+	char			*content;
+	struct s_glist	*next;
+}	t_glist;
 
+t_glist	*ft_lstglast(t_glist *lst);
+char	*trim_last_list_chars_helper(t_glist *last, int i);
+bool	found_new_line(t_glist *list);
+void	free_glist(t_glist *list);
+char	*get_next_line(int fd);
+void	generate_line(char **line, t_glist *list);
 void    ft_check(char *s);
 void	*ft_memcpy(void *dest, const void *src, int n);
 char	*ft_substr(char const *s, unsigned int start, int len);
@@ -90,10 +107,14 @@ int     ft_unset(t_env **env, char *str);
 int     ft_exit(t_exc *vars);
 int     fill_env(t_env **env, char **envp);
 int     export_sort(t_env **export,char **envp);
-int     checking(t_list *list, char **env, t_ms *ms);
+int     checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export);
 size_t  ascii_to_long(char *str);
 char	*ft_strchr(char const *str, int c);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char    **getpaths(char **envp);
+int     ft_print_env(t_env *env);
+t_env	*ft_lstlast(t_env *lst);
+int     ft_cd(t_exc *vars);
+char	*ft_strdup(const char *s);
 #endif

@@ -103,8 +103,12 @@ void	execute(char *argv, char **envp)
 	execve(path, cmd, envp);
 }
 
-void	child_process(char *argv, char **envp, t_exc *var)
+void	child_process(char *argv, char **envp, t_exc *var, int type)
 {
+	int	fd;
+	char *str;
+
+	type = Rediracion_Out;
 	if (pipe(var->fd) == -1)
 		error(2);
 	var->pid = fork();
@@ -112,15 +116,105 @@ void	child_process(char *argv, char **envp, t_exc *var)
 		error(2);
 	if (var->pid == 0)
 	{
-		close(var->fd[0]);
-		dup2(var->fd[1], 1);
-		execute(argv, envp);
+		if(type == Rediracion_Out)
+		{
+			fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			dup2(fd, 1);
+			close(fd);
+			execute(argv, envp);
+		}
+		else if(type == Rediracion_In)
+		{
+			fd = open(var->file, O_RDONLY);
+			dup2(fd, 0);
+			close(fd);
+			execute(argv, envp);
+		}
+		else if(type == Rediracion_Out_Append)
+		{
+			fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			dup2(fd, 1);
+			close(fd);
+			execute(argv, envp);
+		}
+		else if(type == Here_doc)
+		{
+			fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			while(str == get_next_line(0))
+			{
+				write(fd, str, ft_strlen(str));
+				write(fd, "\n", 1);
+				if(ft_strncmp(str, var->file, ft_strlen(var->file)) == 0)
+					break;	
+			}
+		}
+		else
+		{
+			close(var->fd[0]);
+			dup2(var->fd[1], 1);
+			execute(argv, envp);
+		}
 	}
 	else
 	{
 		close(var->fd[1]);
 		dup2(var->fd[0], 0);
 		close(var->fd[0]);
+	}
+}
+
+
+static void	last_child(char *argv, char **envp,int type, t_exc *var)
+{
+	char	**cmd;
+	int		i;
+	char	*path;
+	pid_t	pid;
+	int		fd;
+	char *str;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if(type == Rediracion_Out)
+		{
+			fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			dup2(fd, 1);
+			close(fd);
+			execute(argv, envp);
+		}
+		else if(type == Rediracion_In)
+		{
+		fd = open(var->file, O_RDONLY);
+		dup2(fd, 0);
+		close(fd);
+		execute(argv, envp);
+		}
+		else if(type == Here_doc)
+		{
+			printf("sssssssss\n");
+			fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			while(1)
+			{
+				str = get_next_line(0);
+				printf("str = %s\n", str);
+				write(fd, str, ft_strlen(str));
+				write(fd, "\n", 1);
+				if(ft_strncmp(str, var->file, ft_strlen(var->file)) == 0)
+					break;
+			}
+		}
+		i = -1;
+		cmd = ft_split(argv, ' ');
+		path = find_path(cmd[0], envp);
+		if (!path)
+		{
+			while (cmd[++i])
+				free(cmd[i]);
+			free(cmd);
+			error(3);
+		}
+		execve(path, cmd, envp);
 	}
 }
 
@@ -178,9 +272,11 @@ int check_for_built_in(t_list *list,t_env *env, t_ms *ms, t_exc *vars, t_env *ex
     else if (ft_strncmp(vars->cmd_args[0], "export", 6) == 0)
         return(ft_export(env, export, vars));
     else if (ft_strncmp(vars->cmd_args[0], "unset", 5) == 0)
-        return(ft_unset(&env, vars->cmd));
+        return(ft_unset(&env, vars->cmd_args[1]));
     else if (ft_strncmp(vars->cmd_args[0], "exit", 4) == 0)
         return(ft_exit(vars));
+	else if (ft_strncmp(vars->cmd_args[0], "cd", 2) == 0)
+		return(ft_cd(vars));
     return (1);
 }
 char    **getpaths(char **envp)
@@ -206,43 +302,15 @@ char    **getpaths(char **envp)
     return (paths);
 }
 
-static void	last_child(char *argv, char **envp)
-{
-	char	**cmd;
-	int		i;
-	char	*path;
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		i = -1;
-		cmd = ft_split(argv, ' ');
-		path = find_path(cmd[0], envp);
-		if (!path)
-		{
-			while (cmd[++i])
-				free(cmd[i]);
-			free(cmd);
-			error(3);
-		}
-		execve(path, cmd, envp);
-	}
-}
-
-int checking(t_list *list, char **env, t_ms *ms)
+int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
 {
 	int saved_stdin = dup(STDIN_FILENO);
 	int saved_stdout = dup(STDOUT_FILENO);
-
     int i;
     t_exc *vars;
-    t_env *env_list;
-    t_env *export;
     pid_t pid;
-    fill_env(&env_list, env);
-    fill_env(&export, env);
-    export_sort(&export,env);
+	int type = Here_doc;
+
     vars = malloc(sizeof(t_exc));
     while(list->next)
     {
@@ -255,14 +323,14 @@ int checking(t_list *list, char **env, t_ms *ms)
             printf("minishell: cmd not found\n");
 			return 0;
         }
-		child_process(list->content, env, vars);
+		child_process(list->content, env, vars,type);
         free_t_exc(vars);
         vars = malloc(sizeof(t_exc));
         list = list->next;
     }
 	if(!check_for_built_in(list, env_list, ms,vars, export))
 		return 0;
-	last_child(list->content, env);
+	last_child(list->content, env, type, vars);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
@@ -272,3 +340,5 @@ int checking(t_list *list, char **env, t_ms *ms)
 	}
     return 0;
 }
+
+
