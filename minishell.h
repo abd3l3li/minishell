@@ -71,5 +71,7 @@ char	*ft_itoa(int n);
 void    free_cmd(t_ms *cmd);
 void    ms_signal(void);
 int     ft_pars(t_ms *cmd);
+void    ft_skip_q(t_ms *cmd);
+int     ft_strchr(const char *s, int c);
 
 #endif

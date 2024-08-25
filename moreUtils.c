@@ -62,3 +62,51 @@ void    expand_env(t_ms *command, t_env *env_list)
         tmp = tmp->next;
     }
 }
+
+char    *remove_qoute(char *str)
+{
+    int i;
+    int j;
+    int len;
+    char *res;
+
+	i = 0;
+	j = i;
+	len = j;
+    while (str[i])
+    {
+        if (str[i] != '\'' && str[i] != '\"')
+            len++;
+        i++;
+    }
+    res = malloc (sizeof(char) * (len + 1));
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] != '\'' && str[i] != '\"')
+            res[j++] = str[i];
+        i++;
+    }
+	res[j] = 0;
+    return (res);
+}
+
+void    ft_skip_q(t_ms *cmd)
+{
+    t_list *tmp;
+    char *newstr;
+    char *temp;
+
+    tmp = cmd->node;
+    while (tmp)
+    {
+        if(ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"'))
+        {
+            newstr = remove_qoute(tmp->content);
+            temp = tmp->content;
+            tmp->content = newstr;
+            free(temp);
+        }
+        tmp = tmp->next;
+    }
+}

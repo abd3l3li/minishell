@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -g
+CFLAGS = -g3 -fsanitize=address
 RM = rm -rf
 
 BOLD      = \033[1m
