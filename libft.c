@@ -24,8 +24,41 @@ char	*ft_substr(char const *s, unsigned int start, int len)
 
 	result = (char *)malloc(sizeof(char) * (len + 1));
 	if (!result)
-        p_err("Malloc error", 54);
+        (p_err("Malloc error", 54), exit(54));
 	ft_memcpy(result, s + start, len);
 	result[len] = '\0';
 	return (result);
+}
+
+int	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	ft_strnotcmp(const char *s1, const char *s2, int	n)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while ((i < n) && (s1[i] != '\0' || s2[i] != '\0'))
+	{
+		if (s1[i] == s2[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_isdigit(int i)
+{
+	if (i >= '0' && i <= '9')
+		return (1);
+	return (0);
 }

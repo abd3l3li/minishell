@@ -257,23 +257,6 @@ void free_t_exc(t_exc *exc)
     }
     free(exc);
 }
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	unsigned int	i;
-
-	i = 0;
-	while ((i < n) && (s1[i] != '\0' || s2[i] != '\0'))
-	{
-		if ((unsigned char)s1[i] < (unsigned char)s2[i])
-		{
-			return (-1);
-		}
-		else if (((unsigned char)s1[i] > (unsigned char)s2[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 int check_for_built_in(t_list *list,t_env *env, t_ms *ms, t_exc *vars, t_env *export)
 {
@@ -324,7 +307,7 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     int i;
     t_exc *vars;
     pid_t pid;
-	int type = Here_doc;
+	int type = 56756;
 
 	char *newstring;
 	// newstring = list->content;

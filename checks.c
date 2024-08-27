@@ -1,25 +1,25 @@
 #include "minishell.h"
 
-void ft_check(char *s)
+int ft_check(char *s)
 {
     int last;
-    char *new_s;
+    int yes;
+    int i;
 
     last = ft_strlen(s);
-    if (check_q(s))
+    yes = 0;
+    i = 0;
+    while (s[i] == 32)
+        i++;
+    if (check_q(s + i))
     {
-        free(s);
-        printf(">\n");
+        yes = 1;
+        printf("quote>\n");
     }
-    if (s[0] == '|' || s[last - 1] == '|')
+    if ((*(s + i) == '|' || s[last - 1] == '|') || double_p(s + i))
     {
-        free(s);
+        yes = 1;
         p_err("minishell: syntax error near unexpected token `|'", 2);
     }
-    if (double_p(s))
-    {
-        free(s);
-        p_err("minishell: syntax error near unexpected token `||'", 2);
-    }
-
+    return (yes);
 }

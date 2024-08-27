@@ -1,87 +1,80 @@
 #include "minishell.h"
 
-void free_list(t_list *node) {
-    t_list *temp;
-    while (node) {
-        temp = node;
-        node = node->next;
-        if (temp->content)
-            free(temp->content);
-        free(temp);
-    }
-}
+int status;
 
-void free_pcmd(char **pcmd) {
-    int i = 0;
-    if (!pcmd)
-        return;
-    while (pcmd[i]) {
-        free(pcmd[i]);
-        i++;
-    }
-    free(pcmd);
-}
-
-
-void free_cmd(t_ms *cmd) {
-    if (!cmd)
-        return;
-    if (cmd->node)
-        free_list(cmd->node);
-    if (cmd->pcmd)
-        free_pcmd(cmd->pcmd);
-    free(cmd);
+void    get_init(t_ms **cmd)
+{
+	*cmd = (t_ms *)malloc(sizeof(t_ms));
+	if (!(*cmd))
+		(p_err("Malloc error", 54), exit(54));
+	**cmd = (t_ms){ .node = NULL};
 }
 
 void ft_lexer(char *s, t_ms *command)
 {
-    int i;
+	int i;
 
-    i = 0;
-    ft_check(s);
-    //while (s[i] == ' ' || s[i] == '\t')
-        //i++;
-    //pipe_split(s + i, command);
-    while (s[i])
-        i += ms_split(command, s + i);
-
+	i = 0;
+	//pipe_split(s + i, command); //to be used
+	while (s[i])
+	{
+		if (s[i] == '\t')
+			s[i] = 32;
+		i++;
+	}
+	i = 0;	
+	while (s[i])
+		i += ms_split(command, s + i);
+	ft_skip_q(command);
 }
 
-void inpute(t_ms *command, char **env)
+void inpute(t_ms *command, char **env )
 {
-    char *s;
-    t_env *env_list;
+	char *s;
+	t_env *env_list;
     t_env *export;
+	const char  *prompt;
 
-    fill_env(&env_list, env);
+	fill_env(&env_list, env);
     fill_env(&export, env);
     export_sort(&export,env);
-    while(1)
-    {
-        s = readline("minishell> ");
-        if (!s)
-            p_err("exit", 0);
-        if (s[0] != '\0' && !(spaces(s)))
-            add_history(s);
-        ft_lexer(s, command);
-        int i = 0;
-            checking(command->node, env, command,env_list,export);
-            free_cmd(command);
-            command = (t_ms *)malloc(sizeof(t_ms));
-            *command = (t_ms){ .node = NULL, .pcmd = NULL};
-    }
+	prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
+	while(1)
+	{
+		s = readline(prompt);
+		if (!s)
+			(free_cmd(command), p_err("exit", 0), exit(0));
+			
+		if (s[0] == '\0' || (spaces(s))) //not needed ig
+		{
+			free(s);
+			continue;
+		}
+		add_history(s);
+		if (ft_check(s))
+			continue;
+		ft_lexer(s, command);
+		expand_env(command, env_list); //need first to get the env list
+		ft_merge(command);
+	    if (!ft_pars(command))
+			checking(command->node, env, command, env_list, export);
+			
+
+		//freeing and re init
+		//if (command->node)
+			//free_cmd(command);
+		get_init(&command);
+	}
 }
 
 int main(int ac, char **av, char **env)
 {
-    t_ms *cmd;
+	t_ms *cmd;
 
-    if (ac != 1)
-        exit(1);
-    cmd = (t_ms *)malloc(sizeof(t_ms));
-    if (!cmd)
-        p_err("Malloc error", 54);
-    *cmd = (t_ms){ .node = NULL, .pcmd = NULL};
-   // signals();
-    inpute(cmd,env);
-}
+	if (ac != 1)
+		exit(1);
+	get_init(&cmd);
+	ms_signal();
+	inpute(cmd, env);
+}   
+

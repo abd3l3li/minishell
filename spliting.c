@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern int status;
+
 int env_var(t_ms *command, char *s)
 {
     int i;
@@ -15,24 +17,17 @@ int env_var(t_ms *command, char *s)
     if(s[i] == '?' || (s[i] >= '0' && s[i] <= '9'))
         i++;
     else
-        while(alphanum(s[i]) && s[i] != '\0')
+        while(s[i] != '\0' && !ft_symbols(s[i]))
             i++;
-    ft_listadd_back(&(command->node), ft_listnew(s, i, E));
+    ft_listadd_back(&(command->node), ft_listnew(s, i, Env));
     return (i);
 }
 
 int ft_symbols(char c)
 {
-    return (c == 34 || c == 39 || c == '$' || c == '<'
-                || c == '>' || c == '|' || c <= 32);
+    return (c == '$' || c == '<' || c == '>' || c == '|' || c == '\0');
 }
 
-int next_q(char *s, int i, char c)
-{
-    while(s[i] && s[i] != c)
-        i++;
-    return (i);
-}
 
 int to_be_continue(t_ms *command, char *s, int i)
 {
@@ -68,12 +63,14 @@ int ms_split(t_ms *command, char *s)
     int i;
 
     i = 0;
-    if (s[i] == 34 || s[i] == 39)
+    if (s[i] == ':' || s[i] == '!' || s[i] == '#')
     {
-        i += next_q(s, i + 1, s[i]);
-        ft_listadd_back(&(command->node), ft_listnew(s + 1, i - 1, Word));
+        if (s[i] == '!')
+            status = 1;
         i++;
     }
+    else if (s[i] == 32)
+        i++;
     else if (!ft_symbols(s[i]))
     {
         while (!ft_symbols(s[i]))
@@ -86,6 +83,7 @@ int ms_split(t_ms *command, char *s)
         i++;
     }
     else if (s[i] == '$')
+    {
         if ((ft_symbols(s[i + 1]) || s[i + 1] == '=') &&
                 (s[i + 1] != '\0' && s[i + 1] != 32))
         {
@@ -94,8 +92,7 @@ int ms_split(t_ms *command, char *s)
         }
         else
             i += env_var(command, s + i);
-    else if (s[i] == 32)
-        i++;
+    }
     else
         i += to_be_continue(command, s, i);
     return (i);

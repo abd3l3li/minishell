@@ -19,19 +19,6 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (x);
 }
 
-char	*ft_strdup(const char *s)
-{
-	int		i;
-	char	*dest;
-
-	i = ft_strlen((char *)s);
-	dest = (char *)malloc(sizeof(char) * i + 1);
-	if (dest == 0)
-		return (0);
-	ft_strlcpy(dest, s, i + 1);
-	return (dest);
-}
-
 size_t	ascii_to_long(char *str)
 {
     size_t    result;
