@@ -107,8 +107,9 @@ void	child_process(char *argv, char **envp, t_exc *var, int type)
 {
 	int	fd;
 	char *str;
+	int check;
 
-	type = Rediracion_Out;
+	type = Here_doc;
 	if (pipe(var->fd) == -1)
 		error(2);
 	var->pid = fork();
@@ -139,13 +140,16 @@ void	child_process(char *argv, char **envp, t_exc *var, int type)
 		}
 		else if(type == Here_doc)
 		{
-			fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-			while(str == get_next_line(0))
+			fd = open("/proc/uptime", O_CREAT | O_WRONLY | O_APPEND, 0644);
+
+			while(1)
 			{
+				str = get_next_line(0);
+
 				write(fd, str, ft_strlen(str));
 				write(fd, "\n", 1);
 				if(ft_strncmp(str, var->file, ft_strlen(var->file)) == 0)
-					break;	
+					break;
 			}
 		}
 		else
@@ -172,13 +176,14 @@ static void	last_child(char *argv, char **envp,int type, t_exc *var)
 	pid_t	pid;
 	int		fd;
 	char *str;
+	ssize_t check;
 
 	pid = fork();
 	if (pid == 0)
 	{
 		if(type == Rediracion_Out)
 		{
-			fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 777);
 			dup2(fd, 1);
 			close(fd);
 			execute(argv, envp);
@@ -192,17 +197,27 @@ static void	last_child(char *argv, char **envp,int type, t_exc *var)
 		}
 		else if(type == Here_doc)
 		{
-			printf("sssssssss\n");
-			fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			printf("here_doc\n");
+			fd = open("/proc/uptime", O_RDONLY , 0644);
+			str = get_next_line(fd);
+			printf("str = %s\n", str);
+			fd = open(str, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			close(fd);
+			//
+			free(str);
 			while(1)
 			{
 				str = get_next_line(0);
-				printf("str = %s\n", str);
+
 				write(fd, str, ft_strlen(str));
 				write(fd, "\n", 1);
 				if(ft_strncmp(str, var->file, ft_strlen(var->file)) == 0)
+				{
+					unlink(str);
 					break;
+				}
 			}
+
 		}
 		i = -1;
 		cmd = ft_split(argv, ' ');
@@ -311,6 +326,11 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     pid_t pid;
 	int type = Here_doc;
 
+	char *newstring;
+	// newstring = list->content;
+	// if(list->type == Env)
+	// 	newstring = ft_strjoin(list->content, list->next->content);
+
     vars = malloc(sizeof(t_exc));
     while(list->next)
     {
@@ -340,5 +360,3 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
 	}
     return 0;
 }
-
-

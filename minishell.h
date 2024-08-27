@@ -24,6 +24,7 @@
 # define Here_doc 7
 # define Rediracion_Out_Append 8
 
+
 typedef struct s_list
 {
 	char			*content;
@@ -65,6 +66,7 @@ typedef struct s_exc
     int fd[2];
     char *file;
     pid_t pid;
+
 } t_exc;
 
 typedef struct s_glist
