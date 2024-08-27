@@ -33,8 +33,8 @@ void free_cmd(t_ms *cmd)
         return;
     if (cmd->node)
         free_list(cmd->node);
-    if (cmd->pcmd)
-        free_pcmd(cmd->pcmd);
+    //if (cmd->pcmd)
+        //free_pcmd(cmd->pcmd);
     free(cmd);
     cmd->node = NULL;
 }

@@ -7,7 +7,7 @@ void    get_init(t_ms **cmd)
 	*cmd = (t_ms *)malloc(sizeof(t_ms));
 	if (!(*cmd))
 		(p_err("Malloc error", 54), exit(54));
-	**cmd = (t_ms){ .node = NULL, .pcmd = NULL};
+	**cmd = (t_ms){ .node = NULL};
 }
 
 void    ft_lexer(char *s, t_ms *command)
@@ -15,9 +15,14 @@ void    ft_lexer(char *s, t_ms *command)
 	int i;
 
 	i = 0;
-	//while (s[i] == ' ' || s[i] == '\t')
-		//i++;
 	//pipe_split(s + i, command); //to be used
+	while (s[i])
+	{
+		if (s[i] == '\t')
+			s[i] = 32;
+		i++;
+	}
+	i = 0;	
 	while (s[i])
 		i += ms_split(command, s + i);
 	ft_skip_q(command);
@@ -36,12 +41,17 @@ void    inpute(t_ms *command, t_env *env_list)
 		if (!s)
 			(free_cmd(command), p_err("exit", 0), exit(0));
 			
-		//if (s[0] != '\0' && !(spaces(s))) //not needed ig
+		if (s[0] == '\0' || (spaces(s))) //not needed ig
+		{
+			free(s);
+			continue;
+		}
 		add_history(s);
 		if (ft_check(s))
 			continue;
 		ft_lexer(s, command);
 		//expand_env(command, env_list); //need first to get the env list
+		ft_merge(command);
 	    if (!ft_pars(command))
 			printf("I'am here\n");
 			//*houssam call his funcs here
@@ -72,4 +82,3 @@ int main(int ac, char **av, char **env)
 	ms_signal();
 	inpute(cmd, env_list);
 }   
-	      

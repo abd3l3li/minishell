@@ -11,13 +11,12 @@ int ft_check(char *s)
     i = 0;
     while (s[i] == 32)
         i++;
-    s = s + i;
-    if (check_q(s))
+    if (check_q(s + i))
     {
         yes = 1;
         printf("quote>\n");
     }
-    if ((s[0] == '|' || s[last - 1] == '|') || double_p(s))
+    if ((*(s + i) == '|' || s[last - 1] == '|') || double_p(s + i))
     {
         yes = 1;
         p_err("minishell: syntax error near unexpected token `|'", 2);

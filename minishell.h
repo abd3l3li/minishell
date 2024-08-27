@@ -8,14 +8,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define W 0
-# define P 1
-# define S_Q 2
-# define D_Q 3
-# define R_I 4
-# define R_O 5
-# define E 6
-# define H 7
+# define Word 0
+# define Pipe 1
+# define Singl_Quot 2
+# define Double_Quot 3
+# define Rediracion_In 4
+# define Rediracion_Out 5
+# define Env 6
+# define Here_doc 7
 
 # define CMAGENTA   "\x1B[35m"
 # define CCYAN     "\x1B[36m"    
@@ -32,7 +32,6 @@ typedef struct s_list
 typedef struct s_ms
 {
     t_list  *node;
-    char    **pcmd;
 }   t_ms;
 
 typedef struct s_env
@@ -73,5 +72,7 @@ void    ms_signal(void);
 int     ft_pars(t_ms *cmd);
 void    ft_skip_q(t_ms *cmd);
 int     ft_strchr(const char *s, int c);
+char	*ft_strjoin(char *s1, char *s2);
+void    ft_merge(t_ms *cmd);
 
 #endif
