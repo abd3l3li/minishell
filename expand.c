@@ -18,7 +18,7 @@ void    expand_env(t_ms *command, t_env *env_list)
             value = NULL;
             while (env_list)
             {
-                if ((ft_strncmp(env_list->name, name, ft_strlen(name)) == 0) && (env_list->name[ft_strlen(name)] == '='))
+                if (!ft_strncmp(env_list->name, name, ft_strlen(name)))
                 {
                     value = env_list->value;
                     if (tmp->content)
