@@ -165,6 +165,7 @@ void	child_process(char *argv, char **envp, t_exc *var, int type)
 		dup2(var->fd[0], 0);
 		close(var->fd[0]);
 	}
+	ms_signal(1);
 }
 
 
@@ -231,6 +232,7 @@ static void	last_child(char *argv, char **envp,int type, t_exc *var)
 		}
 		execve(path, cmd, envp);
 	}
+	ms_signal(1);
 }
 
 void free_t_exc(t_exc *exc)
