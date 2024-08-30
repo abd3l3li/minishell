@@ -103,13 +103,13 @@ void	execute(char *argv, char **envp)
 	execve(path, cmd, envp);
 }
 
-void	child_process(char *argv, char **envp, t_exc *var, int type)
+void	child_process(t_list *list, char **envp, t_exc *var)
 {
 	int	fd;
 	char *str;
 	int check;
+	char *str2;
 
-	type = Here_doc;
 	if (pipe(var->fd) == -1)
 		error(2);
 	var->pid = fork();
@@ -117,47 +117,70 @@ void	child_process(char *argv, char **envp, t_exc *var, int type)
 		error(2);
 	if (var->pid == 0)
 	{
-		if(type == Rediracion_Out)
+		 if(list->next->type == Rediracion_Out)
 		{
+			var->file = list->next->next->content;
 			fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			dup2(fd, 1);
 			close(fd);
-			execute(argv, envp);
+			execute(list->content, envp);
 		}
-		else if(type == Rediracion_In)
+		else if(list->next->type == Rediracion_In)
 		{
+			printf("Rediracion_In\n");
+			var->file = list->next->next->content;
 			fd = open(var->file, O_RDONLY);
 			dup2(fd, 0);
 			close(fd);
-			execute(argv, envp);
+			execute(list->content, envp);
 		}
-		else if(type == Rediracion_Out_Append)
+		else if(list->next->type == Rediracion_Out_Append)
 		{
+			printf("Rediracion_Out_Append\n");
+			var->file = list->next->next->content;
 			fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			dup2(fd, 1);
 			close(fd);
-			execute(argv, envp);
+			execute(list->content, envp);
 		}
-		else if(type == Here_doc)
+		else if(list->next->type == Here_doc)
 		{
-			fd = open("/proc/uptime", O_CREAT | O_WRONLY | O_APPEND, 0644);
-
+			fd = open("/proc/uptime", O_RDONLY , 0644);
+			str = get_next_line(fd);
+			str = ft_strjoin("/tmp/", str);
+			close(fd);
+			fd = open(str, O_CREAT | O_RDWR | O_APPEND, 777);
+			str2 = strdup(str);
+			free(str);
 			while(1)
 			{
 				str = get_next_line(0);
-
 				write(fd, str, ft_strlen(str));
-				write(fd, "\n", 1);
 				if(ft_strncmp(str, var->file, ft_strlen(var->file)) == 0)
+				{
+					close(fd);
+
+					fd = open(str2, O_RDONLY);
+					while(1)
+					{	
+						str = get_next_line(fd);
+						if(!str)
+							break;
+						write(1, str, ft_strlen(str));
+					}
+					unlink(str2);
 					break;
+				}
 			}
 		}
-		else
+		else if (list->next->type == Pipe)
 		{
 			close(var->fd[0]);
 			dup2(var->fd[1], 1);
-			execute(argv, envp);
+			execute(list->content, envp);
 		}
+		else
+			execute(list->content, envp);
 	}
 	else
 	{
@@ -167,8 +190,7 @@ void	child_process(char *argv, char **envp, t_exc *var, int type)
 	}
 }
 
-
-static void	last_child(char *argv, char **envp,int type, t_exc *var)
+static void	last_child(char *argv, char **envp, int type, t_exc *var)
 {
 	char	**cmd;
 	int		i;
@@ -177,6 +199,7 @@ static void	last_child(char *argv, char **envp,int type, t_exc *var)
 	int		fd;
 	char *str;
 	ssize_t check;
+	char *str2;
 
 	pid = fork();
 	if (pid == 0)
@@ -197,27 +220,32 @@ static void	last_child(char *argv, char **envp,int type, t_exc *var)
 		}
 		else if(type == Here_doc)
 		{
-			printf("here_doc\n");
 			fd = open("/proc/uptime", O_RDONLY , 0644);
 			str = get_next_line(fd);
-			printf("str = %s\n", str);
-			fd = open(str, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			str = ft_strjoin("/tmp/", str);
 			close(fd);
-			//
+			fd = open(str, O_CREAT | O_RDWR | O_APPEND, 777);
+			str2 = strdup(str);
 			free(str);
 			while(1)
 			{
 				str = get_next_line(0);
-
 				write(fd, str, ft_strlen(str));
-				write(fd, "\n", 1);
 				if(ft_strncmp(str, var->file, ft_strlen(var->file)) == 0)
 				{
-					unlink(str);
+					close(fd);
+					fd = open(str2, O_RDONLY);
+					while(1)
+					{	
+						str = get_next_line(fd);
+						if(!str)
+							break;
+						write(1, str, ft_strlen(str));
+					}
+					unlink(str2);
 					break;
 				}
 			}
-
 		}
 		i = -1;
 		cmd = ft_split(argv, ' ');
@@ -307,33 +335,25 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     int i;
     t_exc *vars;
     pid_t pid;
-	int type = 56756;
-
-	char *newstring;
-	// newstring = list->content;
-	// if(list->type == Env)
-	// 	newstring = ft_strjoin(list->content, list->next->content);
 
     vars = malloc(sizeof(t_exc));
+
     while(list->next)
     {
 		if(!check_for_built_in(list, env_list, ms,vars, export))
 			return 0;
-        vars->paths = getpaths(env);
-        i = 0;
-        if(!vars->paths)
-        {
-            printf("minishell: cmd not found\n");
-			return 0;
-        }
-		child_process(list->content, env, vars,type);
-        free_t_exc(vars);
-        vars = malloc(sizeof(t_exc));
-        list = list->next;
+		if(list->next->type == Pipe || list->next->type == Rediracion_Out || list->next->type == Rediracion_In || list->next->type == Rediracion_Out_Append || list->next->type == Here_doc)
+			child_process(list, env, vars);
+		else
+			last_child(list->content, env, ms->node->type, vars);
+       // free_t_exc(vars);
+        //vars = malloc(sizeof(t_exc));
+        list = list->next->next;
+		printf("list->content: %s\n", list->content);
     }
 	if(!check_for_built_in(list, env_list, ms,vars, export))
 		return 0;
-	last_child(list->content, env, type, vars);
+	last_child(list->content, env, ms->node->type, vars);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);

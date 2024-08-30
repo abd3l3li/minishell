@@ -363,6 +363,7 @@ int ft_cd(t_exc *vars)
 {
     int i;
     i = 0;
+    printf("sssssssssssssssssssssss\n");
     if(vars->cmd_args[1] == NULL)
     {
         chdir(getenv("HOME"));
