@@ -67,6 +67,8 @@ int ms_split(t_ms *command, char *s)
     {
         if (s[i] == '!')
             status = 1;
+        else
+            status = 0;
         i++;
     }
     else if (s[i] == 32)

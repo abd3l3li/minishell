@@ -315,9 +315,10 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
 	// newstring = list->content;
 	// if(list->type == Env)
 	// 	newstring = ft_strjoin(list->content, list->next->content);
-
+	if(!list)
+		return (0); //abel-baz
     vars = malloc(sizeof(t_exc));
-    while(list->next)
+    while(list && list->next)
     {
 		if(!check_for_built_in(list, env_list, ms,vars, export))
 			return 0;
