@@ -11,14 +11,25 @@ char    *remove_qoute(char *str)
     int i;
     int j;
     int len;
+    int flag;
     char *res;
 
 	i = 0;
-	j = i;
-	len = j;
+	j = 0;
+	len = 0;
+    flag = 0;
     while (str[i])
     {
-        if (str[i] != '\'' && str[i] != '\"')
+        if (str[i] == '\'' || str[i] == '\"')
+        {
+            if (flag == 0)
+                flag = str[i];
+            else if (flag == str[i])
+                flag = 0;
+            else
+                len++;
+        }
+        else
             len++;
         i++;
     }
@@ -26,7 +37,16 @@ char    *remove_qoute(char *str)
     i = 0;
     while (str[i])
     {
-        if (str[i] != '\'' && str[i] != '\"')
+        if (str[i] == '\'' || str[i] == '\"')
+        {
+            if (flag == 0)
+                flag = str[i];
+            else if (flag == str[i])
+                flag = 0;
+            else
+                res[j++] = str[i];
+        }
+        else
             res[j++] = str[i];
         i++;
     }

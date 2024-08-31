@@ -188,6 +188,7 @@ void	child_process(t_list *list, char **envp, t_exc *var)
 		dup2(var->fd[0], 0);
 		close(var->fd[0]);
 	}
+	ms_signal(1);
 }
 
 static void	last_child(char *argv, char **envp, int type, t_exc *var)
@@ -259,6 +260,7 @@ static void	last_child(char *argv, char **envp, int type, t_exc *var)
 		}
 		execve(path, cmd, envp);
 	}
+	ms_signal(1);
 }
 
 void free_t_exc(t_exc *exc)
@@ -336,9 +338,10 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     t_exc *vars;
     pid_t pid;
 	t_list *tmp = list;
-
+	
+	if(!list)
+		return (0); //abel-baz
     vars = malloc(sizeof(t_exc));
-
     while(list->next)
     {
 		if(!check_for_built_in(list, env_list, ms,vars, export))

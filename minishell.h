@@ -130,7 +130,7 @@ char    **getpaths(char **envp);
 int     ft_print_env(t_env *env);
 t_env	*ft_lstlast(t_env *lst);
 int     ft_cd(t_exc *vars);
-void    ms_signal(void);
+void    ms_signal(int num);
 int     ft_pars(t_ms *cmd);
 void    ft_skip_q(t_ms *cmd);
 char	*ft_strjoin(char *s1, char *s2);

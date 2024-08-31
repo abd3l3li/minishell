@@ -74,7 +74,7 @@ int main(int ac, char **av, char **env)
 	if (ac != 1)
 		exit(1);
 	get_init(&cmd);
-	ms_signal();
+	ms_signal(0);
 	inpute(cmd, env);
 }   
 
