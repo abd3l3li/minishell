@@ -172,7 +172,7 @@ int pwd(t_exc *vars)
     return (0);
 }
 
-int check_option(char **str)
+int check_option(char **str, int *check)
 {
     int i;
     int j;
@@ -193,9 +193,7 @@ int check_option(char **str)
                 while(str[i][j])
                 {
                     if(str[i][j] != 'n')
-                    {
                         return_value = 1;
-                    }
                     j++;
                 }
             }
@@ -203,17 +201,25 @@ int check_option(char **str)
         }
         i++;
     }
+    if (return_value >= 2)
+        *check = 1;
     return (return_value);
 }
 
 int echo(t_exc *vars)
 {
     int i;
+    int check;
 
-    i = check_option(vars->cmd_args);   
+    check = 0;
+    i = check_option(vars->cmd_args, &check);   
     while (vars->cmd_args[i])
     {
-        printf("%s ", vars->cmd_args[i]);
+        printf("%s", vars->cmd_args[i]);
+        if(check == 0)
+            printf("\n");
+        else if(check == 1)
+            printf(" ");        
         i++;
     }
     return (0);
