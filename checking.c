@@ -335,6 +335,7 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     int i;
     t_exc *vars;
     pid_t pid;
+	t_list *tmp = list;
 
     vars = malloc(sizeof(t_exc));
 
@@ -342,18 +343,16 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     {
 		if(!check_for_built_in(list, env_list, ms,vars, export))
 			return 0;
-		if(list->next->type == Pipe || list->next->type == Rediracion_Out || list->next->type == Rediracion_In || list->next->type == Rediracion_Out_Append || list->next->type == Here_doc)
-			child_process(list, env, vars);
-		else
-			last_child(list->content, env, ms->node->type, vars);
+		child_process(list, env, vars);
        // free_t_exc(vars);
         //vars = malloc(sizeof(t_exc));
+		tmp = list->next;
         list = list->next->next;
-		printf("list->content: %s\n", list->content);
     }
 	if(!check_for_built_in(list, env_list, ms,vars, export))
 		return 0;
-	last_child(list->content, env, ms->node->type, vars);
+	 if(tmp->type == Pipe || tmp->type == Word) 
+	 	last_child(list->content, env, ms->node->type, vars);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);

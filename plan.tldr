@@ -43,9 +43,9 @@
 		{
 			"id": "pointer:pointer",
 			"typeName": "pointer",
-			"x": 1089.7469665567091,
-			"y": -168.25233729670435,
-			"lastActivityTimestamp": 1724954938054,
+			"x": 206.5352669569604,
+			"y": 748.1702660060133,
+			"lastActivityTimestamp": 1725035726177,
 			"meta": {}
 		},
 		{
@@ -76,7 +76,7 @@
 				"x": 0,
 				"y": 0,
 				"w": 1295.833251953125,
-				"h": 724.1666259765625
+				"h": 350.83331298828125
 			},
 			"insets": [
 				false,
@@ -106,9 +106,7 @@
 		{
 			"editingShapeId": null,
 			"croppingShapeId": null,
-			"selectedShapeIds": [
-				"shape:2zvKoTGDxv8DNAvPIsfIP"
-			],
+			"selectedShapeIds": [],
 			"hoveredShapeId": null,
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
@@ -119,9 +117,9 @@
 			"typeName": "instance_page_state"
 		},
 		{
-			"x": 267.3668372800673,
-			"y": 358.0102759278673,
-			"z": 0.8370724402514386,
+			"x": 253.67791487216664,
+			"y": -658.1254381959993,
+			"z": 1.1809800000000001,
 			"meta": {},
 			"id": "camera:page:page",
 			"typeName": "camera"
@@ -189,6 +187,74 @@
 				"normalizedAnchor": {
 					"x": 0.10159597545888228,
 					"y": 0.7647706418042889
+				},
+				"terminal": "end"
+			},
+			"typeName": "binding"
+		},
+		{
+			"meta": {},
+			"id": "binding:43hc4YLa09sv5ZA0SeYoT",
+			"type": "arrow",
+			"fromId": "shape:A-BIPzgFlyFvia9RnkuCL",
+			"toId": "shape:2zvKoTGDxv8DNAvPIsfIP",
+			"props": {
+				"isPrecise": false,
+				"isExact": false,
+				"normalizedAnchor": {
+					"x": 0.3315886179270146,
+					"y": 0.4250455767557373
+				},
+				"terminal": "start"
+			},
+			"typeName": "binding"
+		},
+		{
+			"meta": {},
+			"id": "binding:v7Lug0tW3smhtIZ-Xac-K",
+			"type": "arrow",
+			"fromId": "shape:A-BIPzgFlyFvia9RnkuCL",
+			"toId": "shape:tSeC7XJbt4A937TDNS0Sk",
+			"props": {
+				"isPrecise": true,
+				"isExact": false,
+				"normalizedAnchor": {
+					"x": 0.43066758670856864,
+					"y": 0.8343141389256523
+				},
+				"terminal": "end"
+			},
+			"typeName": "binding"
+		},
+		{
+			"meta": {},
+			"id": "binding:Civ5IAZEEfIDxYExDy89T",
+			"type": "arrow",
+			"fromId": "shape:pttr10XcoGbOkLrkjHAYG",
+			"toId": "shape:tSeC7XJbt4A937TDNS0Sk",
+			"props": {
+				"isPrecise": false,
+				"isExact": false,
+				"normalizedAnchor": {
+					"x": 0.41534726946983747,
+					"y": 0.3958057022495344
+				},
+				"terminal": "start"
+			},
+			"typeName": "binding"
+		},
+		{
+			"meta": {},
+			"id": "binding:vfatZ2ZA75HdDnCFcUltf",
+			"type": "arrow",
+			"fromId": "shape:pttr10XcoGbOkLrkjHAYG",
+			"toId": "shape:UynW67lqvitrRx-ndrVj9",
+			"props": {
+				"isPrecise": true,
+				"isExact": false,
+				"normalizedAnchor": {
+					"x": 0.4697947457571046,
+					"y": 0.7920726129357993
 				},
 				"terminal": "end"
 			},
@@ -450,40 +516,6 @@
 			"typeName": "shape"
 		},
 		{
-			"meta": {},
-			"id": "binding:43hc4YLa09sv5ZA0SeYoT",
-			"type": "arrow",
-			"fromId": "shape:A-BIPzgFlyFvia9RnkuCL",
-			"toId": "shape:2zvKoTGDxv8DNAvPIsfIP",
-			"props": {
-				"isPrecise": false,
-				"isExact": false,
-				"normalizedAnchor": {
-					"x": 0.3315886179270146,
-					"y": 0.4250455767557373
-				},
-				"terminal": "start"
-			},
-			"typeName": "binding"
-		},
-		{
-			"meta": {},
-			"id": "binding:v7Lug0tW3smhtIZ-Xac-K",
-			"type": "arrow",
-			"fromId": "shape:A-BIPzgFlyFvia9RnkuCL",
-			"toId": "shape:tSeC7XJbt4A937TDNS0Sk",
-			"props": {
-				"isPrecise": true,
-				"isExact": false,
-				"normalizedAnchor": {
-					"x": 0.43066758670856864,
-					"y": 0.8343141389256523
-				},
-				"terminal": "end"
-			},
-			"typeName": "binding"
-		},
-		{
 			"x": 673.6141490867547,
 			"y": 38.81854440023062,
 			"rotation": 0,
@@ -519,38 +551,27 @@
 			"typeName": "shape"
 		},
 		{
+			"x": 41.929482423938,
+			"y": 785.3282835098182,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
 			"meta": {},
-			"id": "binding:Civ5IAZEEfIDxYExDy89T",
-			"type": "arrow",
-			"fromId": "shape:pttr10XcoGbOkLrkjHAYG",
-			"toId": "shape:tSeC7XJbt4A937TDNS0Sk",
+			"id": "shape:VAIupC_KJzRVAacn0YhFj",
+			"type": "text",
 			"props": {
-				"isPrecise": false,
-				"isExact": false,
-				"normalizedAnchor": {
-					"x": 0.41534726946983747,
-					"y": 0.3958057022495344
-				},
-				"terminal": "start"
+				"color": "blue",
+				"size": "m",
+				"w": 443.9557189941406,
+				"text": "redirection out khadama ghir howa\nkibghi excuti smit file",
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": true,
+				"scale": 1
 			},
-			"typeName": "binding"
-		},
-		{
-			"meta": {},
-			"id": "binding:vfatZ2ZA75HdDnCFcUltf",
-			"type": "arrow",
-			"fromId": "shape:pttr10XcoGbOkLrkjHAYG",
-			"toId": "shape:UynW67lqvitrRx-ndrVj9",
-			"props": {
-				"isPrecise": true,
-				"isExact": false,
-				"normalizedAnchor": {
-					"x": 0.4697947457571046,
-					"y": 0.7920726129357993
-				},
-				"terminal": "end"
-			},
-			"typeName": "binding"
+			"parentId": "page:page",
+			"index": "a92on",
+			"typeName": "shape"
 		}
 	]
 }
