@@ -52,7 +52,7 @@ int ft_print_env(t_env *env)
 {
     while(env)
     {
-       printf("%s=%s\n", env->name, env->value);
+        printf("%s=%s\n", env->name, env->value);
         env = env->next;
     }
     return (0);
@@ -216,11 +216,13 @@ int echo(t_exc *vars)
     while (vars->cmd_args[i])
     {
         printf("%s", vars->cmd_args[i]);
-        if(check == 0)
-            printf("\n");
-        else if(check == 1)
             printf(" ");        
         i++;
+    }
+    if(check == 0)
+    {
+        check = 1;
+        printf("\n");
     }
     return (0);
 }
@@ -332,6 +334,7 @@ int ft_exit(t_exc *vars)
     size_t num;
     int number_of_args;
 
+    num = 0;
     i = 0;
     number_of_args = 0;
     while(vars->cmd_args[number_of_args])

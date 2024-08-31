@@ -40,7 +40,7 @@ void	error(int i)
 	if (i == 3)
 	{
 		write(2, "Error: Permission Denied or Invalid Command\n", 45);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
 char	*handl_path(char *cmd)
@@ -117,8 +117,9 @@ void	child_process(t_list *list, char **envp, t_exc *var)
 		error(2);
 	if (var->pid == 0)
 	{
-		 if(list->next->type == Rediracion_Out)
+		if(list->next->type == Rediracion_Out)
 		{
+			printf("Rediracion_Out\n");
 			var->file = list->next->next->content;
 			fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			dup2(fd, 1);
@@ -145,6 +146,7 @@ void	child_process(t_list *list, char **envp, t_exc *var)
 		}
 		else if(list->next->type == Here_doc)
 		{
+			printf("Here_doc\n");
 			fd = open("/proc/uptime", O_RDONLY , 0644);
 			str = get_next_line(fd);
 			str = ft_strjoin("/tmp/", str);
@@ -338,7 +340,7 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     t_exc *vars;
     pid_t pid;
 	t_list *tmp = list;
-	
+
 	if(!list)
 		return (0); //abel-baz
     vars = malloc(sizeof(t_exc));
@@ -354,8 +356,8 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     }
 	if(!check_for_built_in(list, env_list, ms,vars, export))
 		return 0;
-	 if(tmp->type == Pipe || tmp->type == Word) 
-	 	last_child(list->content, env, ms->node->type, vars);
+	if(tmp->type == Pipe || tmp->type == Word) 
+		last_child(list->content, env, ms->node->type, vars);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
