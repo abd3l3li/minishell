@@ -7,7 +7,7 @@ void    get_init(t_ms **cmd)
 	*cmd = (t_ms *)malloc(sizeof(t_ms));
 	if (!(*cmd))
 		(p_err("Malloc error", 54), exit(54));
-	**cmd = (t_ms){ .node = NULL};
+	**cmd = (t_ms){ .node = NULL, .tmp = NULL};
 }
 
 void ft_lexer(char *s, t_ms *command)
@@ -45,7 +45,7 @@ void inpute(t_ms *command, char **env )
 		if (!s)
 			(free_cmd(command), p_err("exit", 0), exit(0));
 			
-		if (s[0] == '\0' || (spaces(s))) //not needed ig
+		if (s[0] == '\0') //not needed ig
 		{
 			free(s);
 			continue;

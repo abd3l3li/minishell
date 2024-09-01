@@ -20,17 +20,10 @@
 # define Double_Quot 3
 # define Rediracion_In 4
 # define Rediracion_Out 5
-# define E 6
-# define Here_doc 7
-# define Rediracion_Out_Append 8
-# define Word 0
-# define Pipe 1
-# define Singl_Quot 2
-# define Double_Quot 3
-# define Rediracion_In 4
-# define Rediracion_Out 5
 # define Env 6
 # define Here_doc 7
+# define Rediracion_Out_Append 8
+# define Env_word 9
 
 # define CMAGENTA   "\x1B[35m"
 # define CCYAN     "\x1B[36m"    
@@ -48,6 +41,9 @@ typedef struct s_list
 typedef struct s_ms
 {
     t_list  *node;
+    t_list  *tmp;
+    char *name;
+    char *value;
 }   t_ms;
 
 typedef struct s_env
