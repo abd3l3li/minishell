@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 int	ft_strfind(const char *s, int c)
 {
 	int	i;
@@ -117,9 +118,8 @@ void	child_process(t_list *list, char **envp, t_exc *var)
 		error(2);
 	if (var->pid == 0)
 	{
-		 if(list->next->type == Rediracion_Out)
+		if(list->next->type == Rediracion_Out)
 		{
-			printf("Rediracion_Out\n");
 			var->file = list->next->next->content;
 			fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			dup2(fd, 1);
@@ -128,16 +128,20 @@ void	child_process(t_list *list, char **envp, t_exc *var)
 		}
 		else if(list->next->type == Rediracion_In)
 		{
-			printf("Rediracion_In\n");
 			var->file = list->next->next->content;
-			fd = open(var->file, O_RDONLY);
+			fd = open(var->file, O_RDONLY, 0666);
+			if(fd == -1)
+			{
+				write(2, var->file, ft_strlen(var->file));
+				write(2, ": No such file or directory\n", 28);
+				exit(1);
+			}
 			dup2(fd, 0);
 			close(fd);
 			execute(list->content, envp);
 		}
 		else if(list->next->type == Rediracion_Out_Append)
 		{
-			printf("Rediracion_Out_Append\n");
 			var->file = list->next->next->content;
 			fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			dup2(fd, 1);
