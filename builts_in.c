@@ -372,12 +372,12 @@ int ft_cd(t_exc *vars)
 {
     int i;
     i = 0;
-    printf("sssssssssssssssssssssss\n");
     if(vars->cmd_args[1] == NULL)
     {
         chdir(getenv("HOME"));
         return (0);
     }
+    printf("vars->cmd_args[1] %s\n", vars->cmd_args[1]);
     if(chdir(vars->cmd_args[1]) == -1)
     {
         write(1, "bash: cd: ", 9);

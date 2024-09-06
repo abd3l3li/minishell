@@ -132,5 +132,6 @@ void    expand_env(t_ms *command, t_env *env_list);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *src);
 char	*ft_itoa(int n);
+int check_for_built_in(t_list *list,t_env *env, t_exc *vars, t_env *export);
 
 #endif

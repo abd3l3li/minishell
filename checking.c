@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 int	ft_strfind(const char *s, int c)
 {
 	int	i;
@@ -90,7 +89,7 @@ void	execute(char *argv, char **envp)
 	char	**cmd;
 	int		i;
 	char	*path;
-
+	
 	i = -1;
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
@@ -104,7 +103,7 @@ void	execute(char *argv, char **envp)
 	execve(path, cmd, envp);
 }
 
-void	child_process(t_list *list, char **envp, t_exc *var)
+void	child_process(t_list *list, char **envp, t_exc *var,t_env *env_list, t_env *export)
 {
 	int	fd;
 	char *str;
@@ -183,6 +182,9 @@ void	child_process(t_list *list, char **envp, t_exc *var)
 		{
 			close(var->fd[0]);
 			dup2(var->fd[1], 1);
+			close(var->fd[1]);
+			 if(!check_for_built_in(list, env_list, var, export))
+			 	exit(0);
 			execute(list->content, envp);
 		}
 		else
@@ -294,7 +296,7 @@ void free_t_exc(t_exc *exc)
     free(exc);
 }
 
-int check_for_built_in(t_list *list,t_env *env, t_ms *ms, t_exc *vars, t_env *export)
+int check_for_built_in(t_list *list,t_env *env, t_exc *vars, t_env *export)
 {
 	vars->cmd_args = ft_split(list->content, ' ');
     if (ft_strncmp(vars->cmd_args[0], "echo", 4) == 0)
@@ -350,15 +352,12 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     vars = malloc(sizeof(t_exc));
     while(list->next)
     {
-		if(!check_for_built_in(list, env_list, ms,vars, export))
-			return 0;
-		child_process(list, env, vars);
-       // free_t_exc(vars);
-        //vars = malloc(sizeof(t_exc));
+		child_process(list, env, vars, env_list, export);
+
 		tmp = list->next;
         list = list->next->next;
     }
-	if(!check_for_built_in(list, env_list, ms,vars, export))
+	if(!check_for_built_in(list, env_list, vars, export))
 		return 0;
 	 if(tmp->type == Pipe || tmp->type == Word) 
 	 	last_child(list->content, env, ms->node->type, vars);
