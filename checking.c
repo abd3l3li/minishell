@@ -359,8 +359,8 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export)
     }
 	if(!check_for_built_in(list, env_list, vars, export))
 		return 0;
-	 if(tmp->type == Pipe || tmp->type == Word) 
-	 	last_child(list->content, env, ms->node->type, vars);
+	if(tmp->type == Pipe || tmp->type == Word) 
+		last_child(list->content, env, ms->node->type, vars);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);

@@ -34,7 +34,7 @@ int to_be_continue(t_ms *command, char *s, int i)
     if (s[i] == '>')
         if (s[i + 1] == '>')
         {
-            ft_listadd_back(&(command->node), ft_listnew(s, 2, Rediracion_Out));
+            ft_listadd_back(&(command->node), ft_listnew(s, 2, Rediracion_Out_Append));
             i += 2;
         }
         else
@@ -86,10 +86,9 @@ int ms_split(t_ms *command, char *s)
     }
     else if (s[i] == '$')
     {
-        if ((ft_symbols(s[i + 1]) || s[i + 1] == '=') &&
-                (s[i + 1] != '\0' && s[i + 1] != 32))
+        if (ft_symbols(s[i + 1]) || s[i + 1] == '=' || s[i + 1] == 32)
         {
-            ft_listadd_back(&(command->node), ft_listnew(s, 2, Word));
+            ft_listadd_back(&(command->node), ft_listnew(s, 2, Env_word));
             i += 2;
         }
         else

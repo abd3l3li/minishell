@@ -85,7 +85,7 @@ void    ft_merge(t_ms *cmd)
     prev = NULL;
     while(tmp)
     {
-        if (tmp->type == Env)
+        if (tmp->type == Env || tmp->type == Env_word)
         {
             if (tmp->next && tmp->next->type != Pipe && tmp->next->type != Rediracion_In && tmp->next->type != Rediracion_Out && tmp->next->type != Here_doc)
             {

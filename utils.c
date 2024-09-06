@@ -15,7 +15,7 @@ int spaces(char *s)
     i = 0;
     while (s[i])
     {
-        if ((s[i] != ' ' && s[i] != '\t') && (s[i] != 34 && s[i] != 39))
+        if ((s[i] != ' ') && (s[i] != 34 && s[i] != 39))
             return (0);
         i++;
     }

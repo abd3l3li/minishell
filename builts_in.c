@@ -52,7 +52,7 @@ int ft_print_env(t_env *env)
 {
     while(env)
     {
-       printf("%s=%s\n", env->name, env->value);
+        printf("%s=%s\n", env->name, env->value);
         env = env->next;
     }
     return (0);
@@ -210,7 +210,7 @@ int echo(t_exc *vars)
 {
     int i;
     int check;
-     
+
     check = 0;
     i = check_option(vars->cmd_args, &check);   
     while (vars->cmd_args[i])
