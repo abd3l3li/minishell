@@ -13,7 +13,7 @@ void free_list(t_list *node)
     }
 }
 
-void free_pcmd(char **pcmd)
+/*void free_pcmd(char **pcmd)
 {
     int i = 0;
     if (!pcmd)
@@ -24,7 +24,7 @@ void free_pcmd(char **pcmd)
         i++;
     }
     free(pcmd);
-}
+}*/
 
 
 void free_cmd(t_ms *cmd)
@@ -33,8 +33,6 @@ void free_cmd(t_ms *cmd)
         return;
     if (cmd->node)
         free_list(cmd->node);
-    //if (cmd->pcmd)
-        //free_pcmd(cmd->pcmd);
     free(cmd);
     cmd->node = NULL;
 }

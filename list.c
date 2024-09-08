@@ -21,7 +21,7 @@ void	ft_listadd_back(t_list **lst, t_list *new)
 {
 	t_list	*temp;
 
-	if (!lst || !new || !new)
+	if (!lst || !new)
 		return ;
 	if (!(*lst))
 	{

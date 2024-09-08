@@ -2,12 +2,42 @@
 
 int status;
 
+int	empty_check(char *s)
+{
+	int len;
+	int i;
+
+	len = ft_strlen(s);
+	if (len == 2 && ((s[0] == '\"' && s[len - 1] == '\"') || (s[0] == '\'' && s[len - 1] == '\'')))
+		return (1);
+	else if ((s[0] == '\"' && s[len - 1] == '\"') || (s[0] == '\'' && s[len - 1] == '\''))
+	{
+		s++;
+		len -= 2;
+	}
+	i = 0;
+	while (s[i] && i < len)
+	{
+		if (s[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void    get_init(t_ms **cmd)
 {
-	*cmd = (t_ms *)malloc(sizeof(t_ms));
-	if (!(*cmd))
+	*cmd = malloc(sizeof(t_ms));
+	if (!cmd)
 		(p_err("Malloc error", 54), exit(54));
-	**cmd = (t_ms){ .node = NULL, .tmp = NULL};
+	(*cmd)->node = NULL;
+    (*cmd)->tmp = NULL;
+    (*cmd)->name = NULL;
+    (*cmd)->value = NULL;
+	(*cmd)->s = NULL;
+	(*cmd)->tmp_s = NULL;
+	(*cmd)->i = 0;
+	(*cmd)->done = 0;
 }
 
 void ft_lexer(char *s, t_ms *command)
@@ -22,6 +52,8 @@ void ft_lexer(char *s, t_ms *command)
 			s[i] = 32;
 		i++;
 	}
+	if (empty_check(s))
+		return (ft_listadd_back(&(command->node), ft_listnew(s, (ft_strlen(s)), Word)));
 	i = 0;	
 	while (s[i])
 		i += ms_split(command, s + i);
@@ -30,39 +62,29 @@ void ft_lexer(char *s, t_ms *command)
 
 void inpute(t_ms *command, char **env )
 {
-	char *s;
-	t_env *env_list;
-    t_env *export;
-	const char  *prompt;
-
-	fill_env(&env_list, env);
-    fill_env(&export, env);
-    export_sort(&export,env);
-	prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
+	fill_env(&command->env_list, env);
+	fill_env(&command->export, env);
+	export_sort(&command->export,env);// need to recheck with houssam
+	command->prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
 	while(1)
 	{
-		s = readline(prompt);
-		if (!s)
+		command->tmp_s = readline(command->prompt);
+		if (!command->tmp_s)
 			(free_cmd(command), p_err("exit", 0), exit(0));
-			
-		if (s[0] == '\0') //not needed ig
+		if (command->tmp_s[0] == '\0' || ft_check(command->tmp_s))// history of spaces recheck
 		{
-			free(s);
+			free(command->tmp_s);
 			continue;
 		}
-		add_history(s);
-		if (ft_check(s))
-			continue;
-		ft_lexer(s, command);
-		expand_env(command, env_list); //need first to get the env list
+		command->s = ft_strtrim(command->tmp_s, " ", command);
+		add_history(command->s);
+		ft_lexer(command->s, command);
+		expand_env(command, command->env_list);
 		ft_merge(command);
-	    if (!ft_pars(command))
-			checking(command->node, env, command, env_list, export);
-			
-
-		//freeing and re init
-		//if (command->node)
-			//free_cmd(command);
+		if (!ft_pars(command))
+			checking(command->node, env, command, command->env_list, command->export);
+		if (command->node || command->s)//need to free init also
+			(free(command->s), free_cmd(command));
 		get_init(&command);
 	}
 }

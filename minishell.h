@@ -25,10 +25,10 @@
 # define Rediracion_Out_Append 8
 # define Env_word 9
 
-# define CMAGENTA   "\x1B[35m"
-# define CCYAN     "\x1B[36m"    
-# define BOLD      "\x1B[1m"
-# define RESET     "\x1B[0m"
+# define CMAGENTA   "\001\x1B[35m\002"
+# define CCYAN     "\001\x1B[36m\002"    
+# define BOLD      "\001\x1B[1m\002"
+# define RESET     "\001\x1B[0m\002"
 
 typedef struct s_list
 {
@@ -37,6 +37,12 @@ typedef struct s_list
     int             type;
 }	t_list;
 
+typedef struct s_env
+{
+    char *name;
+    char *value;
+    struct s_env *next;
+} t_env;
 
 typedef struct s_ms
 {
@@ -44,14 +50,14 @@ typedef struct s_ms
     t_list  *tmp;
     char *name;
     char *value;
+    char *s;
+    char *tmp_s;
+	t_env *env_list;
+    t_env *export;
+	const char  *prompt;
+    int i;
+    int done;
 }   t_ms;
-
-typedef struct s_env
-{
-    char *name;
-    char *value;
-    struct s_env *next;
-} t_env;
 
 typedef struct s_cmd_vars
 {
@@ -88,7 +94,7 @@ bool	found_new_line(t_glist *list);
 void	free_glist(t_glist *list);
 char	*get_next_line(int fd);
 void	generate_line(char **line, t_glist *list);
-
+char	*ft_strtrim(char const *s1, char const *set, t_ms *command);
 void    get_init(t_ms **cmd);
 int     ft_check(char *s);
 void	*ft_memcpy(void *dest, const void *src, int n);
@@ -97,7 +103,6 @@ int     ft_strlen(const char *s);
 void    ft_lexer(char *s, t_ms *command);
 void    inpute(t_ms *command, char **env);
 void    p_err(char *str, int n);
-int     spaces(char *s);
 int     check_q(char *s);
 int     count_q(char *s, char c);
 int     double_p(char *s);
@@ -107,7 +112,6 @@ char	**ft_split(char const *s, char c);
 t_list	*ft_listnew(char *content, int len, int type);
 void	ft_listadd_back(t_list **lst, t_list *new);
 int     env_var(t_ms *command, char *s);
-int     alphanum(char c);
 int     ft_strnotcmp(const char *s1, const char *s2, int n);
 int     ft_strncmp(const char *s1, const char *s2, int n);
 int     echo(t_exc *vars);
@@ -136,5 +140,7 @@ void    expand_env(t_ms *command, t_env *env_list);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *src);
 char	*ft_itoa(int n);
+void	*ft_calloc(size_t count, size_t size);
+int     empty_check(char *s);
 
 #endif

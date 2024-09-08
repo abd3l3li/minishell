@@ -2,33 +2,33 @@
 
 extern int status;
 
+void    set_value(t_ms *command, char *new_value)
+{
+    if (command->tmp->content)
+        free(command->tmp->content);
+    command->tmp->content = ft_strdup(new_value);
+}
+
 static void to_be_continued(t_ms *command, t_env *env_list)
 {
     if (!ft_strncmp(env_list->name, command->name, ft_strlen(command->name)))
     {
         command->value = env_list->value;
-        if (command->tmp->content)
-            free(command->tmp->content);
-        command->tmp->content = ft_strdup(command->value);
+        set_value(command, command->value);
+        command->done = 1;
     }
     else if (command->name[0] == '0')
     {
-        if (command->tmp->content)
-            free(command->tmp->content);
-        command->tmp->content = ft_strdup("bash");
+        set_value(command, "bash");
+        command->done = 1;
     }
     else if (strncmp(command->name, "?", 1) == 0)
     {
-        if (command->tmp->content)
-            free(command->tmp->content);
-        command->tmp->content = ft_strdup(ft_itoa(status));
+        set_value(command, ft_itoa(status));
+        command->done = 1;
     }
     else if (command->value == NULL)
-    {
-        if (command->tmp->content)
-            free(command->tmp->content);
-        command->tmp->content = ft_strdup("");
-    }
+        set_value(command, "");
 }
 
 void    expand_env(t_ms *command, t_env *env_list)
@@ -43,6 +43,8 @@ void    expand_env(t_ms *command, t_env *env_list)
             while (env_list)
             {
                 to_be_continued(command, env_list);
+                if (command->done)
+                    break;
                 env_list = env_list->next;
             }
         free(command->name);

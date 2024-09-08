@@ -8,30 +8,19 @@ void p_err(char *str, int n)
     printf("%s\n", str);
 }
 
-int spaces(char *s)
+/*int spaces(char *s)
 {
     int i;
 
     i = 0;
     while (s[i])
     {
-        if ((s[i] != ' ') && (s[i] != 34 && s[i] != 39))
+        if ((s[i] != ' '))
             return (0);
         i++;
     }
-    i = 0;
-   /*
-    while (s[i])
-    {
-        if (!(check_q(s)) && (s[i] == 34 || s[i] == 39))
-            {
-                printf(">\n");
-                return (1);
-            }
-        i++;
-    }*/
     return (1);
-}
+}*/
 
 int count_q(char *s, char c)
 {

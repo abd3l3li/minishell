@@ -10,7 +10,7 @@ CCYAN     = \033[36m
 
 SRC =  checks.c list.c spliting.c checking.c expand.c \
 	ft_memmove.c ft_strchr.c get_next_line.c free.c libftPlus.c \
-	libft.c minishell.c moreUtils.c utils.c ft_split.c signals.c \
+	libft.c minishell.c quotes.c utils.c ft_split.c signals.c \
 	builts_in.c get_next_line_utils.c joining.c parsing.c \
 
 OBJ = ${SRC:.c=.o}

@@ -1,5 +1,26 @@
 #include "minishell.h"
 
+char	*ft_strtrim(char const *s1, char const *set, t_ms *command)
+{
+	size_t	len;
+	char	*result;
+
+	if (!s1)
+		return (0);
+	while (*s1 && ft_strchr(set, *s1) != 0)
+		s1++;
+	len = ft_strlen(s1);
+	while (len && s1[len - 1] && ft_strchr(set, s1[len - 1]) != 0)
+		len--;
+	result = (char *)malloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (0);
+	ft_memcpy(result, s1, len);
+	result[len] = '\0';
+	free(command->tmp_s);
+	return (result);
+}
+
 char	*ft_strdup(char *src)
 {
 	int	size;
@@ -64,7 +85,7 @@ int	ft_strncmp(const char *s1, const char *s2, int n)
 	if (n == 0)
 		return (0);
 	if (!s1 || !s2)
-		return (0);
+		return (1);
 	while ((i < n) && (s1[i] || s2[i]))
 	{
 		if (s1[i] != s2[i])
