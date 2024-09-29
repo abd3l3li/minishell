@@ -1,0 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in_main_functions_1.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/27 20:09:54 by her-rehy          #+#    #+#             */
+/*   Updated: 2024/09/27 20:35:32 by her-rehy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int echo(t_exc *vars)
+{
+    int i;
+    int check;
+
+    check = 0;
+    i = check_option(vars->cmd_args, &check);   
+    while (vars->cmd_args[i])
+    {
+        printf("%s", vars->cmd_args[i]);
+        if(vars->cmd_args[i + 1] != NULL)
+            printf(" ");        
+        i++;
+    }
+    if(check == 0)
+    {
+        check = 1;
+        printf("\n");
+    }
+    status = 0;
+    return (0);
+}
+
+int ft_unset(t_env **env, char *str)
+{
+    t_env *tmp;
+    char **name_value;
+
+    name_value = ft_split(str, '=');
+    if (unset_first(env, str, name_value) == 0)
+        return (0);
+    tmp = *env;
+    while (tmp != NULL && tmp->next != NULL)
+    {
+        if (ft_strncmp(tmp->next->name, str, ft_strlen(name_value[0])) == 0)
+        {
+            t_env *to_delete = tmp->next;
+            tmp->next = to_delete->next;
+            free(to_delete->name);
+            free(to_delete->value);
+            free(to_delete);
+            return (0);
+        }
+        tmp = tmp->next;
+    }
+
+    return (0);
+}

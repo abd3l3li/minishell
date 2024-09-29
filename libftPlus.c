@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src)
 {
 	int	size;
 	char	*dest;
@@ -61,24 +61,13 @@ int	ft_strncmp(const char *s1, const char *s2, int n)
 	int	i;
 
 	i = 0;
-	if (n == 0)
-		return (0);
-	while ((i < n) && (s1[i] || s2[i]))
+	while (i <= n && s1[i] != '\0' && s2[i] != '\0')
 	{
 		if (s1[i] != s2[i])
-			return (((unsigned char)s1[i] - (unsigned char)s2[i]));
+			return (1);
+		if (!s1[i] && !s2[i] )
+			return (0);
 		i++;
 	}
 	return (0);
-}
-
-int	ft_strchr(const char *s, int c)
-{
-	while ((char)c != *s)
-	{
-		if (!*s)
-			return (0);
-		s++;
-	}
-	return (1);
 }

@@ -13,11 +13,20 @@ void    handler(int sig)
     rl_redisplay();
     status = 130;
 }
-void    ms_signal(void)
+void    chandler(int sig)
+{
+    (void)sig;
+    write(1, "\n", 1);
+    status = 130;
+}
+void    ms_signal(int num)
 {
     struct sigaction	sig;
 
-    sig.sa_handler =  &handler;
+    if (!num)
+        sig.sa_handler =  &handler;
+    else
+        sig.sa_handler =  &chandler;
     sigemptyset(&sig.sa_mask);
     sig.sa_flags = 0;
     sigaction(SIGINT, &sig, NULL);
