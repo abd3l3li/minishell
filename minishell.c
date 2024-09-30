@@ -60,11 +60,11 @@ void ft_lexer(char *s, t_ms *command)
 	ft_skip_q(command);
 }
 
-void inpute(t_ms *command, char **env )
+void inpute(t_ms *command, char **env , t_exc *vars)
 {
 	fill_env(&command->env_list, env);
 	fill_env(&command->export, env);
-	export_sort(&command->export,env);// need to recheck with houssam
+	export_sort(&command->export);// need to recheck with houssam
 	command->prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
 	while(1)
 	{
@@ -82,7 +82,7 @@ void inpute(t_ms *command, char **env )
 		expand_env(command, command->env_list);
 		ft_merge(command);
 		if (!ft_pars(command))
-			checking(command->node, env, command, command->env_list, command->export);
+			checking(command->node, env, command, command->env_list, command->export, vars);
 		if (command->node || command->s)//need to free init also
 			(free(command->s), free_cmd(command));
 		get_init(&command);
@@ -92,11 +92,16 @@ void inpute(t_ms *command, char **env )
 int main(int ac, char **av, char **env)
 {
 	t_ms *cmd;
+	t_exc *vars;
 
 	if (ac != 1)
 		exit(1);
+	vars = malloc(sizeof(t_exc));
+	if (!vars)
+		(p_err("Malloc error", 54), exit(54));
+	vars->oldpwd = getcwd(NULL, 0);
 	get_init(&cmd);
 	ms_signal(0);
-	inpute(cmd, env);
+	inpute(cmd, env, vars);
 }   
 
