@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int status;
+ int status;
 
 void    get_init(t_ms **cmd)
 {
@@ -14,7 +14,7 @@ void ft_lexer(char *s, t_ms *command)
 {
 	int i;
 
-	i = 0;
+ 	i = 0;
 	//pipe_split(s + i, command); //to be used
 	while (s[i])
 	{
@@ -28,41 +28,36 @@ void ft_lexer(char *s, t_ms *command)
 	ft_skip_q(command);
 }
 
-void inpute(t_ms *command, char **env )
+void inpute(t_ms *command, char **env , t_exc *vars)
 {
 	char *s;
 	t_env *env_list;
     t_env *export;
 	const char  *prompt;
 
+
 	fill_env(&env_list, env);
     fill_env(&export, env);
-    export_sort(&export,env);
+    export_sort(&export);	
 	prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
 	while(1)
 	{
 		s = readline(prompt);
 		if (!s)
 			(free_cmd(command), p_err("exit", 0), exit(0));
-			
 		if (s[0] == '\0') //not needed ig
 		{
 			free(s);
-			continue;
+			continue ;
 		}
 		add_history(s);
 		if (ft_check(s))
-			continue;
+			continue ;
 		ft_lexer(s, command);
 		expand_env(command, env_list); //need first to get the env list
 		ft_merge(command);
 	    if (!ft_pars(command))
-			checking(command->node, env, command, env_list, export);
-			
-
-		//freeing and re init
-		//if (command->node)
-			//free_cmd(command);
+			checking(command->node, env, command, env_list, export, vars);
 		get_init(&command);
 	}
 }
@@ -70,11 +65,16 @@ void inpute(t_ms *command, char **env )
 int main(int ac, char **av, char **env)
 {
 	t_ms *cmd;
+	t_exc *vars;
 
 	if (ac != 1)
 		exit(1);
+	vars = malloc(sizeof(t_exc));
+	if (!vars)
+		(p_err("Malloc error", 54), exit(54));
+	vars->oldpwd = getcwd(NULL, 0);
 	get_init(&cmd);
 	ms_signal(0);
-	inpute(cmd, env);
+	inpute(cmd, env, vars);
 }   
 
