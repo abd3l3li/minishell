@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checking.c                                         :+:      :+:    :+:   */
+/*   excutiion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/29 22:23:21 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:02:00 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	execute(char *argv, char **envp)
 void child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list *pre_last_list)
 {
     t_child *child;
-    
     child = (t_child *)malloc(sizeof(t_child));
     child->tmp = *list;
     child->env_list = envs[0];
@@ -58,9 +57,7 @@ void child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list 
     if (var->pid == -1)
         error(2);
     if (var->pid == 0)
-    {
         execute_child_process(list, envp, var, envs, pre_last_list, child);
-    }
     ms_signal(1);
 }
 
@@ -85,14 +82,14 @@ static void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *e
 
 int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export, t_exc *vars)
 {
-	pid_t pid;
 	t_list *tmp;
 	t_list *pre_last;
 	t_exc exc;
+	
 
-	initialize_execution(&exc, env_list, export, &env, list, &pre_last);
 	if (!list)
-		return (0); // abel-baz
+		return (0);
+	initialize_execution(&exc, env_list, export, &env, list, &pre_last);
 	exc.i = 0;
 	tmp = list;
 	while (list)

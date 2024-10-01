@@ -34,5 +34,5 @@ void free_cmd(t_ms *cmd)
     if (cmd->node)
         free_list(cmd->node);
     free(cmd);
-    cmd->node = NULL;
+    cmd = NULL;
 }

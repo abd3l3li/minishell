@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/29 22:22:05 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/09/30 21:05:38 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void setup_redirections(t_list **list, t_exc *var, t_list *pre_last_list, t_list
     handle_pipe_redirection(list, var);
     if ((*list)->type == Pipe)
         return;
-
     handle_pipe_creation(var);
 
     while (*list && (*list)->next && ((*list)->next->type == Rediracion_Out || (*list)->type == Rediracion_Out || (*list)->next->type == Rediracion_Out_Append || (*list)->type == Rediracion_Out_Append))

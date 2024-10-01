@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:40 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/29 22:19:50 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/09/30 20:13:01 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ void	initialize_execution(t_exc *exc, t_env *env_list, t_env *export, char ***en
 	envs = (t_env **)malloc(sizeof(t_env *) * 2);
 	envs[0] = env_list;
 	envs[1] = export;
-
 	exc->saved_stdin = dup(STDIN_FILENO);
 	exc->saved_stdout = dup(STDOUT_FILENO);
 	exc->redirection_check = 0;
-	*env = list_to_array(env_list);
+    *env = list_to_array(env_list);
 	*pre_last = list;
 	if (list)
 		set_status(list, *env, *pre_last);
+
 }

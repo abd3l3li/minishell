@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:21:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/29 22:21:27 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/09/30 20:44:23 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	handle_built_in_commands(t_exc *var, t_env *env_list, t_env *export)
 	}
 	return (0);
 }
-
-
 
 void free_t_exc(t_exc *exc)
 {
