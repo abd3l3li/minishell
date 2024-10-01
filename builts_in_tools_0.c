@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:42 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 15:36:32 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 22:55:13 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int check_values(t_env *env,t_env *export, t_exc *vars)
 {
     int i;
     i = 0;
+
     vars->cmd_args = ft_split(vars->cmd, '='); 
     while(vars->cmd[i])
     {

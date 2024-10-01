@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 16:12:32 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:35:09 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void protecting_executing(t_list *tmp, char **env, t_list *pre_last, t_ms *ms, t
 		last_child(tmp, env, ms->node->type, vars, env_list, export);
 	if (tmp != NULL && status == 127 && vars->redirection_check == 0)
 	{
-		write(2, tmp->content, ft_strlen(tmp->content));
+		put_str_fd(tmp->content, 2);
 		write(2, ": command not found\n", 20);
 	}
 	while (wait(NULL) != -1);
@@ -42,7 +42,7 @@ void	execute(char *argv, char **envp)
 		while (cmd[++i])
 			free(cmd[i]);
 		free(cmd);
-		write(2, ": com not found \n", 20);
+		write(2, ": command not found\n", 20);
 		exit(127);
 	}
 	execve(path, cmd, envp);
@@ -77,7 +77,6 @@ static void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *e
 			exit(0);
 		execute(list->content, envp);
 	}
-
 	ms_signal(1);
 }
 

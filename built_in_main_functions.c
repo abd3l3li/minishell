@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:56 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/27 20:09:30 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:24:13 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,21 @@ int ft_env(t_env *env)
 int ft_export(t_env *env,t_env *export, t_exc *vars)
 {
     int i;
-    i = 0;
+    char *join_args;
+
+    join_args = NULL;
+    i = 1;
+    while(vars->cmd_args[i])
+    {
+        if( vars->cmd_args[i] &&  vars->cmd_args[i + 1] != NULL)
+        {
+            join_args = ft_strjoin(vars->cmd_args[i], " ");
+            join_args = ft_strjoin(join_args, vars->cmd_args[i + 1]);
+        }
+        i++;
+    }
+    if(join_args != NULL)
+        vars->cmd_args[1] = ft_strdup(join_args);
     if(vars->cmd_args[1] == NULL)
     {
         while(export)
@@ -37,6 +51,7 @@ int ft_export(t_env *env,t_env *export, t_exc *vars)
     }
     if(compare_list(vars->cmd_args[1], env) == 1 && compare_list(vars->cmd_args[1], export) == 1)
         return (0);
+    
     vars->cmd = vars->cmd_args[1];
     check_values(env,export,vars);
     return (0);

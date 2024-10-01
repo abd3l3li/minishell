@@ -15,6 +15,7 @@ static void to_be_continued(t_ms *command, t_env *env_list)
     {
         command->value = env_list->value;
         set_value(command, command->value);
+        command->tmp->type = Word;
         command->done = 1;
     }
     else if (command->name[0] == '0')

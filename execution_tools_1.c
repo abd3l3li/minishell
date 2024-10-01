@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:21:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/30 20:44:23 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 23:00:55 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void handle_pipe(t_list **list, t_exc *var, t_env *env_list, t_env *export, char
 
 void handle_word(t_list **list, char **envp)
 {
+    
     execute((*list)->content, envp);
     exit(0);
 }
