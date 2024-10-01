@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:42 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/27 20:39:46 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:33:25 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int check_values(t_env *env,t_env *export, t_exc *vars)
     {
         if(vars->cmd[i] == '=')
         {
-            if(ft_isdigit(vars->cmd[i - 1]) == 1 && ft_isdigit(vars->cmd[i + 1]) == 1)
+            if(ft_isdigit(vars->cmd[i - 1]) == 1)
                 return (write(1, "bash: export: `", 15),
                         write(1, vars->cmd, ft_strlen(vars->cmd)),write(1
                         , "': not a valid identifier\n", 27),0);
