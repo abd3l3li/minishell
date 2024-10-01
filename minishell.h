@@ -224,7 +224,7 @@ void	initialize_execution(t_exc *exc, t_env *env_list, t_env *export, char ***en
 void protecting_executing(t_list *tmp, char **env, t_list *pre_last, t_ms *ms, t_exc *vars, t_env *env_list, t_env *export);
 int	empty_check(char *s);
 char	*ft_strtrim(char const *s1, char const *set, t_ms *command);
-
+int put_str_fd(char *str, int fd);
 
 
 

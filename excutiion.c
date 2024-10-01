@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/30 21:02:00 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:12:32 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ void	execute(char *argv, char **envp)
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
+		put_str_fd(cmd[0], 2);
 		while (cmd[++i])
 			free(cmd[i]);
 		free(cmd);
-		error(3);
+		write(2, ": com not found \n", 20);
+		exit(127);
 	}
 	execve(path, cmd, envp);
 }

@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:09:54 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/27 20:35:32 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:51:24 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,18 @@ int ft_unset(t_env **env, char *str)
         tmp = tmp->next;
     }
 
+    return (0);
+}
+
+int put_str_fd(char *str, int fd)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        write(fd, &str[i], 1);
+        i++;
+    }
     return (0);
 }

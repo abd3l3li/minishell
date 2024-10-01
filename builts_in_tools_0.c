@@ -6,14 +6,11 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:42 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 15:33:25 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:36:32 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-
 
 int unset_first(t_env **env, char *str, char **name_value)
 {
