@@ -71,7 +71,7 @@ int fill_env(t_env **env, char **envp)
     t_env *tmp;
 
     i = 0;
-    *env = malloc(sizeof(t_env));
+    *env = ft_malloc(sizeof(t_env));
     tmp = *env;
     while(envp[i])
     {
@@ -79,7 +79,7 @@ int fill_env(t_env **env, char **envp)
         (*env)->value = ft_substr(envp[i], index_of_char(envp[i], '=') + 1, ft_strlen(envp[i]) - index_of_char(envp[i], '='));
         if(envp[i + 1] == NULL)
             break;
-        (*env)->next = malloc(sizeof(t_env));
+        (*env)->next = ft_malloc(sizeof(t_env));
         (*env) = (*env)->next;
         i++;
     }

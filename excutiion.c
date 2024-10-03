@@ -39,8 +39,8 @@ void	execute(char *argv, char **envp)
 	if (!path)
 	{
 		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+			ft_free(cmd[i]);
+		ft_free(cmd);
 		error(3);
 	}
 	execve(path, cmd, envp);
@@ -49,7 +49,7 @@ void child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list 
 {
     t_child *child;
     
-    child = (t_child *)malloc(sizeof(t_child));
+    child = (t_child *)ft_malloc(sizeof(t_child));
     child->tmp = *list;
     child->env_list = envs[0];
     child->export = envs[1];  
@@ -75,7 +75,7 @@ static void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *e
 	if (pid == 0)
 	{
 		if (!check_for_built_in(list, env_list, var, export))
-			exit(0);
+			ft_exitt(0);
 		execute(list->content, envp);
 	}
 

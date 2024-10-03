@@ -50,9 +50,9 @@ int ft_unset(t_env **env, char *str)
         {
             t_env *to_delete = tmp->next;
             tmp->next = to_delete->next;
-            free(to_delete->name);
-            free(to_delete->value);
-            free(to_delete);
+            ft_free(to_delete->name);
+            ft_free(to_delete->value);
+            ft_free(to_delete);
             return (0);
         }
         tmp = tmp->next;

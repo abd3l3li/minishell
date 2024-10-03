@@ -13,7 +13,6 @@
 # include <stdbool.h>
 
 
-# define BUFFER_SIZE 10
 # define Word 0
 # define Pipe 1
 # define Singl_Quot 2
@@ -24,6 +23,7 @@
 # define Here_doc 7
 # define Rediracion_Out_Append 8
 # define Env_word 9
+# define BUFFER_SIZE 10
 
 # define CMAGENTA   "\001\x1B[35m\002"
 # define CCYAN     "\001\x1B[36m\002"    
@@ -38,6 +38,13 @@ typedef struct s_list
 	struct s_list	*next;
     int             type;
 }	t_list;
+
+typedef struct s_garbage
+{
+	char			*content;
+	struct s_garbage	*next;
+    int             freed;
+}	t_garbabe;
 
 typedef struct s_env
 {
@@ -143,7 +150,8 @@ int     double_p(char *s);
 int     ft_symbols(char c);
 int     ms_split(t_ms *command, char *s);
 char	**ft_split(char const *s, char c);
-t_list	*ft_listnew(char *content, int len, int type);
+t_list  *ft_listnew(char *content, int len, int type);
+t_garbabe   *ft_lstnew_plus(void *content);
 void	ft_listadd_back(t_list **lst, t_list *new);
 int     env_var(t_ms *command, char *s);
 int     ft_strnotcmp(const char *s1, const char *s2, int n);
@@ -224,8 +232,10 @@ void	initialize_execution(t_exc *exc, t_env *env_list, t_env *export, char ***en
 void protecting_executing(t_list *tmp, char **env, t_list *pre_last, t_ms *ms, t_exc *vars, t_env *env_list, t_env *export);
 int	empty_check(char *s);
 char	*ft_strtrim(char const *s1, char const *set, t_ms *command);
-
-
+void    *ft_malloc(size_t len);
+void    ft_exitt(int n);
+void    ft_free(void *ptr);
+void	ft_listadd_back_plus(t_garbabe	**lst, t_garbabe	*new);
 
 
 #endif

@@ -23,9 +23,9 @@ int unset_first(t_env **env, char *str, char **name_value)
     {
         tmp = *env;
         *env = (*env)->next;
-        free(tmp->name);
-        free(tmp->value);
-        free(tmp);
+        ft_free(tmp->name);
+        ft_free(tmp->value);
+        ft_free(tmp);
         return (0);
     }
     return (1);
@@ -36,7 +36,7 @@ int export_adding(t_env *list, char *args)
     t_env *new;
 
     char **name_value;
-    new = malloc(sizeof(t_env));
+    new = ft_malloc(sizeof(t_env));
     if (args == NULL)
         return 0;
     name_value = ft_split(args, '=');
@@ -91,7 +91,7 @@ int compare_list(const char *str, t_env *env_list)
                         return 1;
                 else
                 {
-                    free((*current)->value);
+                    ft_free((*current)->value);
                     (*current)->value = ft_strdup(name_value[1]);
                     return 1;
                 }

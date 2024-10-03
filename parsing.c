@@ -2,6 +2,29 @@
 
 extern int status;
 
+int	empty_check(char *s)
+{
+	int len;
+	int i;
+
+	len = ft_strlen(s);
+	if (len == 2 && ((s[0] == '\"' && s[len - 1] == '\"') || (s[0] == '\'' && s[len - 1] == '\'')))
+		return (1);
+	else if ((s[0] == '\"' && s[len - 1] == '\"') || (s[0] == '\'' && s[len - 1] == '\''))
+	{
+		s++;
+		len -= 2;
+	}
+	i = 0;
+	while (s[i] && i < len)
+	{
+		if (s[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int to_be_continued(t_list *tmp)
 {
     if (ft_strnotcmp(tmp->content, "//", 2) && tmp->next == NULL)

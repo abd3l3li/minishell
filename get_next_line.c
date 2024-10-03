@@ -18,8 +18,8 @@ static void	add_buffer_to_list(t_glist **glist, char *buffer, int num_bytes)
 	t_glist	*last;
 	t_glist	*new_node;
 
-	new_node = malloc(sizeof(t_glist));
-	new_node->content = malloc(sizeof(char) * (num_bytes + 1));
+	new_node = ft_malloc(sizeof(t_glist));
+	new_node->content = ft_malloc(sizeof(char) * (num_bytes + 1));
 	if (new_node == NULL
 		|| new_node->content == NULL)
 		return ;
@@ -46,7 +46,7 @@ static void	list_from_file(int fd, t_glist **list)
 	int		num_bytes;
 
 	num_bytes = 1;
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = ft_malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	while (!found_new_line(*list) && num_bytes != 0)
 	{
 		if (buffer == NULL)
@@ -54,7 +54,7 @@ static void	list_from_file(int fd, t_glist **list)
 		num_bytes = read(fd, buffer, BUFFER_SIZE);
 		if ((*list == NULL && num_bytes == 0) || num_bytes == -1)
 		{
-			free(buffer);
+			ft_free(buffer);
 			if (num_bytes == -1)
 				free_glist(*list);
 			*list = NULL;
@@ -63,7 +63,7 @@ static void	list_from_file(int fd, t_glist **list)
 		buffer[num_bytes] = '\0';
 		add_buffer_to_list(list, buffer, num_bytes);
 	}
-	free(buffer);
+	ft_free(buffer);
 }
 
 static void	read_line_from_list(t_glist *list, char **line)
@@ -100,7 +100,7 @@ static t_glist	*trim_last_list_chars(t_glist **lst)
 	t_glist	*clean_node;
 	int		i;
 
-	clean_node = malloc(sizeof(t_list));
+	clean_node = ft_malloc(sizeof(t_list));
 	if (lst == NULL || clean_node == NULL)
 	{
 		*lst = clean_node;
@@ -138,7 +138,7 @@ char	*get_next_line(int fd)
 	{
 		free_glist(list);
 		list = NULL;
-		free(line);
+		ft_free(line);
 		return (NULL);
 	}
 	return (line);

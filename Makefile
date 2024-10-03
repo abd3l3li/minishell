@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -g 
+CFLAGS = -g #-fsanitize=address
 RM = rm -rf
 
 BOLD      = \033[1m
@@ -11,7 +11,7 @@ CCYAN     = \033[36m
 SRC =  checks.c list.c spliting.c expand.c \
 	ft_memmove.c ft_strchr.c get_next_line.c free.c libftPlus.c \
 	libft.c minishell.c quotes.c utils.c ft_split.c signals.c \
-	get_next_line_utils.c joining.c parsing.c \
+	get_next_line_utils.c joining.c parsing.c garbage_collector.c\
 	excutiion.c built_in_main_functions.c built_in_main_functions_1.c \
 	builts_in_tools_0.c  set_status.c \
 	builts_in_tools_1.c builts_in_tools_2.c builts_in_tools_3.c \

@@ -31,12 +31,12 @@ char	*find_path(char *cmd, char **envp)
 	{
 		var.part_path = ft_strjoin(var.paths[var.i], "/");
 		var.path = ft_strjoin(var.part_path, cmd);
-		free(var.part_path);
+		ft_free(var.part_path);
 		if (access(var.path, F_OK) == 0)
 		{
 			return (var.path);
 		}
-		free(var.path);
+		ft_free(var.path);
 		var.i++;
 	}
 	var.i = -1;

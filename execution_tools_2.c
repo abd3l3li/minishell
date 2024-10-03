@@ -45,9 +45,9 @@ void handle_redirection_out(t_list *tmp, int fd, t_env *env_list, t_exc *var, t_
     dup2(fd, 1);
     close(fd);
     if (!check_for_built_in(tmp, env_list, var, export))
-        exit(0);
+        ft_exitt(0);
     execute(tmp->content, envp);
-    exit(0);
+    ft_exitt(0);
 }
 
 void handle_redirection_in(t_list **list, t_exc *var, t_env *env_list, t_env *export, char **envp)
@@ -59,12 +59,12 @@ void handle_redirection_in(t_list **list, t_exc *var, t_env *env_list, t_env *ex
     {
         write(2, var->file, ft_strlen(var->file));
         write(2, ": No such file or directory\n", 28);
-        exit(1);
+        ft_exitt(1);
     }
     dup2(fd, 0);
     close(fd);
     if (!check_for_built_in((*list), env_list, var, export))
-        exit(0);
+        ft_exitt(0);
     execute((*list)->content, envp);
 }
 
@@ -104,12 +104,12 @@ void handle_here_doc(t_list **list, t_list *pre_last_list, t_exc *var, char **en
     close(fd);
     fd = open(str, O_CREAT | O_RDWR | O_APPEND, 0777);
     str2 = ft_strdup(str);
-    free(str);
+    ft_free(str);
     handle_heredoc_loop(fd, var->file, str2);
     if ((*list)->next->type == Here_doc)
     {
         if (!check_for_built_in((*list), env_list, var, export))
-            exit(0);
+            ft_exitt(0);
         execute((*list)->content, envp);
     }
 }

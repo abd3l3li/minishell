@@ -2,33 +2,26 @@
 
 int status;
 
-int	empty_check(char *s)
+void ft_clear(t_ms *cmd)
 {
-	int len;
-	int i;
-
-	len = ft_strlen(s);
-	if (len == 2 && ((s[0] == '\"' && s[len - 1] == '\"') || (s[0] == '\'' && s[len - 1] == '\'')))
-		return (1);
-	else if ((s[0] == '\"' && s[len - 1] == '\"') || (s[0] == '\'' && s[len - 1] == '\''))
-	{
-		s++;
-		len -= 2;
-	}
-	i = 0;
-	while (s[i] && i < len)
-	{
-		if (s[i] != ' ')
-			return (0);
-		i++;
-	}
-	return (1);
+    if (cmd->s)
+        ft_free(cmd->s);
+    if (cmd->tmp_s)
+        ft_free(cmd->tmp_s);
+    cmd->node = NULL;
+    cmd->tmp = NULL;
+    cmd->name = NULL;
+    cmd->value = NULL;
+    cmd->s = NULL;
+    cmd->tmp_s = NULL;
+    cmd->i = 0;
+    cmd->done = 0;
 }
 
 void    get_init(t_ms **cmd)
 {
-	*cmd = malloc(sizeof(t_ms));
-	if (!cmd)
+	*cmd = ft_malloc(sizeof(t_ms));
+	if (!*cmd)
 		(p_err("Malloc error", 54), exit(54));
 	(*cmd)->node = NULL;
     (*cmd)->tmp = NULL;
@@ -64,16 +57,16 @@ void inpute(t_ms *command, char **env , t_exc *vars)
 {
 	fill_env(&command->env_list, env);
 	fill_env(&command->export, env);
-	export_sort(&command->export);// need to recheck with houssam
+	export_sort(&command->export);
 	command->prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
 	while(1)
 	{
 		command->tmp_s = readline(command->prompt);
 		if (!command->tmp_s)
-			(free_cmd(command), p_err("exit", 0), exit(0));
-		if (command->tmp_s[0] == '\0' || ft_check(command->tmp_s))// history of spaces recheck
+			(p_err("exit", 0), ft_exitt(0));
+		if (command->tmp_s[0] == '\0' || ft_check(command->tmp_s))
 		{
-			free(command->tmp_s);
+			ft_free(command->tmp_s);
 			continue;
 		}
 		command->s = ft_strtrim(command->tmp_s, " ", command);
@@ -83,9 +76,7 @@ void inpute(t_ms *command, char **env , t_exc *vars)
 		ft_merge(command);
 		if (!ft_pars(command))
 			checking(command->node, env, command, command->env_list, command->export, vars);
-		if (command->node || command->s)//need to free init also
-			(free(command->s), free_cmd(command));
-		get_init(&command);
+		ft_clear(command);
 	}
 }
 
@@ -95,8 +86,8 @@ int main(int ac, char **av, char **env)
 	t_exc *vars;
 
 	if (ac != 1)
-		exit(1);
-	vars = malloc(sizeof(t_exc));
+		ft_exitt(1);
+	vars = ft_malloc(sizeof(t_exc));
 	if (!vars)
 		(p_err("Malloc error", 54), exit(54));
 	vars->oldpwd = getcwd(NULL, 0);

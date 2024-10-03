@@ -30,7 +30,7 @@ char **list_to_array(t_env *list)
 	t_env *tmp = list;
 	int size = list_size(list);
 	char **envp;
-	envp = malloc(sizeof(char *) * (size + 1));
+	envp = ft_malloc(sizeof(char *) * (size + 1));
 	while(tmp)
 	{
 		envp[i] = ft_strjoin(tmp->name, "=");
@@ -62,8 +62,8 @@ void	ft_free_tab(char **tab)
 
 	i = -1;
 	while (tab[++i])
-		free(tab[i]);
-	free(tab);
+		ft_free(tab[i]);
+	ft_free(tab);
 	tab = NULL;
 }
 
@@ -72,7 +72,7 @@ void	error(int i)
 	if (i == 2)
 	{
 		perror("pipe");
-		exit(EXIT_FAILURE);
+		ft_exitt(EXIT_FAILURE);
 	}
 	if (i == 3)
 	{
