@@ -6,11 +6,24 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:42 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 22:55:13 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:09:54 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int ft_str_isdigit(char *str)
+{
+    int i;
+    i = 0;
+    while(str[i])
+    {
+        if(ft_isdigit(str[i]) == 0)
+            return 0;
+        i++;
+    }
+    return 1;
+}
 
 int unset_first(t_env **env, char *str, char **name_value)
 {
@@ -36,10 +49,17 @@ int export_adding(t_env *list, char *args)
     new = malloc(sizeof(t_env));
     if (args == NULL)
         return 0;
+    if(ft_strchr(args, '=') == NULL)
+        {
+            new->name = ft_strdup(args);
+            new->value = NULL;
+            lstadd_back(&list, new);
+            return 0;
+        }
     name_value = ft_split(args, '=');
     new->name = ft_strdup(name_value[0]);
     if(name_value[1] == NULL)
-        new->value = NULL;
+        new->value = ft_strdup("");
     else
         new->value = ft_strdup(name_value[1]);
     new->next = NULL;
@@ -54,6 +74,12 @@ int check_values(t_env *env,t_env *export, t_exc *vars)
     i = 0;
 
     vars->cmd_args = ft_split(vars->cmd, '='); 
+    if(ft_str_isdigit(vars->cmd_args[0]) == 1)
+    return (write(1, "bash: export: `", 15),
+            write(1, vars->cmd, ft_strlen(vars->cmd)),write(1
+            , "': not a valid identifier\n", 27),0);
+    if(vars->cmd_args[1] == NULL)
+        return (export_adding(export, vars->cmd),0);
     while(vars->cmd[i])
     {
         if(vars->cmd[i] == '=')
@@ -83,6 +109,8 @@ int compare_list(const char *str, t_env *env_list)
     name_value = ft_split(str, '=');
         while ((*current) != NULL)
         {
+            if((*current)->value == NULL)
+                (*current)->value = ft_strdup("");
             if (ft_strcmp(name_value[0], (*current)->name) == 0)
             {
                 if(name_value[1] == NULL || ft_strcmp(name_value[1], (*current)->value) == 0)

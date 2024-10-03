@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 23:35:09 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:52:14 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void protecting_executing(t_list *tmp, char **env, t_list *pre_last, t_ms *ms, t
 {
 	if (tmp)
 		set_status(tmp, env, pre_last);
-	if (tmp != NULL && status == 0 && (tmp->type == Pipe || (tmp->type == Word)) && pre_last->type != Here_doc)
+	if (tmp != NULL && status == 0 && (tmp->type == Pipe || (tmp->type == Word || tmp->type == Env_word) ) && pre_last->type != Here_doc)
 		last_child(tmp, env, ms->node->type, vars, env_list, export);
 	if (tmp != NULL && status == 127 && vars->redirection_check == 0)
 	{
@@ -67,6 +67,7 @@ static void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *e
 {
 	pid_t	pid;
 
+
 	var->cmd_args = ft_split(list->content, ' ');
 	if (handle_built_in_commands(var, env_list, export))
 		return;
@@ -86,8 +87,7 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export,
 	t_list *tmp;
 	t_list *pre_last;
 	t_exc exc;
-	
-
+			
 	if (!list)
 		return (0);
 	initialize_execution(&exc, env_list, export, &env, list, &pre_last);
@@ -97,7 +97,6 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export,
 	{
 		pre_last = tmp;
 		child_process(&list, env, vars, (t_env *[]){env_list, export}, pre_last);
-		wait(NULL);
 		tmp = list;
 		list = list->next;
 	}

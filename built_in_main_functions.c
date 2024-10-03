@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:56 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 23:24:13 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:05:31 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,13 @@ int ft_export(t_env *env,t_env *export, t_exc *vars)
             if(export->value != NULL)
                 printf("declare -x %s=\"%s\"\n", export->name, export->value);
             else
-                printf("declare -x %s=\"\"\n", export->name);
+                printf("declare -x %s\n", export->name);
             export = export->next;
         }
         return (0);
     }
-    if(compare_list(vars->cmd_args[1], env) == 1 && compare_list(vars->cmd_args[1], export) == 1)
+    if(compare_list(vars->cmd_args[1], env) == 1 || compare_list(vars->cmd_args[1], export) == 1)
         return (0);
-    
     vars->cmd = vars->cmd_args[1];
     check_values(env,export,vars);
     return (0);
