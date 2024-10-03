@@ -64,7 +64,7 @@ void child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list 
     ms_signal(1);
 }
 
-static void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *env_list, t_env *export)
+void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *env_list, t_env *export)
 {
 	pid_t	pid;
 
