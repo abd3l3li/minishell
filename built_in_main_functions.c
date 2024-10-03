@@ -88,6 +88,7 @@ int ft_cd(t_exc *vars, t_env *env, t_env *export)
     }
 
     vars->oldpwd = new_pwd;
+    free(new_pwd);
     return (0);
 }
 
@@ -96,6 +97,6 @@ int pwd(t_exc *vars)
     char *pwd;
     pwd = getcwd(NULL, 0);
     printf("%s\n", pwd);
-    ft_free(pwd);
+    free(pwd);
     return (0);
 }

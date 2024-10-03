@@ -59,9 +59,11 @@ void child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list 
         error(2);
     if (var->pid == 0)
     {
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
         execute_child_process(list, envp, var, envs, pre_last_list, child);
     }
-    ms_signal(1);
+    signal(SIGINT, SIG_IGN);
 }
 
 void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *env_list, t_env *export)
@@ -74,12 +76,13 @@ void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *env_list
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (!check_for_built_in(list, env_list, var, export))
 			ft_exitt(0);
 		execute(list->content, envp);
 	}
-
-	ms_signal(1);
+	signal(SIGINT, SIG_IGN);
 }
 
 

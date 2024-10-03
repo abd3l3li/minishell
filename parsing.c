@@ -27,7 +27,7 @@ int	empty_check(char *s)
 
 static int to_be_continued(t_list *tmp)
 {
-    if (ft_strnotcmp(tmp->content, "//", 2) && tmp->next == NULL)
+    /*if (ft_strnotcmp(tmp->content, "//", 2) && tmp->next == NULL)
         {
             status = 126;
             printf("bash: Is a directory\n");
@@ -38,8 +38,8 @@ static int to_be_continued(t_list *tmp)
         status = 127;
         printf("bash: command not found\n");
         return (1);
-    }
-    else if (tmp->next && ft_strnotcmp(tmp->content, ">>", 2) && ft_strnotcmp(tmp->next->content, "<<", 2))
+    }*/
+    if (tmp->next && ft_strnotcmp(tmp->content, ">>", 2) && ft_strnotcmp(tmp->next->content, "<<", 2))
     {
             status = 2;
             printf("bash: syntax error near unexpected token\n");

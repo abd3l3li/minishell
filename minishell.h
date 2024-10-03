@@ -32,6 +32,7 @@
 # define CCYAN     "\001\x1B[36m\002"    
 # define BOLD      "\001\x1B[1m\002"
 # define RESET     "\001\x1B[0m\002"
+# define PROMPT    BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> "
 
 extern int status;
 
@@ -142,14 +143,14 @@ char	*get_next_line(int fd);
 void	ft_free_tab(char **tab);
 void	generate_line(char **line, t_glist *list);
 void	error(int i);
-int	ft_isdigit(int i);
+int     ft_isdigit(int i);
 void    get_init(t_ms **cmd);
 int     ft_check(char *s);
 void	*ft_memcpy(void *dest, const void *src, int n);
 char	*ft_substr(char const *s, unsigned int start, int len);
 int     ft_strlen(const char *s);
 void    ft_lexer(char *s, t_ms *command);
-void    inpute(t_ms *command, char **env, t_exc *vars);
+void    input(t_ms *command, char **env, t_exc *vars);
 void    p_err(char *str, int n);
 int     check_q(char *s);
 int     count_q(char *s, char c);
@@ -202,7 +203,7 @@ int     index_of_char(const char *str, char ch);
 int     compare_strings_ignore_case(const char *str1, const char *str2);
 int     export_sort(t_env **export);
 int     fill_env(t_env **env, char **envp);
-void    ms_signal(int num);
+void    ms_signal(void);
 int     ft_pars(t_ms *cmd);
 void    ft_skip_q(t_ms *cmd);
 char	*handl_path(char *cmd);
