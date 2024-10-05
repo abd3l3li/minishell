@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:39 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 21:16:51 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:54:00 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void handle_output_append_redirection(t_list **list, t_exc *var, int *fd)
 
 void handle_last_redirection(t_list *pre_last, t_exc *var)
 {
-    if (pre_last && pre_last->type == Rediracion_Out || pre_last->type == Rediracion_Out_Append)
+    if (pre_last && pre_last->type == Rediracion_Out || pre_last->type == Rediracion_Out_Append 
+                ||pre_last->type == Rediracion_In)
         var->redirection_check = 1;
 }

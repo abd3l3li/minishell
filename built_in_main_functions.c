@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:56 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/03 17:05:31 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/04 21:36:53 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,20 @@ int ft_cd(t_exc *vars, t_env *env, t_env *export)
 
     i = 0;
     if (vars->cmd_args[1] == NULL)
+    {
+        if(!getenv("HOME"))
+        {
+            write(1, "bash: cd: HOME not set\n", 23);
+            return (1);
+        }   
         chdir(getenv("HOME"));
+    }
     else if (chdir(vars->cmd_args[1]) == -1)
     {
         write(1, "bash: cd: ", 9);
         write(1, vars->cmd_args[1], ft_strlen(vars->cmd_args[1]));
         write(1, ": No such file or directory\n", 28);
+        return (1);
     }
     new_pwd = getcwd(NULL, 0);
     update_env_var(env, "PWD", new_pwd);

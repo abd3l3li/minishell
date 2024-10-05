@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:40 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 23:27:04 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 22:07:44 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,24 @@ char    **getpaths(char **envp)
     ft_memmove(&paths[0][0], &paths[0][5], ft_strlen(paths[0]) - 5);
     return (paths);
 }
-
 int is_built_in(char *cmd)
 {
 	char **cmd_args;
 
 	cmd_args = ft_split(cmd, ' ');
-	if(ft_strncmp(cmd_args[0], "echo", 4) == 0)
+	if(ft_strcmp(cmd_args[0], "echo") == 0)
 		return (1);
-	else if(ft_strncmp(cmd_args[0], "pwd", 3) == 0)
+	else if(ft_strcmp(cmd_args[0], "pwd") == 0)
 		return (1);
-	else if(ft_strncmp(cmd_args[0], "env", 3) == 0)
+	else if(ft_strcmp(cmd_args[0], "env") == 0)
 		return (1);
-	else if(ft_strncmp(cmd_args[0], "export", 6) == 0)
+	else if(ft_strcmp(cmd_args[0], "export") == 0)
 		return (1);
-	else if(ft_strncmp(cmd_args[0], "unset", 5) == 0)
+	else if(ft_strcmp(cmd_args[0], "unset") == 0)
 		return (1);
-	else if(ft_strncmp(cmd_args[0], "exit", 4) == 0)
+	else if(ft_strcmp(cmd_args[0], "exit") == 0)
 		return (1);
-	else if(ft_strncmp(cmd_args[0], "cd", 2) == 0)
+	else if(ft_strcmp(cmd_args[0], "cd") == 0)
 		return (1);
 	return (0);
 }

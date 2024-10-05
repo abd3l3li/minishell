@@ -68,6 +68,7 @@ void inpute(t_ms *command, char **env , t_exc *vars)
 	command->prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
 	while(1)
 	{
+		signal(SIGINT, handler);
 		command->tmp_s = readline(command->prompt);
 		if (!command->tmp_s)
 			(free_cmd(command), p_err("exit", 0), exit(0));
@@ -94,6 +95,7 @@ int main(int ac, char **av, char **env)
 	t_ms *cmd;
 	t_exc *vars;
 
+
 	if (ac != 1)
 		exit(1);
 	vars = malloc(sizeof(t_exc));
@@ -101,7 +103,9 @@ int main(int ac, char **av, char **env)
 		(p_err("Malloc error", 54), exit(54));
 	vars->oldpwd = getcwd(NULL, 0);
 	get_init(&cmd);
-	ms_signal(0);
+	// ms_signal(0);
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
 	inpute(cmd, env, vars);
 }   
 

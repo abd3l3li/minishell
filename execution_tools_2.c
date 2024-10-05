@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 21:23:18 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 23:01:56 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,11 @@ void handle_heredoc_loop(int fd, char *file, char *str2)
 {
     char *str;
 
-    str = get_next_line(0); 
+    str = readline("> ");
     while (str)
     {
         write(fd, str, ft_strlen(str));
-        str = get_next_line(0); 
-        if (ft_strncmp(str, file, ft_strlen(file)) == 0) 
+        if (ft_strcmp(str, file) == 0) 
         {
             close(fd);
             fd = open(str2, O_RDONLY); 
@@ -84,6 +83,7 @@ void handle_heredoc_loop(int fd, char *file, char *str2)
             close(fd);
             break;
         }
+        str = readline("> ");
     }
 }
 

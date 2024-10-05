@@ -7,12 +7,13 @@ extern int status;
 void    handler(int sig)
 {
     (void)sig;
+    write(0, "\n", 1);
+    // rl_on_new_line();
     rl_replace_line("", 0);
-    write(1, "\n", 1);
-    rl_on_new_line();
-    rl_redisplay();
+    printf(BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ");
     status = 130;
 }
+
 void    chandler(int sig)
 {
     (void)sig;
@@ -21,16 +22,17 @@ void    chandler(int sig)
 }
 void    ms_signal(int num)
 {
-    struct sigaction	sig;
+    if(!num)
+    {
+        signal(SIGINT, handler);
+        signal(SIGQUIT, SIG_IGN);
 
-    if (!num)
-        sig.sa_handler =  &handler;
+    }
     else
-        sig.sa_handler =  &chandler;
-    sigemptyset(&sig.sa_mask);
-    sig.sa_flags = 0;
-    sigaction(SIGINT, &sig, NULL);
-    signal(SIGQUIT, SIG_IGN);
+    {
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
 
+    }
 }
 

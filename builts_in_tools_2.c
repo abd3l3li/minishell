@@ -6,22 +6,32 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:32 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/27 20:35:58 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/04 21:56:26 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char **create_own_env(void)
+{
+    char **env;
+    env = (char **)malloc(sizeof(char **) * 4);
+    env[0] = ft_strjoin("PWD=",ft_strdup(getcwd(NULL, 0)));
+    env[1] = ft_strdup("SHLVL=1");
+    env[2] = ft_strdup("_=/usr/bin/env");
+    env[3] = NULL;
+    return (env);
+}
+
 int handle_numeric_argument(t_exc *vars)
 {
-    size_t num = ascii_to_long(vars->cmd_args[1]);
-
-    if (num == (size_t)-1)
+    int  num = ascii_to_long(vars->cmd_args[1]);
+    if (num == -1)
     {
         write(1, "bash: exit: ", 12);
-        write(1, vars->cmd_args[1], ft_strlen(vars->cmd_args[1]));
+        put_str_fd(vars->cmd_args[1], 1);
         write(1, ": numeric argument required\n", 29);
-        return (0);
+        exit(2);
     }
     return (num);
 }
@@ -71,6 +81,8 @@ int fill_env(t_env **env, char **envp)
     t_env *tmp;
 
     i = 0;
+    if(!envp[0])
+        envp = create_own_env();
     *env = malloc(sizeof(t_env));
     tmp = *env;
     while(envp[i])

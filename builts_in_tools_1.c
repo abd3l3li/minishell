@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:05:53 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/27 20:35:51 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 22:31:36 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (x);
 }
 
-size_t	ascii_to_long(char *str)
+int	ascii_to_long(char *str)
 {
     size_t    result;
     int		i;
-    size_t  nbr;
     int     neg;
 
-    nbr = LONG_MAX;
-    nbr++;
     i = 0;
     neg = 1;
     if(str[0] == '-')
@@ -48,16 +45,17 @@ size_t	ascii_to_long(char *str)
         neg = -1;
     }
     result = 0;
-    while (str[i] && str[i] >= '0' && str[i] <= '9')
+    while (str[i])
     {
+        if(!ft_isdigit(str[i]))
+            return (-1);
         result = result * 10 + str[i] - '0';
         i++;
     }
-    if(neg == -1 && result > nbr)
-            return (-1);
-    else if(neg == 1 && result > LONG_MAX)
+    result = result * neg;
+    if(result > 255 || result < 0)
         return (-1);
-    return (result * neg);
+    return (result);
 }
 
 int ft_print_env(t_env *env)

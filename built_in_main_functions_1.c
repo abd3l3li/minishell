@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:09:54 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/01 15:51:24 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:18:47 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int ft_unset(t_env **env, char *str)
     t_env *tmp;
     char **name_value;
 
+    if(!str)
+        return 0;
     name_value = ft_split(str, '=');
     if (unset_first(env, str, name_value) == 0)
         return (0);
