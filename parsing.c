@@ -102,6 +102,8 @@ void ft_remove_spaces(t_ms *cmd)
         i = ft_strlen(tmp->content) - 1;
         while ((i >= 0 && tmp->content[i] == 32) && tmp->content[i] != '\'' && tmp->content[i] != '\"')
         {
+            if (tmp->next->type == Env || tmp->next->type == Env_word)
+                break;
             tmp->content[i] = '\0';
             i--;
         }
