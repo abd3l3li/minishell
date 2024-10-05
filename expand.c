@@ -36,7 +36,9 @@ void    expand_env(t_ms *command, t_env *env_list)
     command->tmp = command->node;
     while (command->tmp)
     {
-        if (command->tmp->type == Env)
+        if (command->tmp->type == Here_doc)
+            command->tmp = command->tmp->next;
+        else if (command->tmp->type == Env)
         {
             command->name = ft_strdup(command->tmp->content + 1);
             command->value = NULL;

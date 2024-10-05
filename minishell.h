@@ -244,6 +244,7 @@ void    *ft_malloc(size_t len);
 void    ft_exitt(int n);
 void    ft_free(void *ptr);
 void	ft_listadd_back_plus(t_garbabe	**lst, t_garbabe	*new);
+void    ft_remove_spaces(t_ms *command);
 
 
 #endif

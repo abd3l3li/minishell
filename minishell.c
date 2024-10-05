@@ -50,6 +50,7 @@ void ft_lexer(char *s, t_ms *command)
 	i = 0;
 	while (s[i])
 		i += ms_split(command, s + i);
+	ft_remove_spaces(command);
 	ft_skip_q(command);
 }
 
@@ -58,6 +59,7 @@ void input(t_ms *command, char **env , t_exc *vars)
 	fill_env(&command->env_list, env);
 	fill_env(&command->export, env);
 	export_sort(&command->export);
+
 	command->prompt = PROMPT;
 	while(1)
 	{
@@ -79,7 +81,6 @@ void input(t_ms *command, char **env , t_exc *vars)
 			checking(command->node, env, command, command->env_list, command->export, vars);
 		ft_clear(command);
 	}
-	free(vars->oldpwd);//testing
 }
 
 int main(int ac, char **av, char **env)

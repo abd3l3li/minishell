@@ -14,6 +14,16 @@
 
 extern int status;
 
+void space_to_null(t_list *list)
+{
+	int i = ft_strlen(list->content) - 1;
+	while (i >= 0 && list->content[i] == ' ')
+	{
+		list->content[i] = '\0';
+		i--;
+	}
+}
+
 void protecting_executing(t_list *tmp, char **env, t_list *pre_last, t_ms *ms, t_exc *vars, t_env *env_list, t_env *export)
 {
 	if (tmp)
@@ -100,6 +110,7 @@ int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export,
 	tmp = list;
 	while (list)
 	{
+		space_to_null(list);
 		pre_last = tmp;
 		child_process(&list, env, vars, (t_env *[]){env_list, export}, pre_last);
 		wait(NULL);

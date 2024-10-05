@@ -8,10 +8,9 @@ t_list	*ft_listnew(char *content, int len, int type)
 	new = (t_list *)ft_malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-    sub = ft_substr(content, 0, len);
-    if (!sub)
+	new->content = ft_substr(content, 0, len);;
+	if (!new->content)
         return (NULL);
-	new->content = sub;
 	new->next = NULL;
     new->type = type;
 	return (new);
