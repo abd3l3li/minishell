@@ -77,7 +77,7 @@ void update_env_var(t_env *env,  char *name, char *new_value)
     {
         if (ft_strncmp(tmp->name, name, ft_strlen(name)) == 0)
         {
-            free(tmp->value);
+            ft_free(tmp->value);
             tmp->value = ft_strdup(new_value);
         }
         tmp = tmp->next;

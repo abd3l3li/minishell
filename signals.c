@@ -2,37 +2,19 @@
 
 extern int status;
 
-//handler for child process
-
 void    handler(int sig)
 {
     (void)sig;
-    write(0, "\n", 1);
-    // rl_on_new_line();
-    rl_replace_line("", 0);
-    printf(BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ");
-    status = 130;
-}
-
-void    chandler(int sig)
-{
-    (void)sig;
     write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();;
     status = 130;
 }
-void    ms_signal(int num)
+
+void    ms_signal(void)
 {
-    if(!num)
-    {
-        signal(SIGINT, handler);
-        signal(SIGQUIT, SIG_IGN);
-
-    }
-    else
-    {
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
-
-    }
+    signal(SIGINT, handler);
+    signal(SIGQUIT, SIG_IGN);
 }
 

@@ -1,10 +1,18 @@
 #include "minishell.h"
 
-char	*ft_strtrim(char const *s1, char const *set, t_ms *command)
+char	*ft_strtrim(char *s1, char const *set, t_ms *command)
 {
 	size_t	len;
 	char	*result;
+	int		i;
 
+	i = 0;
+	while (s1[i])
+	{
+		if (s1[i] == '\t')
+			s1[i] = 32;
+		i++;
+	}
 	if (!s1)
 		return (0);
 	while (*s1 && ft_strchr(set, *s1) != 0)
@@ -12,12 +20,11 @@ char	*ft_strtrim(char const *s1, char const *set, t_ms *command)
 	len = ft_strlen(s1);
 	while (len && s1[len - 1] && ft_strchr(set, s1[len - 1]) != 0)
 		len--;
-	result = (char *)malloc(sizeof(char) * (len + 1));
+	result = (char *)ft_malloc(sizeof(char) * (len + 1));
 	if (!result)
 		return (0);
 	ft_memcpy(result, s1, len);
 	result[len] = '\0';
-	free(command->tmp_s);
 	return (result);
 }
 
@@ -27,7 +34,7 @@ char	*ft_strdup(char *src)
 	char	*dest;
 
 	size = ft_strlen(src);
-	dest = (char *)malloc(size * sizeof(char) + 1);
+	dest = (char *)ft_malloc(size * sizeof(char) + 1);
 	if (!dest)
 		return (0);
 	ft_memcpy(dest, src, size);
@@ -58,7 +65,7 @@ char	*ft_itoa(int n)
 
 	len = ft_len(n);
 	nb = n;
-	result = malloc(sizeof(char) * len + 1);
+	result = ft_malloc(sizeof(char) * len + 1);
 	if (!result)
 		return (NULL);
 	if (n < 0)

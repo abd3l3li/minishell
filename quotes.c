@@ -19,7 +19,7 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*result;
 
-	result = malloc(size * count);
+	result = ft_malloc(size * count);
 	if (!result)
 		return (0);
     ft_memset(result, 0, (size * count));
@@ -69,7 +69,7 @@ void    ft_skip_q(t_ms *cmd)
             newstr = remove_qoute(tmp->content);
             temp = tmp->content;
             tmp->content = newstr;
-            free(temp);
+            ft_free(temp);
         }
         tmp = tmp->next;
     }

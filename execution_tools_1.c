@@ -20,22 +20,22 @@ void handle_pipe(t_list **list, t_exc *var, t_env *env_list, t_env *export, char
     close(var->fd[1]);
 
     if (!check_for_built_in((*list), env_list, var, export))
-        exit(0);
+        ft_exitt(0);
     execute((*list)->content, envp);
-    exit(0);
+    ft_exitt(0);
 }
 
 void handle_word(t_list **list, char **envp)
 {
     
     execute((*list)->content, envp);
-    exit(0);
+    ft_exitt(0);
 }
 
 void execute_child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list *pre_last_list, t_child *child)
 {
     if (child->tmp->next == NULL)
-        exit(0);
+        ft_exitt(0);
     if (child->tmp->next->type == Rediracion_Out_Append || child->tmp->next->type == Rediracion_Out)
         handle_redirection_out(child->tmp, child->fd, child->env_list, var, child->export, envp);
     else if ((*list)->next->type == Rediracion_In)
@@ -46,7 +46,7 @@ void execute_child_process(t_list **list, char **envp, t_exc *var, t_env **envs,
         handle_pipe(list, var, child->env_list, child->export, envp);
     else if ((*list)->type == Word)
         handle_word(list, envp);
-    exit(0);
+    ft_exitt(0);
 }
 
 
@@ -83,20 +83,20 @@ void free_t_exc(t_exc *exc)
         char **p = exc->paths;
         while (*p)
         {
-            free(*p);
+            ft_free(*p);
             p++;
         }
-        free(exc->paths);
+        ft_free(exc->paths);
     }
     if (exc->cmd_args)
     {
         char **p = exc->cmd_args;
         while (*p)
         {
-            free(*p);
+            ft_free(*p);
             p++;
         }
-        free(exc->cmd_args);
+        ft_free(exc->cmd_args);
     }
-    free(exc);
+    ft_free(exc);
 }

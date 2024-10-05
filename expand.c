@@ -5,7 +5,7 @@ extern int status;
 void    set_value(t_ms *command, char *new_value)
 {
     if (command->tmp->content)
-        free(command->tmp->content);
+        ft_free(command->tmp->content);
     command->tmp->content = ft_strdup(new_value);
 }
 
@@ -37,7 +37,9 @@ void    expand_env(t_ms *command, t_env *env_list)
     command->tmp = command->node;
     while (command->tmp)
     {
-        if (command->tmp->type == Env)
+        if (command->tmp->type == Here_doc)
+            command->tmp = command->tmp->next;
+        else if (command->tmp->type == Env)
         {
             command->name = ft_strdup(command->tmp->content + 1);
             command->value = NULL;
@@ -48,7 +50,7 @@ void    expand_env(t_ms *command, t_env *env_list)
                     break;
                 env_list = env_list->next;
             }
-        free(command->name);
+        ft_free(command->name);
         }
         else if ((command->tmp->content[0] == '>' || (command->tmp->content[0] == '<' && command->tmp->content[1] == '\0'))
                 && (command->tmp->next && command->tmp->next->content[0] == '$'))

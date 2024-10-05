@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	ft_free(char **arr)
+static void	ft_free_split(char **arr)
 {
 	int	i;
 
@@ -63,7 +63,7 @@ static int	ft_allocate(char **arrstr, char const *s, char sep)
 			*arrstr = ft_substr(s, 0, temp - s);
 			if (*arrstr == NULL)
 			{
-				ft_free(arrstr);
+				ft_free_split(arrstr);
 				return (0);
 			}
 			s = temp;
@@ -80,7 +80,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	arrstr = malloc(sizeof(char *) * (word_count(s, c) + 1));
+	arrstr = ft_malloc(sizeof(char *) * (word_count(s, c) + 1));
 	if (!arrstr)
 		return (NULL);
 	if (!ft_allocate(arrstr, s, c))

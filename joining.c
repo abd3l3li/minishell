@@ -13,7 +13,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	join = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	join = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!join)
 		return (NULL);
 	ft_strcpy(join, s1);
@@ -24,11 +24,11 @@ char	*ft_strjoin(char *s1, char *s2)
 void ft_prev(t_list **tmp, t_list *prev)
 {
     char *newstr = ft_strjoin(prev->content, (*tmp)->content);
-    free(prev->content);
+    ft_free(prev->content);
     prev->content = newstr;
-    free((*tmp)->content);
+    ft_free((*tmp)->content);
     prev->next = (*tmp)->next;
-    free(*tmp);
+    ft_free(*tmp);
     *tmp = prev;  // Update the caller's tmp to point to prev
 }
 
@@ -38,12 +38,12 @@ void    ft_next(t_list *tmp)
     t_list *temp;
 
     newstr = ft_strjoin(tmp->content, tmp->next->content);
-    free(tmp->content);
+    ft_free(tmp->content);
     tmp->content = newstr;
-    free(tmp->next->content);
+    ft_free(tmp->next->content);
     temp = tmp->next;
     tmp->next = tmp->next->next;
-    free(temp);
+    ft_free(temp);
 }
 
 void    ft_merge(t_ms *cmd)

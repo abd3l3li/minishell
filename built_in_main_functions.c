@@ -71,9 +71,9 @@ int ft_exit(t_exc *vars)
             return (0);
     }
 
-    free_tab(vars->cmd_args);
-    free(vars);
-    exit(num);
+    ft_free_tab(vars->cmd_args);
+    ft_free(vars);
+    ft_exitt(num);
     return (0);
 }
 
@@ -110,6 +110,7 @@ int ft_cd(t_exc *vars, t_env *env, t_env *export)
     }
 
     vars->oldpwd = new_pwd;
+    free(new_pwd);
     return (0);
 }
 

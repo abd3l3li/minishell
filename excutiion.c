@@ -59,10 +59,9 @@ void	execute(char *argv, char **envp)
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
-		//put_str_fd(cmd[0], 2);
 		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+			ft_free(cmd[i]);
+		ft_free(cmd);
 		exit(127);
 	}
 	execve(path, cmd, envp);
@@ -86,7 +85,7 @@ void child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list 
 	signal(SIGINT, SIG_IGN);
 }
 
-static void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *env_list, t_env *export)
+void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *env_list, t_env *export)
 {
 	pid_t	pid;
 
@@ -98,15 +97,13 @@ static void	last_child(t_list *list, char **envp, int type, t_exc *var, t_env *e
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-    	signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (!check_for_built_in(list, env_list, var, export))
-			exit(0);
+			ft_exitt(0);
 		execute(list->content, envp);
 	}
-	// ms_signal(1);
 	signal(SIGINT, SIG_IGN);
 }
-
 
 int checking(t_list *list, char **env, t_ms *ms, t_env *env_list, t_env *export, t_exc *vars)
 {

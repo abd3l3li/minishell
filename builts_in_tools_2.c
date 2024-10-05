@@ -15,7 +15,7 @@
 char **create_own_env(void)
 {
     char **env;
-    env = (char **)malloc(sizeof(char **) * 4);
+    env = ft_malloc(sizeof(char **) * 4);
     env[0] = ft_strjoin("PWD=",ft_strdup(getcwd(NULL, 0)));
     env[1] = ft_strdup("SHLVL=1");
     env[2] = ft_strdup("_=/usr/bin/env");
@@ -91,7 +91,7 @@ int fill_env(t_env **env, char **envp)
         (*env)->value = ft_substr(envp[i], index_of_char(envp[i], '=') + 1, ft_strlen(envp[i]) - index_of_char(envp[i], '='));
         if(envp[i + 1] == NULL)
             break;
-        (*env)->next = malloc(sizeof(t_env));
+        (*env)->next = ft_malloc(sizeof(t_env));
         (*env) = (*env)->next;
         i++;
     }

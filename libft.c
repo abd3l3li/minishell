@@ -22,9 +22,9 @@ char	*ft_substr(char const *s, unsigned int start, int len)
 {
 	char	*result;
 
-	result = (char *)malloc(sizeof(char) * (len + 1));
+	result = (char *)ft_malloc(sizeof(char) * (len + 1));
 	if (!result)
-        (p_err("Malloc error", 54), exit(54));
+        (p_err("Malloc error", 54), ft_exitt(54));
 	ft_memcpy(result, s + start, len);
 	result[len] = '\0';
 	return (result);

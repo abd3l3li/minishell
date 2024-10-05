@@ -94,7 +94,7 @@ void	initialize_execution(t_exc *exc, t_env *env_list, t_env *export, char ***en
 {
 	t_env **envs;
 
-	envs = (t_env **)malloc(sizeof(t_env *) * 2);
+	envs = (t_env **)ft_malloc(sizeof(t_env *) * 2);
 	envs[0] = env_list;
 	envs[1] = export;
 	exc->saved_stdin = dup(STDIN_FILENO);

@@ -30,7 +30,7 @@ char	*trim_last_list_chars_helper(t_glist *last, int i)
 	len = 0;
 	while (last->content[len])
 		len++;
-	trimmed_content = malloc(sizeof(char) * (len - i + 1));
+	trimmed_content = ft_malloc(sizeof(char) * (len - i + 1));
 	if (trimmed_content == NULL)
 		return (NULL);
 	j = 0;
@@ -81,7 +81,7 @@ void	generate_line(char **line, t_glist *list)
 		}
 		list = list->next;
 	}
-	*line = malloc(sizeof(char) * (len + 1));
+	*line = ft_malloc(sizeof(char) * (len + 1));
 }
 
 void	free_glist(t_glist *list)
@@ -92,9 +92,9 @@ void	free_glist(t_glist *list)
 	current = list;
 	while (current)
 	{
-		free(current->content);
+		ft_free(current->content);
 		next = current->next;
-		free(current);
+		ft_free(current);
 		current = next;
 	}
 }
