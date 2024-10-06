@@ -47,7 +47,7 @@ void ft_lexer(char *s, t_ms *command)
 	ft_skip_q(command);
 }
 
-void input(t_ms *command, char **env , t_exc *vars)
+void input(t_ms *command, char **env)
 {
 	fill_env(&command->env_list, env);
 	fill_env(&command->export, env);
@@ -71,7 +71,7 @@ void input(t_ms *command, char **env , t_exc *vars)
 		expand_env(command, command->env_list);
 		ft_merge(command);
 		if (!ft_pars(command))
-			checking(command->node, env, command, command->env_list, command->export, vars);
+			checking(env, command);
 		ft_clear(command);
 	}
 }
@@ -79,17 +79,15 @@ void input(t_ms *command, char **env , t_exc *vars)
 int main(int ac, char **av, char **env)
 {
 	t_ms *cmd;
-	t_exc *vars;
 
-
+	get_init(&cmd);
 	if (ac != 1)
 		ft_exitt(1);
-	vars = ft_malloc(sizeof(t_exc));
-	if (!vars)
+	cmd->vars = ft_malloc(sizeof(t_exc));
+	if (!cmd->vars)
 		(p_err("Malloc error", 54), exit(54));
-	vars->oldpwd = getcwd(NULL, 0);
-	get_init(&cmd);
+	cmd->vars->oldpwd = getcwd(NULL, 0);
 	ms_signal();
-	input(cmd, env, vars);
+	input(cmd, env);
 }   
 

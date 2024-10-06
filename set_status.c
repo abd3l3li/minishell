@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 09:57:47 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/09/30 20:41:31 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:15:23 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ int     set_status(t_list *list, char **env, t_list *tmp)
 {
         t_exc *exc;
 
-  
         exc = (t_exc *)malloc(sizeof(t_exc));
         if (exc == NULL)
                 return (0);
-        if (list->type != Word)
+        if (list->type != Word && list->type != Env)
                 return (0);
         status = 127;
-        if (tmp->type == Pipe || tmp->type == Rediracion_In
-                || tmp->type == Rediracion_Out || tmp->type == Rediracion_Out_Append
+        if (tmp->type == Rediracion_In || tmp->type == Rediracion_Out || tmp->type == Rediracion_Out_Append
                 || tmp->type == Here_doc)
                 return (status = 0,0);
         if (list->type == Here_doc || list->type == Rediracion_In

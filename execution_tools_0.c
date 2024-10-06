@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:40 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/03 22:07:44 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/06 12:23:32 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int ft_strcmp(const char *str1, const char *str2)
 int check_for_built_in(t_list *list,t_env *env, t_exc *vars, t_env *export)
 {
 	vars->cmd_args = ft_split(list->content, ' ');
+    vars->builtin_tmp = list->content;
     if (ft_strcmp(vars->cmd_args[0], "echo") == 0)
         return(echo(vars));
     else if (ft_strcmp(vars->cmd_args[0], "pwd") == 0)
@@ -90,19 +91,19 @@ int is_built_in(char *cmd)
 	return (0);
 }
 
-void	initialize_execution(t_exc *exc, t_env *env_list, t_env *export, char ***env, t_list *list, t_list **pre_last)
+void	initialize_execution(t_exc *exc,  char ***env , t_ms *ms)
 {
 	t_env **envs;
-
+    
 	envs = (t_env **)ft_malloc(sizeof(t_env *) * 2);
-	envs[0] = env_list;
-	envs[1] = export;
+	envs[0] = ms->env_list;
+	envs[1] = ms->export;
 	exc->saved_stdin = dup(STDIN_FILENO);
 	exc->saved_stdout = dup(STDOUT_FILENO);
 	exc->redirection_check = 0;
-    *env = list_to_array(env_list);
-	*pre_last = list;
-	if (list)
-		set_status(list, *env, *pre_last);
+    *env = list_to_array(ms->env_list);
+	ms->pre_last = ms->node;
+	if (ms->node)
+		set_status(ms->node, *env, ms->pre_last);
 
 }
