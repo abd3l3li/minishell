@@ -50,7 +50,7 @@ typedef struct s_garbage
 	char			*content;
 	struct s_garbage	*next;
     int             freed;
-}	t_garbabe;
+}	t_garbage;
 
 typedef struct s_env
 {
@@ -160,7 +160,7 @@ int     ft_symbols(char c);
 int     ms_split(t_ms *command, char *s);
 char	**ft_split(char const *s, char c);
 t_list  *ft_listnew(char *content, int len, int type);
-t_garbabe   *ft_lstnew_plus(void *content);
+t_garbage   *ft_lstnew_plus(void *content);
 void	ft_listadd_back(t_list **lst, t_list *new);
 int     env_var(t_ms *command, char *s);
 int     ft_strnotcmp(const char *s1, const char *s2, int n);
@@ -238,13 +238,14 @@ void    execute_child_process(t_list **list, char **envp, t_exc *var, t_env **en
 int     handle_built_in_commands(t_exc *var, t_env *env_list, t_env *export);
 void	initialize_execution(t_exc *exc, t_env *env_list, t_env *export, char ***env, t_list *list, t_list **pre_last);
 void    protecting_executing(t_list *tmp, char **env, t_list *pre_last, t_ms *ms, t_exc *vars, t_env *env_list, t_env *export);
+char	*ft_strnstr(const char *str, const char *to_find, size_t len);
 int     empty_check(char *s);
 char	*ft_strtrim(char *s1, char const *set, t_ms *command);
 int     put_str_fd(char *str, int fd);
 void    *ft_malloc(size_t len);
 void    ft_exitt(int n);
 void    ft_free(void *ptr);
-void	ft_listadd_back_plus(t_garbabe	**lst, t_garbabe	*new);
+void	ft_listadd_back_plus(t_garbage	**lst, t_garbage	*new);
 void    ft_remove_spaces(t_ms *command);
 
 

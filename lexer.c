@@ -28,12 +28,6 @@ int env_var(t_ms *command, char *s)
     return (i);
 }
 
-int ft_symbols(char c)
-{
-    return (c == '$' || c == '<' || c == '>' || c == '|' || c == '\0');
-}
-
-
 static int to_be_continue(t_ms *command, char *s, int i)
 {
     if (s[i] == '>')
@@ -95,4 +89,18 @@ int ms_split(t_ms *command, char *s)
     else
         command->i += to_be_continue(command, s, command->i);
     return (command->i);
+}
+
+void ft_lexer(char *s, t_ms *command)
+{
+	int i;
+
+	i = 0;
+	if (empty_check(s))
+		return (ft_listadd_back(&(command->node), ft_listnew(s, (ft_strlen(s)), Word)));
+	i = 0;
+	while (s[i])
+		i += ms_split(command, s + i);
+	ft_remove_spaces(command);
+	ft_skip_q(command);
 }

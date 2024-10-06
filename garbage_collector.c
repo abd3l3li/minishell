@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-t_garbabe  **get_data(void)
+t_garbage  **get_data(void)
 {
-    static t_garbabe *data = NULL;
+    static t_garbage *data = NULL;
     return (&data);
 }
 void    ft_free(void *ptr)
 {
-    t_garbabe **tracker;
-    t_garbabe *tmp;
+    t_garbage **tracker;
+    t_garbage *tmp;
     
     tracker = get_data();
     tmp = *tracker;
@@ -29,8 +29,8 @@ void    ft_free(void *ptr)
 void    *ft_malloc(size_t len)
 {
     void    *ptr;
-    t_garbabe**tracker;
-    t_garbabe *new;
+    t_garbage**tracker;
+    t_garbage *new;
 
     tracker = get_data();
     ptr = malloc(len);
@@ -48,9 +48,9 @@ void    *ft_malloc(size_t len)
 
 void    erase_all(void)
 {
-    t_garbabe **tracker;
-    t_garbabe *tmp;
-    t_garbabe *temp;
+    t_garbage **tracker;
+    t_garbage *tmp;
+    t_garbage *temp;
 
     tracker = get_data();
     temp = *tracker;

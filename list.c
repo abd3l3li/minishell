@@ -33,11 +33,11 @@ void	ft_listadd_back(t_list **lst, t_list *new)
 	temp->next = new;
 }
 
-t_garbabe 	*ft_lstnew_plus(void *content)
+t_garbage 	*ft_lstnew_plus(void *content)
 {
-	t_garbabe 	*new;
+	t_garbage 	*new;
 
-	new = (t_garbabe  *)malloc(sizeof(t_garbabe));
+	new = (t_garbage  *)malloc(sizeof(t_garbage));
 	if (!new)
 		return (NULL);
 	new->content = content;
@@ -46,9 +46,9 @@ t_garbabe 	*ft_lstnew_plus(void *content)
 	return (new);
 }
 
-void	ft_listadd_back_plus(t_garbabe	**lst, t_garbabe	*new)
+void	ft_listadd_back_plus(t_garbage	**lst, t_garbage	*new)
 {
-	t_garbabe	*temp;
+	t_garbage	*temp;
 
 	if (!new)
 		return ;

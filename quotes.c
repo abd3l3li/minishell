@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+int ft_symbols(char c)
+{
+    return (c == '$' || c == '<' || c == '>' || c == '|' || c == '\0');
+}
+
 void	*ft_memset(void *s, int c, size_t n)
 {
 	unsigned char	*str;
@@ -64,6 +69,11 @@ void    ft_skip_q(t_ms *cmd)
     tmp = cmd->node;
     while (tmp)
     {
+        if (ft_strcmp(tmp->content, "echo") == 0)
+        {
+            tmp = tmp->next;
+            continue;
+        }
         if(ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"'))
         {
             newstr = remove_qoute(tmp->content);

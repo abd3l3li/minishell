@@ -33,20 +33,6 @@ void    get_init(t_ms **cmd)
 	(*cmd)->done = 0;
 }
 
-void ft_lexer(char *s, t_ms *command)
-{
-	int i;
-
-	i = 0;
-	if (empty_check(s))
-		return (ft_listadd_back(&(command->node), ft_listnew(s, (ft_strlen(s)), Word)));
-	i = 0;
-	while (s[i])
-		i += ms_split(command, s + i);
-	ft_remove_spaces(command);
-	ft_skip_q(command);
-}
-
 void input(t_ms *command, char **env , t_exc *vars)
 {
 	fill_env(&command->env_list, env);
