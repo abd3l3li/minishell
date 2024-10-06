@@ -6,36 +6,34 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/03 23:01:56 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:02:33 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-void setup_redirections(t_list **list, t_exc *var, t_list *pre_last_list, t_list **tmp, int *fd, t_env *env_list, t_env *export, t_env **envs)
+void setup_redirections(t_ms *ms, t_list *pre_last_list, t_list **tmp, t_child **child)
 {
-    t_list *pre_last = NULL;
-
-    handle_pipe_redirection(list, var);
-    if ((*list)->type == Pipe)
+    handle_pipe_redirection(&ms->node, ms->vars);
+    if ((*ms->node).type == Pipe)
         return;
-    handle_pipe_creation(var);
-
-    while (*list && (*list)->next && ((*list)->next->type == Rediracion_Out || (*list)->type == Rediracion_Out || (*list)->next->type == Rediracion_Out_Append || (*list)->type == Rediracion_Out_Append))
+    handle_pipe_creation(ms->vars);
+    while ( ms->node && ms->node->next&& (ms->node->next->type == Rediracion_Out || ms->node->type == Rediracion_Out 
+    || ms->node->next->type == Rediracion_Out_Append || ms->node->type == Rediracion_Out_Append))
     {
-        close(*fd);
+        close((*child)->fd);
         
-        handle_output_redirection(list, var, fd);
-        handle_output_append_redirection(list, var, fd);
+        handle_output_redirection(&ms->node, ms->vars, &(*child)->fd);
+        handle_output_append_redirection(&ms->node, ms->vars, &(*child)->fd);
 
-        (*list) = (*list)->next;
-        if (!(*list)->next)
+        ms->node = ms->node->next;
+        if (!ms->node->next)
         {
-            handle_last_redirection(pre_last, var);
+            handle_last_redirection(ms->pre_last, ms->vars);
             break;
         }
-        pre_last = (*list);
+        ms->pre_last = ms->node;
     }
 }
 

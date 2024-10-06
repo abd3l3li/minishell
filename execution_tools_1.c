@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:21:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/04 17:54:12 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/06 13:52:27 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,21 @@ void handle_word(t_list **list, char **envp)
     ft_exitt(0);
 }
 
-void execute_child_process(t_list **list, char **envp, t_exc *var, t_env **envs, t_list *pre_last_list, t_child *child)
+void execute_child_process(t_ms *ms, char **envp, t_list *pre_last_list, t_child *child)
 {
+
     if (child->tmp->next == NULL)
         ft_exitt(0);
     if (child->tmp->next->type == Rediracion_Out_Append || child->tmp->next->type == Rediracion_Out)
-        handle_redirection_out(child->tmp, child->fd, child->env_list, var, child->export, envp);
-    else if ((*list)->next->type == Rediracion_In)
-        handle_redirection_in(list, var, child->env_list, child->export, envp);
-    else if ((*list)->next->type == Here_doc || (*list)->type == Here_doc && pre_last_list->type == Here_doc)
-        handle_here_doc(list, pre_last_list, var, envp, child->env_list, child->export);
-    else if ((*list)->next->type == Pipe)
-        handle_pipe(list, var, child->env_list, child->export, envp);
-    else if ((*list)->type == Word)
-        handle_word(list, envp);
+        handle_redirection_out(child->tmp, child->fd, child->env_list, ms->vars, child->export, envp);
+    else if ((*ms->node).next->type == Rediracion_In)
+        handle_redirection_in(&ms->node, ms->vars, child->env_list, child->export, envp);
+    else if ((*ms->node).next->type == Here_doc || (*ms->node).type == Here_doc && pre_last_list->type == Here_doc)
+        handle_here_doc(&ms->node, pre_last_list, ms->vars, envp, child->env_list, child->export);
+    else if ((*ms->node).next->type == Pipe)
+        handle_pipe(&ms->node, ms->vars, child->env_list, child->export, envp);
+    else if ((*ms->node).type == Word)
+        handle_word(&ms->node, envp);
     ft_exitt(0);
 }
 
