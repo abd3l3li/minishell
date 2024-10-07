@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int ft_symbols(char c)
+int	ft_symbols(char c)
 {
-    return (c == '$' || c == '<' || c == '>' || c == '|' || c == '\0');
+	return (c == '$' || c == '<' || c == '>' || c == '|' || c == '\0');
 }
 
 void	*ft_memset(void *s, int c, size_t n)
@@ -27,44 +27,43 @@ void	*ft_calloc(size_t count, size_t size)
 	result = ft_malloc(size * count);
 	if (!result)
 		return (0);
-    ft_memset(result, 0, (size * count));
+	ft_memset(result, 0, (size * count));
 	return (result);
 }
 
-char    *remove_qoute(char *str)
+char	*remove_qoute(char *str)
 {
-    int(i), (j), (flag);
-    char *res;
+	char	*res;
 
+	int (i), (j), (flag);
 	i = 0;
 	j = 0;
-    flag = 0;
-    res = ft_calloc((ft_strlen(str) + 1), sizeof(char));
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '\'' || str[i] == '\"')
-        {
-            if (flag == 0)
-                flag = str[i];
-            else if (flag == str[i])
-                flag = 0;
-            else
-                res[j++] = str[i];
-        }
-        else
-            res[j++] = str[i];
-        i++;
-    }
+	flag = 0;
+	res = ft_calloc((ft_strlen(str) + 1), sizeof(char));
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			if (flag == 0)
+				flag = str[i];
+			else if (flag == str[i])
+				flag = 0;
+			else
+				res[j++] = str[i];
+		}
+		else
+			res[j++] = str[i];
+		i++;
+	}
 	res[j] = 0;
-    return (res);
+	return (res);
 }
-
-void   ft_skip_q(t_ms *cmd)
+void	ft_skip_q(t_ms *cmd)
 {
-    t_list *tmp;
-    char *newstr;
-    char *temp;
+	t_list	*tmp;
+	char	*newstr;
+	char	*temp;
 
     tmp = cmd->node;
     while (tmp)
@@ -80,4 +79,3 @@ void   ft_skip_q(t_ms *cmd)
         tmp = tmp->next;
     }
 }
-

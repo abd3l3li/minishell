@@ -252,6 +252,7 @@ void    ft_exitt(int n);
 void    ft_free(void *ptr);
 void	ft_listadd_back_plus(t_garbage	**lst, t_garbage	*new);
 void    ft_remove_spaces(t_ms *command);
+int     valid_cmd(t_ms *cmd);
 
 
 #endif

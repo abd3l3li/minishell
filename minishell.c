@@ -1,46 +1,45 @@
 #include "minishell.h"
 
-int status;
+int		status;
 
-void ft_clear(t_ms *cmd)
+void	ft_clear(t_ms *cmd)
 {
-    if (cmd->s)
-        ft_free(cmd->s);
-    if (cmd->tmp_s)
-        ft_free(cmd->tmp_s);
-    cmd->node = NULL;
-    cmd->tmp = NULL;
-    cmd->name = NULL;
-    cmd->value = NULL;
-    cmd->s = NULL;
-    cmd->tmp_s = NULL;
-    cmd->i = 0;
-    cmd->done = 0;
+	if (cmd->s)
+		ft_free(cmd->s);
+	if (cmd->tmp_s)
+		ft_free(cmd->tmp_s);
+	cmd->node = NULL;
+	cmd->tmp = NULL;
+	cmd->name = NULL;
+	cmd->value = NULL;
+	cmd->s = NULL;
+	cmd->tmp_s = NULL;
+	cmd->i = 0;
+	cmd->done = 0;
 }
 
-void    get_init(t_ms **cmd)
+void	get_init(t_ms **cmd)
 {
 	*cmd = ft_malloc(sizeof(t_ms));
 	if (!*cmd)
 		(p_err("Malloc error", 54), exit(54));
 	(*cmd)->node = NULL;
-    (*cmd)->tmp = NULL;
-    (*cmd)->name = NULL;
-    (*cmd)->value = NULL;
+	(*cmd)->tmp = NULL;
+	(*cmd)->name = NULL;
+	(*cmd)->value = NULL;
 	(*cmd)->s = NULL;
 	(*cmd)->tmp_s = NULL;
 	(*cmd)->i = 0;
 	(*cmd)->done = 0;
 }
 
-void input(t_ms *command, char **env)
+void	input(t_ms *command, char **env)
 {
 	fill_env(&command->env_list, env);
 	fill_env(&command->export, env);
 	export_sort(&command->export);
-
 	command->prompt = PROMPT;
-	while(1)
+	while (1)
 	{
 		ms_signal();
 		command->tmp_s = readline(command->prompt);
@@ -50,7 +49,7 @@ void input(t_ms *command, char **env)
 		if (command->s[0] == '\0' || ft_check(command->s))
 		{
 			(add_history(command->s), ft_free(command->s));
-			continue;
+			continue ;
 		}
 		add_history(command->s);
 		ft_lexer(command->s, command);
@@ -62,9 +61,9 @@ void input(t_ms *command, char **env)
 	}
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	t_ms *cmd;
+	t_ms	*cmd;
 
 	if (ac != 1)
 		ft_exitt(1);
@@ -75,5 +74,4 @@ int main(int ac, char **av, char **env)
 	cmd->vars->oldpwd = getcwd(NULL, 0);
 	ms_signal();
 	input(cmd, env);
-}   
-
+}

@@ -3,16 +3,16 @@
 t_list	*ft_listnew(char *content, int len, int type)
 {
 	t_list	*new;
-    char    *sub;
+	char	*sub;
 
 	new = (t_list *)ft_malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	new->content = ft_substr(content, 0, len);;
+	new->content = ft_substr(content, 0, len);
 	if (!new->content)
-        return (NULL);
+		return (NULL);
 	new->next = NULL;
-    new->type = type;
+	new->type = type;
 	return (new);
 }
 
@@ -33,11 +33,11 @@ void	ft_listadd_back(t_list **lst, t_list *new)
 	temp->next = new;
 }
 
-t_garbage 	*ft_lstnew_plus(void *content)
+t_garbage	*ft_lstnew_plus(void *content)
 {
-	t_garbage 	*new;
+	t_garbage	*new;
 
-	new = (t_garbage  *)malloc(sizeof(t_garbage));
+	new = (t_garbage *)malloc(sizeof(t_garbage));
 	if (!new)
 		return (NULL);
 	new->content = content;
@@ -46,7 +46,7 @@ t_garbage 	*ft_lstnew_plus(void *content)
 	return (new);
 }
 
-void	ft_listadd_back_plus(t_garbage	**lst, t_garbage	*new)
+void	ft_listadd_back_plus(t_garbage **lst, t_garbage *new)
 {
 	t_garbage	*temp;
 
