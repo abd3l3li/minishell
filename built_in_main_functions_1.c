@@ -72,7 +72,7 @@ int echo(t_exc *vars)
         check = 1;
         printf("\n");
     }
-    status = 0;
+    g_status = 0;
     return (0);
 }
 

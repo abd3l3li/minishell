@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-extern int	status;
-
 int	valid_cmd(t_ms *cmd)
 {
 	int	len;
@@ -25,7 +23,7 @@ int	valid_cmd(t_ms *cmd)
 
 void	p_err(char *str, int n)
 {
-	status = n;
+	g_status = n;
 	printf("%s\n", str);
 }
 

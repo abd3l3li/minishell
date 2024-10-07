@@ -37,15 +37,15 @@ void execute_child_process(t_ms *ms, char **envp, t_list *pre_last_list, t_child
 
     if (child->tmp->next == NULL)
         ft_exitt(0);
-    if (child->tmp->next->type == Rediracion_Out_Append || child->tmp->next->type == Rediracion_Out)
+    if (child->tmp->next->type == REDIRACTION_OUT_APPEND || child->tmp->next->type == REDIRACTION_OUT)
         handle_redirection_out(child->tmp, child->fd, child->env_list, ms->vars, child->export, envp);
-    else if ((*ms->node).next->type == Rediracion_In)
+    else if ((*ms->node).next->type == REDIRACTION_IN)
         handle_redirection_in(&ms->node, ms->vars, child->env_list, child->export, envp);
-    else if ((*ms->node).next->type == Here_doc || (*ms->node).type == Here_doc && pre_last_list->type == Here_doc)
+    else if ((*ms->node).next->type == HERE_DOC || (*ms->node).type == HERE_DOC && pre_last_list->type == HERE_DOC)
         handle_here_doc(&ms->node, pre_last_list, ms->vars, envp, child->env_list, child->export);
-    else if ((*ms->node).next->type == Pipe)
+    else if ((*ms->node).next->type == PIPE)
         handle_pipe(&ms->node, ms->vars, child->env_list, child->export, envp);
-    else if ((*ms->node).type == Word)
+    else if ((*ms->node).type == WORD)
         handle_word(&ms->node, envp);
     ft_exitt(0);
 }

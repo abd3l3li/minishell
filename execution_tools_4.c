@@ -12,7 +12,7 @@ char	*handl_path(char *cmd)
 	{
 		put_str_fd(var.splited_cmd[0], 2);
 		put_str_fd(": bo such file or directory\n", 2);
-		status = 127;
+		g_status = 127;
 	}
 	if (var.result == 0)
 	{

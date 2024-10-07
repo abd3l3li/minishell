@@ -8,7 +8,7 @@ CGREEN    = \033[32m
 CCYAN     = \033[36m
 
 SRC =	list.c lexer.c expand.c builts_in_tools_0.c  set_status.c\
-		ft_memmove.c ft_strchr.c get_next_line.c free.c libftPlus.c \
+		ft_memmove.c get_next_line.c free.c libftPlus.c \
 		libft.c minishell.c quotes.c utils.c ft_split.c signals.c \
 		get_next_line_utils.c joining.c parsing.c garbage_collector.c\
 		excutiion.c built_in_main_functions.c built_in_main_functions_1.c \

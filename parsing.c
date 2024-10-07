@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-extern int	status;
-
 int	ft_check(char *s)
 {
 	int	last;
@@ -56,14 +54,14 @@ static int	to_be_continued(t_list *tmp)
 	if (tmp->next && ft_strnotcmp(tmp->content, ">>", 2)
 		&& ft_strnotcmp(tmp->next->content, "<<", 2))
 	{
-		status = 2;
+		g_status = 2;
 		printf("bash: syntax error near unexpected token\n");
 		return (1);
 	}
 	else if (tmp->next && ft_strnotcmp(tmp->content, "<<", 2)
 		&& ft_strnotcmp(tmp->next->content, ">>", 2))
 	{
-		status = 127;
+		g_status = 127;
 		printf("bash: syntax error near unexpected token\n");
 		return (1);
 	}
@@ -81,7 +79,7 @@ int	ft_pars(t_ms *cmd)
 		if ((ft_strnotcmp(tmp->content, ">>", 2) || ft_strnotcmp(tmp->content,
 					"<<", 2)) && (tmp->next == NULL))
 		{
-			status = 2;
+			g_status = 2;
 			printf("bash: syntax error near unexpected token\n");
 			return (1);
 		}
@@ -108,7 +106,7 @@ void	ft_remove_spaces(t_ms *cmd)
 		while ((i >= 0 && tmp->content[i] == 32) && tmp->content[i] != '\''
 			&& tmp->content[i] != '\"')
 		{
-			if (tmp->next->type == Env || tmp->next->type == Env_word)
+			if (tmp->next->type == ENV || tmp->next->type == ENV_WORD)
 				break ;
 			tmp->content[i] = '\0';
 			i--;

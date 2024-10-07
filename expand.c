@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-extern int	status;
-
 void	set_value(t_ms *command, char *new_value)
 {
 	if (command->tmp->content)
@@ -15,7 +13,7 @@ static void	to_be_continued(t_ms *command, t_env *env_list)
 	{
 		command->value = env_list->value;
 		set_value(command, command->value);
-		command->tmp->type = Env_word;
+		command->tmp->type = ENV_WORD;
 		command->done = 1;
 	}
 	else if (command->name[0] == '0')
@@ -25,7 +23,7 @@ static void	to_be_continued(t_ms *command, t_env *env_list)
 	}
 	else if (strncmp(command->name, "?", 1) == 0)
 	{
-		set_value(command, ft_itoa(status));
+		set_value(command, ft_itoa(g_status));
 		command->done = 1;
 	}
 	else if (command->value == NULL)
@@ -37,9 +35,9 @@ void	expand_env(t_ms *command, t_env *env_list)
 	command->tmp = command->node;
 	while (command->tmp)
 	{
-		if (command->tmp->type == Here_doc)
+		if (command->tmp->type == HERE_DOC)
 			command->tmp = command->tmp->next;
-		else if (command->tmp->type == Env)
+		else if (command->tmp->type == ENV)
 		{
 			command->name = ft_strdup(command->tmp->content + 1);
 			command->value = NULL;

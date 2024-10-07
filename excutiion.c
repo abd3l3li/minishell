@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-extern int status;
-
 int count_here_doc(t_list *list)
 {
 	int count;
@@ -21,7 +19,7 @@ int count_here_doc(t_list *list)
 	count = 0;
 	while (list)
 	{
-		if (list->type == Here_doc)
+		if (list->type == HERE_DOC)
 			count++;
 		list = list->next;
 	}
@@ -37,20 +35,20 @@ void protecting_executing(t_list *tmp, char **env, t_ms *ms, t_exc *vars)
 {
 	if (tmp)
 		set_status(tmp, env, ms->pre_last);
-	if (tmp != NULL && status == 0 && (tmp->type == Pipe || (tmp->type == Word || tmp->type == Env_word) ) && ms->pre_last->type != Here_doc)
+	if (tmp != NULL && g_status == 0 && (tmp->type == PIPE || (tmp->type == WORD|| tmp->type == ENV_WORD) ) && ms->pre_last->type != HERE_DOC)
 		last_child( tmp, env,vars, ms);
-	if (tmp != NULL && status == 127 && vars->redirection_check == 0)
+	if (tmp != NULL && g_status == 127 && vars->redirection_check == 0)
 	{
 		put_str_fd(tmp->content, 2);
 		put_str_fd(": command not found\n", 2);
 		return;
 	}
-	while(waitpid(-1, &status, 0) > 0)
+	while(waitpid(-1, &g_status, 0) > 0)
 	{
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		else if(WIFSIGNALED(status))
-			status = 128 + WTERMSIG(status);
+		if (WIFEXITED(g_status))
+			g_status = WEXITSTATUS(g_status);
+		else if(WIFSIGNALED(g_status))
+			g_status = 128 + WTERMSIG(g_status);
 	}
 }
 void	execute(char *argv, char **envp)
@@ -87,8 +85,8 @@ void child_process(t_ms *ms , char **envp,t_list *pre_last_list)
     if (ms->vars->pid == 0)
         execute_child_process(ms, envp, pre_last_list, child);
 
-	if((*ms->node).type == Here_doc || pre_last_list->type == Here_doc)
-		waitpid(ms->vars->pid, &status, 0);
+	if((*ms->node).type == HERE_DOC || pre_last_list->type == HERE_DOC)
+		waitpid(ms->vars->pid, &g_status, 0);
 	
     // ms_signal(1);
 	signal(SIGINT, SIG_IGN);

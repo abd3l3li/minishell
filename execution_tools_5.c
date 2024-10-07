@@ -77,7 +77,7 @@ void	error(int i)
 	if (i == 3)
 	{
 		write(2, ": No such file or directory\n", 28);
-		status = 127;
+		g_status = 127;
 		return;
 	}
 }

@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-extern int	status;
-
 void	handler(int sig)
 {
 	(void)sig;
@@ -9,7 +7,7 @@ void	handler(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	status = 130;
+	g_status = 130;
 }
 
 void	ms_signal(void)
