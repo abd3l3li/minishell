@@ -1,127 +1,85 @@
 #include "minishell.h"
 
-extern int status;
+extern int	status;
 
-int valid_cmd(t_ms *cmd)
+int	valid_cmd(t_ms *cmd)
 {
-    int len;
-    int i;
+	int	len;
+	int	i;
 
-    i = 1;
-    len = ft_strlen(cmd->s);
-    if (len >= 2 && ((cmd->s[0] == '\'' && cmd->s[len - 1] == '\'') 
-        || (cmd->s[0] == '\"' && cmd->s[len - 1] == '\"')))
-    {
-        while (i < len - 1)
-        {
-            if (cmd->s[i] == '|' || cmd->s[i] == '<' || cmd->s[i] == '>'
-                || cmd->s[i] == '-')
-                return (1);
-            i++;
-        }
-    }
-    return (0);
+	i = 1;
+	len = ft_strlen(cmd->s);
+	if (len >= 2 && ((cmd->s[0] == '\'' && cmd->s[len - 1] == '\'')
+			|| (cmd->s[0] == '\"' && cmd->s[len - 1] == '\"')))
+	{
+		while (i < len - 1)
+		{
+			if (cmd->s[i] == '|' || cmd->s[i] == '<' || cmd->s[i] == '>'
+				|| cmd->s[i] == '-')
+				return (1);
+			i++;
+		}
+	}
+	return (0);
 }
 
-void p_err(char *str, int n)
+void	p_err(char *str, int n)
 {
-    status = n;
-    printf("%s\n", str);
+	status = n;
+	printf("%s\n", str);
 }
 
-/*int spaces(char *s)
+int	check_q(char *str)
 {
-    int i;
+	int	i;
+	int	s;
+	int	d;
 
-    i = 0;
-    while (s[i])
-    {
-        if ((s[i] != ' '))
-            return (0);
-        i++;
-    }
-    return (1);
-}*/
-
-/*int count_q(char *s, char c)
-{
-    int n;
-    int i;
-
-    n = 0;
-    i = 0;
-    while(s[i])
-    {
-        if (s[i] == c)
-            n++;
-        i++;
-    }
-    return (n);
-}*/
-
-int check_q(char *str)
-{
-    int i;
-    int s;
-    int d;
-
-    d = 0;
-    s = 0;
-    i = 0;
-    while(str[i])
-    {
-        if (str[i] == 34 && !d)
-        {
-            s = !s;
-        }
-        else if (str[i] == 39 && !s)
-        {
-            d = !d;
-        }
-        i++;
-    }
-    if (s || d)
-        return (1);
-    else
-        return (0);
+	d = 0;
+	s = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 34 && !d)
+		{
+			s = !s;
+		}
+		else if (str[i] == 39 && !s)
+		{
+			d = !d;
+		}
+		i++;
+	}
+	if (s || d)
+		return (1);
+	else
+		return (0);
 }
 
-int double_p(char *s)
+int	double_p(char *s)
 {
-    int i;
-
-    i = 0;
-    while(s[i])
-    {
-        if (s[i] == '|' && s[i + 1] == '|')
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
-/*char	*ft_strnstr(const char *str, const char *to_find, size_t len)
-{
-	size_t	i;
-	size_t	j;
+	int	i;
 
 	i = 0;
-	if (!str && !len)
-		return (0);
-	if (to_find[0] == '\0' || to_find == str)
-		return ((char *)str);
-	while (str[i] != '\0')
+	while (s[i])
 	{
-		j = 0;
-		while (str[i + j] == to_find[j] && (i + j) < len)
-		{
-			if (str[i + j] == '\0' && to_find[j] == '\0')
-				return ((char *)&str[i]);
-			j++;
-		}
-		if (to_find[j] == '\0')
-			return ((char *)(str + i));
+		if (s[i] == '|' && s[i + 1] == '|')
+			return (1);
 		i++;
 	}
 	return (0);
-}*/
+}
+
+char	*ft_strchr(char const *str, int c)
+{
+	while (*str)
+	{
+		if (*str == (char)c)
+			return ((char *)str);
+		str++;
+	}
+	if (*str == (char)c)
+		return ((char *)str);
+	else
+		return (NULL);
+}
