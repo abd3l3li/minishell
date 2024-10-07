@@ -44,7 +44,7 @@ void	input(t_ms *command, char **env)
 		ms_signal();
 		command->tmp_s = readline(command->prompt);
 		if (!command->tmp_s)
-			(p_err("exit", 0), ft_exitt(0));
+			(p_err("exit", g_status), ft_exitt(g_status));
 		command->s = ft_strtrim(command->tmp_s, " ", command);
 		if (command->s[0] == '\0' || ft_check(command->s))
 		{

@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/06 22:01:46 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:33:14 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int count_here_doc(t_list *list)
 
 void protecting_executing(t_list *tmp, char **env, t_ms *ms, t_exc *vars)
 {
+	printf("status before: %d\n", g_status);
 	if (tmp)
 		set_status(tmp, env, ms->pre_last);
-	if (tmp != NULL && g_status == 0 && (tmp->type == PIPE || (tmp->type == WORD|| tmp->type == ENV_WORD) ) && ms->pre_last->type != HERE_DOC)
+	printf("status after: %d\n", g_status);
+	if (tmp != NULL && g_status == 0 && (tmp->type == PIPE || (tmp->type == WORD || tmp->type == ENV_WORD) ) && ms->pre_last->type != HERE_DOC)
 		last_child( tmp, env,vars, ms);
 	if (tmp != NULL && g_status == 127 && vars->redirection_check == 0)
 	{
@@ -43,6 +45,8 @@ void protecting_executing(t_list *tmp, char **env, t_ms *ms, t_exc *vars)
 		put_str_fd(": command not found\n", 2);
 		return;
 	}
+	printf("status after2: %d\n", g_status);
+
 	while(waitpid(-1, &g_status, 0) > 0)
 	{
 		if (WIFEXITED(g_status))

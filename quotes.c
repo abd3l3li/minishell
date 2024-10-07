@@ -59,28 +59,23 @@ char	*remove_qoute(char *str)
 	res[j] = 0;
 	return (res);
 }
-
 void	ft_skip_q(t_ms *cmd)
 {
 	t_list	*tmp;
 	char	*newstr;
 	char	*temp;
 
-	tmp = cmd->node;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->content, "echo") == 0)
-		{
-			tmp = tmp->next;
-			continue ;
-		}
-		if (ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"'))
-		{
-			newstr = remove_qoute(tmp->content);
-			temp = tmp->content;
-			tmp->content = newstr;
-			ft_free(temp);
-		}
-		tmp = tmp->next;
-	}
+    tmp = cmd->node;
+    while (tmp)
+    {
+        if((ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"')) 
+            && (!ft_strnstr(tmp->content, "echo")))
+        {
+            newstr = remove_qoute(tmp->content);
+            temp = tmp->content;
+            tmp->content = newstr;
+            ft_free(temp);
+        }
+        tmp = tmp->next;
+    }
 }

@@ -143,6 +143,8 @@ char					*get_next_line(int fd);
 void					ft_free_tab(char **tab);
 void					generate_line(char **line, t_glist *list);
 void					error(int i);
+char					*remove_qoute(char *str);
+char					*ft_strnstr(char *s1, char *s2);
 int						ft_isdigit(int i);
 void					get_init(t_ms **cmd);
 int						ft_check(char *s);

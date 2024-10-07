@@ -41,7 +41,8 @@ static int	to_be_continue(t_ms *command, char *s, int i)
 			ft_listadd_back(&(command->node), ft_listnew(s, 2,
 					REDIRACTION_OUT_APPEND));
 		else
-			ft_listadd_back(&(command->node), ft_listnew(s, 1, REDIRACTION_OUT));
+			ft_listadd_back(&(command->node), ft_listnew(s, 1,
+					REDIRACTION_OUT));
 	}
 	else if (s[i] == '<')
 	{
