@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/07 18:33:14 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:05:29 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ int count_here_doc(t_list *list)
 
 void protecting_executing(t_list *tmp, char **env, t_ms *ms, t_exc *vars)
 {
-	printf("status before: %d\n", status);
 	if (tmp)
 		set_status(tmp, env, ms->pre_last);
-	printf("status after: %d\n", status);
 	if (tmp != NULL && status == 0 && (tmp->type == Pipe || (tmp->type == Word || tmp->type == Env_word) ) && ms->pre_last->type != Here_doc)
 		last_child( tmp, env,vars, ms);
 	if (tmp != NULL && status == 127 && vars->redirection_check == 0)
@@ -47,14 +45,12 @@ void protecting_executing(t_list *tmp, char **env, t_ms *ms, t_exc *vars)
 		put_str_fd(": command not found\n", 2);
 		return;
 	}
-	printf("status after2: %d\n", status);
-
 	while(waitpid(-1, &status, 0) > 0)
 	{
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		else if(WIFSIGNALED(status))
-			status = 128 + WTERMSIG(status);
+		// if (WIFEXITED(status))
+		// 	status = WEXITSTATUS(status);
+		// else if(WIFSIGNALED(status))
+		// 	status = 128 + WTERMSIG(status);
 	}
 }
 void	execute(char *argv, char **envp)
@@ -67,11 +63,10 @@ void	execute(char *argv, char **envp)
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], envp);
 	if (!path)
-	{
-		while (cmd[++i])
+	{		while (cmd[++i])
 			ft_free(cmd[i]);
 		ft_free(cmd);
-		exit(127);
+		exit(status);
 	}
 	execve(path, cmd, envp);
 }

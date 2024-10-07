@@ -19,7 +19,7 @@ char *handl_path(char *cmd)
             put_str_fd(": Permission denied\n", 2);
             status = 126;
             ft_free_tab(var.splited_cmd);
-            return (0);
+            return (NULL);
         }
     }
     else
@@ -28,7 +28,7 @@ char *handl_path(char *cmd)
         put_str_fd(": No such file or directory\n", 2);
         status = 127;
         ft_free_tab(var.splited_cmd);
-        return (0);
+        return (NULL);
     }
 }
 
