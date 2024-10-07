@@ -15,7 +15,7 @@
 
 void handle_pipe_redirection(t_list **list, t_exc *var)
 {
-    if ((*list)->type == Pipe)
+    if ((*list)->type == PIPE)
     {
         close(var->fd[1]);
         dup2(var->fd[0], 0);
@@ -31,9 +31,9 @@ void handle_pipe_creation(t_exc *var)
 
 void handle_output_redirection(t_list **list, t_exc *var, int *fd)
 {
-    if ((*list)->next->type == Rediracion_Out || (*list)->type == Rediracion_Out)
+    if ((*list)->next->type == REDIRACTION_OUT || (*list)->type == REDIRACTION_OUT)
     {
-        if ((*list)->next->type == Rediracion_Out)
+        if ((*list)->next->type == REDIRACTION_OUT)
             var->file = (*list)->next->next->content;
         else
             var->file = (*list)->next->content;
@@ -43,9 +43,9 @@ void handle_output_redirection(t_list **list, t_exc *var, int *fd)
 
 void handle_output_append_redirection(t_list **list, t_exc *var, int *fd)
 {
-    if ((*list)->next->type == Rediracion_Out_Append || (*list)->type == Rediracion_Out_Append)
+    if ((*list)->next->type == REDIRACTION_OUT_APPEND || (*list)->type == REDIRACTION_OUT_APPEND)
     {
-        if ((*list)->next->type == Rediracion_Out_Append)
+        if ((*list)->next->type == REDIRACTION_OUT_APPEND)
             var->file = (*list)->next->next->content;
         else
             var->file = (*list)->next->content;
@@ -55,7 +55,7 @@ void handle_output_append_redirection(t_list **list, t_exc *var, int *fd)
 
 void handle_last_redirection(t_list *pre_last, t_exc *var)
 {
-    if (pre_last && pre_last->type == Rediracion_Out || pre_last->type == Rediracion_Out_Append 
-                ||pre_last->type == Rediracion_In)
+    if (pre_last && pre_last->type == REDIRACTION_OUT || pre_last->type == REDIRACTION_OUT_APPEND 
+                ||pre_last->type == REDIRACTION_IN)
         var->redirection_check = 1;
 }

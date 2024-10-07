@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-extern int	status;
-
 int	env_var(t_ms *command, char *s)
 {
 	int	i;
@@ -12,9 +10,9 @@ int	env_var(t_ms *command, char *s)
 	if (s[i] == '$' && s[i + 1] == '\0' || s[i + 1] == 32 || empty_check(s + 1))
 	{
 		if (empty_check(s + 1))
-			ft_listadd_back(&(command->node), ft_listnew("", 1, Env_word));
+			ft_listadd_back(&(command->node), ft_listnew("", 1, ENV_WORD));
 		else
-			ft_listadd_back(&(command->node), ft_listnew(s, 1, Env_word));
+			ft_listadd_back(&(command->node), ft_listnew(s, 1, ENV_WORD));
 		i++;
 		return (i);
 	}
@@ -24,7 +22,7 @@ int	env_var(t_ms *command, char *s)
 	else
 		while (s[i] != '\0' && !ft_symbols(s[i]))
 			i++;
-	ft_listadd_back(&(command->node), ft_listnew(s, i, Env));
+	ft_listadd_back(&(command->node), ft_listnew(s, i, ENV));
 	return (i);
 }
 
@@ -41,16 +39,17 @@ static int	to_be_continue(t_ms *command, char *s, int i)
 	{
 		if (num == 2)
 			ft_listadd_back(&(command->node), ft_listnew(s, 2,
-					Rediracion_Out_Append));
+					REDIRACTION_OUT_APPEND));
 		else
-			ft_listadd_back(&(command->node), ft_listnew(s, 1, Rediracion_Out));
+			ft_listadd_back(&(command->node), ft_listnew(s, 1,
+					REDIRACTION_OUT));
 	}
 	else if (s[i] == '<')
 	{
 		if (num == 2)
-			ft_listadd_back(&(command->node), ft_listnew(s, 2, Here_doc));
+			ft_listadd_back(&(command->node), ft_listnew(s, 2, HERE_DOC));
 		else
-			ft_listadd_back(&(command->node), ft_listnew(s, 1, Rediracion_In));
+			ft_listadd_back(&(command->node), ft_listnew(s, 1, REDIRACTION_IN));
 	}
 	return (i + num);
 }
@@ -59,7 +58,7 @@ int	ft_var(t_ms *command, char *s, int i)
 {
 	if (ft_symbols(s[i + 1]) || s[i + 1] == '=' || s[i + 1] == 32)
 	{
-		ft_listadd_back(&(command->node), ft_listnew(s, 2, Env_word));
+		ft_listadd_back(&(command->node), ft_listnew(s, 2, ENV_WORD));
 		i += 2;
 	}
 	else
@@ -71,18 +70,18 @@ int	ms_split(t_ms *command, char *s)
 {
 	command->i = 0;
 	if (s[command->i] == ':' || s[command->i] == '!' || s[command->i] == '#')
-		status = (s[command->i++] == '!');
+		g_status = (s[command->i++] == '!');
 	else if (s[command->i] == 32 || s[command->i] == '|')
 	{
 		if (s[command->i] == '|')
-			ft_listadd_back(&(command->node), ft_listnew(s, 1, Pipe));
+			ft_listadd_back(&(command->node), ft_listnew(s, 1, PIPE));
 		command->i++;
 	}
 	else if (!ft_symbols(s[command->i]))
 	{
 		while (!ft_symbols(s[command->i]))
 			command->i++;
-		ft_listadd_back(&(command->node), ft_listnew(s, command->i, Word));
+		ft_listadd_back(&(command->node), ft_listnew(s, command->i, WORD));
 	}
 	else if (s[command->i] == '$')
 		command->i += ft_var(command, s, command->i);
@@ -98,10 +97,10 @@ void	ft_lexer(char *s, t_ms *command)
 	i = 0;
 	if (empty_check(s))
 		return (ft_listadd_back(&(command->node), ft_listnew(s, (ft_strlen(s)),
-					Word)));
+					WORD)));
 	else if (valid_cmd(command))
 		return (ft_listadd_back(&(command->node), ft_listnew(s, (ft_strlen(s)),
-					Word)));
+					WORD)));
 	i = 0;
 	while (s[i])
 		i += ms_split(command, s + i);

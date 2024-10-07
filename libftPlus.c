@@ -30,7 +30,7 @@ char	*ft_strtrim(char *s1, char const *set, t_ms *command)
 
 char	*ft_strdup(char *src)
 {
-	int	size;
+	int		size;
 	char	*dest;
 
 	size = ft_strlen(src);
@@ -84,6 +84,7 @@ char	*ft_itoa(int n)
 	}
 	return (result);
 }
+
 int	ft_strncmp(const char *s1, const char *s2, int n)
 {
 	int	i;
@@ -97,7 +98,7 @@ int	ft_strncmp(const char *s1, const char *s2, int n)
 	{
 		if (s1[i] != s2[i])
 			return (1);
-		if (!s1[i] && !s2[i] )
+		if (!s1[i] && !s2[i])
 			return (0);
 		i++;
 	}

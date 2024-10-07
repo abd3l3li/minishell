@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		status;
+int	g_status;
 
 void	ft_clear(t_ms *cmd)
 {
@@ -38,13 +38,13 @@ void	input(t_ms *command, char **env)
 	fill_env(&command->env_list, env);
 	fill_env(&command->export, env);
 	export_sort(&command->export);
-	command->prompt = PROMPT;
+	command->prompt = BOLD CMAGENTA "Hamas" CCYAN "-shell" RESET "> ";
 	while (1)
 	{
 		ms_signal();
 		command->tmp_s = readline(command->prompt);
 		if (!command->tmp_s)
-			(p_err("exit", status), ft_exitt(status));
+			(p_err("exit", g_status), ft_exitt(g_status));
 		command->s = ft_strtrim(command->tmp_s, " ", command);
 		if (command->s[0] == '\0' || ft_check(command->s))
 		{

@@ -17,26 +17,26 @@ int     set_status(t_list *list, char **env, t_list *tmp)
         t_exc *exc;
         
         if(ft_strcmp("exit", list->content) == 0)
-                exit(status);
+                exit(g_status);
         exc = (t_exc *)malloc(sizeof(t_exc));
         if (exc == NULL)
                 return (0);
-        if (list->type != Word && list->type != Env)
+        if (list->type != WORD && list->type != ENV)
                 return (0);
-        status = 127;
-        if (tmp->type == Rediracion_In || tmp->type == Rediracion_Out || tmp->type == Rediracion_Out_Append
-                || tmp->type == Here_doc)
-                return (status = 0,0);
-        if (list->type == Here_doc || list->type == Rediracion_In
-                || list->type == Rediracion_Out || list->type == Rediracion_Out_Append)
-                return (status = 0,0);
+        g_status = 127;
+        if (tmp->type == REDIRACTION_IN || tmp->type == REDIRACTION_OUT || tmp->type == REDIRACTION_OUT_APPEND
+                || tmp->type == HERE_DOC)
+                return (g_status = 0,0);
+        if (list->type == HERE_DOC || list->type == REDIRACTION_IN
+                || list->type == REDIRACTION_OUT || list->type == REDIRACTION_OUT_APPEND)
+                return (g_status = 0,0);
         if (is_built_in(list->content))
-                return (status = 0,1);
+                return (g_status = 0,1);
         exc->cmd_args = ft_split(list->content, ' ');
         exc->paths = getpaths(env);
         exc->tmp = find_path(exc->cmd_args[0], env);
         if (exc->tmp == NULL)
                 return (0);
-        status = 0;
+        g_status = 0;
         return (1);
 }

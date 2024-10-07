@@ -10,6 +10,14 @@ char *handl_path(char *cmd)
     {
         if (access(var.splited_cmd[0], X_OK) == 0)
         {
+            if(ft_strfind(var.splited_cmd[0], '/') == 1 && !var.splited_cmd[1])
+            {
+                put_str_fd(var.splited_cmd[0], 2);
+                put_str_fd(": Is a directory\n", 2);
+                g_status = 126;
+                ft_free_tab(var.splited_cmd);
+                return (NULL);
+            }
             ft_free_tab(var.splited_cmd);
             return (cmd);
         }
@@ -17,7 +25,7 @@ char *handl_path(char *cmd)
         {
             put_str_fd(var.splited_cmd[0], 2);
             put_str_fd(": Permission denied\n", 2);
-            status = 126;
+            g_status = 126;
             ft_free_tab(var.splited_cmd);
             return (NULL);
         }
@@ -26,7 +34,7 @@ char *handl_path(char *cmd)
     {
         put_str_fd(var.splited_cmd[0], 2);
         put_str_fd(": No such file or directory\n", 2);
-        status = 127;
+        g_status = 127;
         ft_free_tab(var.splited_cmd);
         return (NULL);
     }

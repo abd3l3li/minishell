@@ -70,7 +70,7 @@ int ft_exit(t_exc *vars)
     }
     ft_free_tab(vars->cmd_args);
     ft_free(vars);
-    ft_exitt(status);
+    ft_exitt(g_status);
     return (0);
 }
 

@@ -16,11 +16,11 @@
 void setup_redirections(t_ms *ms, t_list *pre_last_list, t_list **tmp, t_child **child)
 {
     handle_pipe_redirection(&ms->node, ms->vars);
-    if ((*ms->node).type == Pipe)
+    if ((*ms->node).type == PIPE)
         return;
     handle_pipe_creation(ms->vars);
-    while ( ms->node && ms->node->next&& (ms->node->next->type == Rediracion_Out || ms->node->type == Rediracion_Out 
-    || ms->node->next->type == Rediracion_Out_Append || ms->node->type == Rediracion_Out_Append))
+    while ( ms->node && ms->node->next&& (ms->node->next->type == REDIRACTION_OUT || ms->node->type == REDIRACTION_OUT 
+    || ms->node->next->type == REDIRACTION_OUT_APPEND || ms->node->type == REDIRACTION_OUT_APPEND))
     {
         close((*child)->fd);
         
@@ -91,7 +91,7 @@ void handle_here_doc(t_list **list, t_list *pre_last_list, t_exc *var, char **en
     char *str;
     char *str2;
 
-    if ((*list)->next->type == Here_doc)
+    if ((*list)->next->type == HERE_DOC)
         var->file = ft_strdup((*list)->next->next->content);
     else
         var->file = ft_strdup((*list)->next->content);
@@ -103,7 +103,7 @@ void handle_here_doc(t_list **list, t_list *pre_last_list, t_exc *var, char **en
     str2 = ft_strdup(str);
     ft_free(str);
     handle_heredoc_loop(fd, var->file, str2);
-    if ((*list)->next->type == Here_doc)
+    if ((*list)->next->type == HERE_DOC)
     {
         if (!check_for_built_in((*list), env_list, var, export))
             ft_exitt(0);

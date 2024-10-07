@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:40 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/06 12:23:32 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:45:32 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	initialize_execution(t_exc *exc,  char ***env , t_ms *ms)
 	exc->redirection_check = 0;
     *env = list_to_array(ms->env_list);
 	ms->pre_last = ms->node;
-	if (ms->node)
-		set_status(ms->node, *env, ms->pre_last);
-
+	// if (ms->node)
+	// 	set_status(ms->node, *env, ms->pre_last);
 }

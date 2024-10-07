@@ -54,8 +54,8 @@ int echo(t_exc *vars)
         if(ft_strchr(vars->builtin_tmp, '\''))
         {
             str = ft_strchr(vars->builtin_tmp, '\'');
-             printf("%s", remove_qoute(str));
-             break;
+            printf("%s", remove_qoute(str));
+            break;
         }
         else if(ft_strchr(vars->builtin_tmp, '\"'))
         {
@@ -73,7 +73,7 @@ int echo(t_exc *vars)
     }
     if(check == 0)
         printf("\n");
-    return (status = 0,0);
+    return (g_status = 0,0);
 }
 
 int ft_unset(t_env **env, char *str)
