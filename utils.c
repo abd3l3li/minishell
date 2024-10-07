@@ -2,6 +2,27 @@
 
 extern int status;
 
+int valid_cmd(t_ms *cmd)
+{
+    int len;
+    int i;
+
+    i = 1;
+    len = ft_strlen(cmd->s);
+    if (len >= 2 && ((cmd->s[0] == '\'' && cmd->s[len - 1] == '\'') 
+        || (cmd->s[0] == '\"' && cmd->s[len - 1] == '\"')))
+    {
+        while (i < len - 1)
+        {
+            if (cmd->s[i] == '|' || cmd->s[i] == '<' || cmd->s[i] == '>'
+                || cmd->s[i] == '-')
+                return (1);
+            i++;
+        }
+    }
+    return (0);
+}
+
 void p_err(char *str, int n)
 {
     status = n;

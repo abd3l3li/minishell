@@ -98,6 +98,8 @@ void ft_lexer(char *s, t_ms *command)
 	i = 0;
 	if (empty_check(s))
 		return (ft_listadd_back(&(command->node), ft_listnew(s, (ft_strlen(s)), Word)));
+    else if (valid_cmd(command))
+        return (ft_listadd_back(&(command->node), ft_listnew(s, (ft_strlen(s)), Word)));
 	i = 0;
 	while (s[i])
 		i += ms_split(command, s + i);
