@@ -60,7 +60,7 @@ char    *remove_qoute(char *str)
     return (res);
 }
 
-void    ft_skip_q(t_ms *cmd)
+void   ft_skip_q(t_ms *cmd)
 {
     t_list *tmp;
     char *newstr;
@@ -69,12 +69,8 @@ void    ft_skip_q(t_ms *cmd)
     tmp = cmd->node;
     while (tmp)
     {
-        if (ft_strcmp(tmp->content, "echo") == 0)
-        {
-            tmp = tmp->next;
-            continue;
-        }
-        if(ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"'))
+        if((ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"')) 
+            && (!ft_strnstr(tmp->content, "echo")))
         {
             newstr = remove_qoute(tmp->content);
             temp = tmp->content;

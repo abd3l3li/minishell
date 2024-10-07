@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:56 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/04 21:36:53 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/07 02:56:11 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,14 @@ int ft_exit(t_exc *vars)
 
     if (!validate_exit_args(vars))
         return (0);
-
     if (vars->cmd_args[1] != NULL)
     {
         num = handle_numeric_argument(vars);
-        if (num == 0)
-            return (0);
+        ft_exitt(num);
     }
-
     ft_free_tab(vars->cmd_args);
     ft_free(vars);
-    ft_exitt(num);
+    ft_exitt(status);
     return (0);
 }
 

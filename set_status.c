@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 09:57:47 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/06 21:15:23 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/07 01:03:16 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int     set_status(t_list *list, char **env, t_list *tmp)
 {
         t_exc *exc;
-
+        
+        if(ft_strcmp("exit", list->content) == 0)
+                exit(status);
         exc = (t_exc *)malloc(sizeof(t_exc));
         if (exc == NULL)
                 return (0);

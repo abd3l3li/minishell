@@ -141,6 +141,8 @@ bool	found_new_line(t_glist *list);
 int     list_size(t_env *list);
 int     is_built_in(char *cmd);
 char    **list_to_array(t_env *list);
+char    *remove_qoute(char *str);
+char *ft_strnstr(char *s1, char *s2);
 int     ft_strfind(const char *s, int c);
 void	free_glist(t_glist *list);
 char	*get_next_line(int fd);

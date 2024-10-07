@@ -6,13 +6,15 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:09:54 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/06 22:48:06 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/07 03:39:09 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *strnstr(char *s1, char *s2)
+
+
+char *ft_strnstr(char *s1, char *s2)
 {
     int i;
     int j;
@@ -43,37 +45,35 @@ int echo(t_exc *vars)
 {
     int i;
     int check;
-    char *spaces;
-    int count = 1;
+    char *str;
+
     check = 0;
     i = check_option(vars->cmd_args, &check);
     while (vars->cmd_args[i])
     {
-        spaces = strnstr(vars->builtin_tmp,vars->cmd_args[i-1]);
-        while(spaces[count] == ' ' && spaces[count-1] == '"')
+        if(ft_strchr(vars->builtin_tmp, '\''))
         {
-            printf(" ");
-            count++;
+            str = ft_strchr(vars->builtin_tmp, '\'');
+             printf("%s", remove_qoute(str));
+             break;
         }
-        count = 1;
-        printf("%s", vars->cmd_args[i]);
-        spaces = strnstr(vars->builtin_tmp,vars->cmd_args[i]);
-        while(spaces && spaces[count++])
+        else if(ft_strchr(vars->builtin_tmp, '\"'))
         {
-            if(spaces[count] == ' ')
+            str= ft_strchr(vars->builtin_tmp, '\"');
+            printf("%s", remove_qoute(str));
+            break;
+        }
+        else
+            {
+                printf("%s", vars->cmd_args[i]);
+                if(vars->cmd_args[i + 1] != NULL)
                 printf(" ");
-        }
-        if(vars->cmd_args[i + 1] != NULL)
-            printf(" ");        
+            }
         i++;
     }
     if(check == 0)
-    {
-        check = 1;
         printf("\n");
-    }
-    status = 0;
-    return (0);
+    return (status = 0,0);
 }
 
 int ft_unset(t_env **env, char *str)
