@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/06 21:02:33 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/08 11:33:45 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ void setup_redirections(t_ms *ms, t_list *pre_last_list, t_list **tmp, t_child *
     }
 }
 
-void handle_redirection_out(t_list *tmp, int fd, t_env *env_list, t_exc *var, t_env *export, char **envp)
+void handle_redirection_out(t_child *child, t_exc *var, char **envp)
 {
-    dup2(fd, 1);
-    close(fd);
-    if (!check_for_built_in(tmp, env_list, var, export))
+    dup2(child->fd, 1);
+    close(child->fd);
+    if (!check_for_built_in(child->tmp, child->env_list, var, child->export))
         ft_exitt(0);
-    execute(tmp->content, envp);
+    execute(child->tmp->content, envp);
     ft_exitt(0);
 }
 
-void handle_redirection_in(t_list **list, t_exc *var, t_env *env_list, t_env *export, char **envp)
+void handle_redirection_in(t_list **list, t_exc *var, t_child *child, char **envp)
 {
     int fd;
     var->file = (*list)->next->next->content;
@@ -60,7 +60,7 @@ void handle_redirection_in(t_list **list, t_exc *var, t_env *env_list, t_env *ex
     }
     dup2(fd, 0);
     close(fd);
-    if (!check_for_built_in((*list), env_list, var, export))
+    if (!check_for_built_in((*list), child->env_list, var, child->export))
         ft_exitt(0);
     execute((*list)->content, envp);
 }
@@ -85,7 +85,7 @@ void handle_heredoc_loop(int fd, char *file, char *str2)
     }
 }
 
-void handle_here_doc(t_list **list, t_list *pre_last_list, t_exc *var, char **envp, t_env *env_list, t_env *export)
+void handle_here_doc(t_list **list, t_exc *var, char **envp, t_child *child)
 {
     int fd;
     char *str;
@@ -105,7 +105,7 @@ void handle_here_doc(t_list **list, t_list *pre_last_list, t_exc *var, char **en
     handle_heredoc_loop(fd, var->file, str2);
     if ((*list)->next->type == HERE_DOC)
     {
-        if (!check_for_built_in((*list), env_list, var, export))
+        if (!check_for_built_in((*list), child->env_list, var, child->export))
             ft_exitt(0);
         execute((*list)->content, envp);
     }

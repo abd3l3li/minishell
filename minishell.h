@@ -236,17 +236,12 @@ void					handle_output_append_redirection(t_list **list,
 void					handle_last_redirection(t_list *pre_last, t_exc *var);
 void					setup_redirections(t_ms *ms, t_list *pre_last_list,
 							t_list **tmp, t_child **child);
-void					handle_redirection_out(t_list *tmp, int fd,
-							t_env *env_list, t_exc *var, t_env *export,
-							char **envp);
-void					handle_redirection_in(t_list **list, t_exc *var,
-							t_env *env_list, t_env *export, char **envp);
+void					handle_redirection_out(t_child *child, t_exc *var, char **envp);
+void 					handle_redirection_in(t_list **list, t_exc *var, t_child *child, char **envp);
 void					handle_heredoc_loop(int fd, char *file, char *str2);
-void					handle_here_doc(t_list **list, t_list *pre_last_list,
-							t_exc *var, char **envp, t_env *env_list,
-							t_env *export);
-void					handle_pipe(t_list **list, t_exc *var, t_env *env_list,
-							t_env *export, char **envp);
+void					handle_here_doc(t_list **list, t_exc *var,
+								 char **envp, t_child *child);
+void					handle_pipe(t_list **list, t_exc *var, t_child *child, char **envp);
 void					handle_word(t_list **list, char **envp);
 void					execute_child_process(t_ms *ms, char **envp,
 							t_list *pre_last_list, t_child *child);
