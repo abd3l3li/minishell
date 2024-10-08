@@ -65,6 +65,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_ms	*cmd;
 
+	(void)av;
 	if (ac != 1)
 		ft_exitt(1);
 	get_init(&cmd);

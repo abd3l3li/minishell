@@ -3,11 +3,9 @@
 int	env_var(t_ms *command, char *s)
 {
 	int	i;
-	int	len;
 
 	i = 0;
-	len = ft_strlen(s);
-	if (s[i] == '$' && s[i + 1] == '\0' || s[i + 1] == 32 || empty_check(s + 1))
+	if ((s[i] == '$') && (s[i + 1] == '\0' || s[i + 1] == 32 || empty_check(s + 1)))
 	{
 		if (empty_check(s + 1))
 			ft_listadd_back(&(command->node), ft_listnew("", 1, ENV_WORD));
