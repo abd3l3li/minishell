@@ -3,7 +3,6 @@
 t_list	*ft_listnew(char *content, int len, int type)
 {
 	t_list	*new;
-	char	*sub;
 
 	new = (t_list *)ft_malloc(sizeof(t_list));
 	if (!new)

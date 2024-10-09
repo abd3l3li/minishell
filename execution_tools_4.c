@@ -1,43 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_tools_4.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 22:49:28 by her-rehy          #+#    #+#             */
+/*   Updated: 2024/10/09 14:07:14 by her-rehy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-char *handl_path(char *cmd)
+int	count_here_doc(t_list *list)
 {
-    t_cmd_Vars var;
-    var.splited_cmd = ft_split(cmd, ' ');
-    
-    if (access(var.splited_cmd[0], F_OK) == 0)
-    {
-        if (access(var.splited_cmd[0], X_OK) == 0)
-        {
-            if(ft_strfind(var.splited_cmd[0], '/') == 1 && !var.splited_cmd[1])
-            {
-                put_str_fd(var.splited_cmd[0], 2);
-                put_str_fd(": Is a directory\n", 2);
-                g_status = 126;
-                ft_free_tab(var.splited_cmd);
-                return (NULL);
-            }
-            ft_free_tab(var.splited_cmd);
-            return (cmd);
-        }
-        else
-        {
-            put_str_fd(var.splited_cmd[0], 2);
-            put_str_fd(": Permission denied\n", 2);
-            g_status = 126;
-            ft_free_tab(var.splited_cmd);
-            return (NULL);
-        }
-    }
-    else
-    {
-        put_str_fd(var.splited_cmd[0], 2);
-        put_str_fd(": No such file or directory\n", 2);
-        g_status = 127;
-        ft_free_tab(var.splited_cmd);
-        return (NULL);
-    }
+	int	count;
+
+	count = 0;
+	while (list)
+	{
+		if (list->type == HERE_DOC)
+			count++;
+		list = list->next;
+	}
+	if (count >= 17)
+	{
+		put_str_fd("bash: syntax error: unexpected end of file\n", 2);
+		exit(2);
+	}
+	return (count);
+}
+
+void	*handle_error(char **splited_cmd, int flag)
+{
+	if (flag == 1)
+	{
+		put_str_fd(splited_cmd[0], 2);
+		put_str_fd(": Is a directory\n", 2);
+		g_status = 126;
+	}
+	else if (flag == 2)
+	{
+		put_str_fd(splited_cmd[0], 2);
+		put_str_fd(": Permission denied\n", 2);
+		g_status = 126;
+	}
+	else if (flag == 3)
+	{
+		put_str_fd(splited_cmd[0], 2);
+		put_str_fd(": No such file or directory\n", 2);
+		g_status = 127;
+	}
+	ft_free_tab(splited_cmd);
+	return (NULL);
+}
+
+char	*handl_path(char *cmd)
+{
+	t_cmd_Vars	var;
+
+	var.splited_cmd = ft_split(cmd, ' ');
+	if (access(var.splited_cmd[0], F_OK) == 0)
+	{
+		if (access(var.splited_cmd[0], X_OK) == 0)
+		{
+			if (ft_strfind(var.splited_cmd[0], '/') == 1 && !var.splited_cmd[1])
+				return (handle_error(var.splited_cmd, 1));
+			ft_free_tab(var.splited_cmd);
+			return (cmd);
+		}
+		else
+			return (handle_error(var.splited_cmd, 2));
+	}
+	else
+		return (handle_error(var.splited_cmd, 3));
 }
 
 char	*find_path(char *cmd, char **envp)
@@ -67,4 +103,3 @@ char	*find_path(char *cmd, char **envp)
 	ft_free_tab(var.paths);
 	return (0);
 }
-

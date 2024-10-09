@@ -6,124 +6,127 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:42 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/03 17:09:54 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:19:44 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_str_isdigit(char *str)
+int	ft_str_isdigit(char *str)
 {
-    int i;
-    i = 0;
-    while(str[i])
-    {
-        if(ft_isdigit(str[i]) == 0)
-            return 0;
-        i++;
-    }
-    return 1;
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isdigit(str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-int unset_first(t_env **env, char *str, char **name_value)
+int	unset_first(t_env **env, char *str, char **name_value)
 {
-    t_env *tmp;
+	t_env	*tmp;
 
-    while (*env && ft_strncmp((*env)->name, str, ft_strlen(name_value[0])) == 0)
-    {
-        tmp = *env;
-        *env = (*env)->next;
-        ft_free(tmp->name);
-        ft_free(tmp->value);
-        ft_free(tmp);
-        return (0);
-    }
-    return (1);
+	while (*env && ft_strncmp((*env)->name, str, ft_strlen(name_value[0])) == 0)
+	{
+		tmp = *env;
+		*env = (*env)->next;
+		ft_free(tmp->name);
+		ft_free(tmp->value);
+		ft_free(tmp);
+		return (0);
+	}
+	return (1);
 }
 
-int export_adding(t_env *list, char *args)
+int	export_adding(t_env *list, char *args)
 {
-    t_env *new;
+	t_env	*new;
+	char	**name_value;
 
-    char **name_value;
-    new = ft_malloc(sizeof(t_env));
-    if (args == NULL)
-        return 0;
-    if(ft_strchr(args, '=') == NULL)
-        {
-            new->name = ft_strdup(args);
-            new->value = NULL;
-            lstadd_back(&list, new);
-            return 0;
-        }
-    name_value = ft_split(args, '=');
-    new->name = ft_strdup(name_value[0]);
-    if(name_value[1] == NULL)
-        new->value = ft_strdup("");
-    else
-        new->value = ft_strdup(name_value[1]);
-    new->next = NULL;
-    lstadd_back(&list, new);
-    return (0);
+	new = ft_malloc(sizeof(t_env));
+	if (args == NULL)
+		return (0);
+	if (ft_strchr(args, '=') == NULL)
+	{
+		new->name = ft_strdup(args);
+		new->value = NULL;
+		lstadd_back(&list, new);
+		return (0);
+	}
+	name_value = ft_split(args, '=');
+	new->name = ft_strdup(name_value[0]);
+	if (name_value[1] == NULL)
+		new->value = ft_strdup("");
+	else
+		new->value = ft_strdup(name_value[1]);
+	new->next = NULL;
+	lstadd_back(&list, new);
+	return (0);
 }
 
-
-int check_values(t_env *env,t_env *export, t_exc *vars)
+int	check_values(t_env *env, t_env *export, t_exc *vars)
 {
-    int i;
-    i = 0;
+	int	i;
 
-    vars->cmd_args = ft_split(vars->cmd, '='); 
-    if(ft_str_isdigit(vars->cmd_args[0]) == 1)
-    return (write(1, "bash: export: `", 15),
-            write(1, vars->cmd, ft_strlen(vars->cmd)),write(1
-            , "': not a valid identifier\n", 27),0);
-    if(vars->cmd_args[1] == NULL)
-        return (export_adding(export, vars->cmd),0);
-    while(vars->cmd[i])
-    {
-        if(vars->cmd[i] == '=')
-        {
-            if(ft_isdigit(vars->cmd[i - 1]) == 1)
-                return (write(1, "bash: export: `", 15),
-                        write(1, vars->cmd, ft_strlen(vars->cmd)),write(1
-                        , "': not a valid identifier\n", 27),0);
-            if(vars->cmd[i + 1] == '\0' && vars->cmd[i - 1] != ' ')
-                return (export_adding(export, vars->cmd),0);
-            else if(vars->cmd[i - 1] == ' ')
-                return (write(1, "bash: export: `=': not a valid identifier", 41),0);
-            else
-                return (export_adding(env, vars->cmd),export_adding(export, vars->cmd),0);
-        }
-        i++;
-    }
-    export_adding(export, vars->cmd);
-    return (0);
+	i = 0;
+	vars->cmd_args = ft_split(vars->cmd, '=');
+	if (ft_str_isdigit(vars->cmd_args[0]) == 1)
+		return (write(1, "bash: export: `", 15), write(1, vars->cmd,
+				ft_strlen(vars->cmd)), write(1, "': not a valid identifier\n",
+				27), 0);
+	if (vars->cmd_args[1] == NULL)
+		return (export_adding(export, vars->cmd), 0);
+	while (vars->cmd[i])
+	{
+		if (vars->cmd[i] == '=')
+		{
+			if (ft_isdigit(vars->cmd[i - 1]) == 1)
+				return (write(1, "bash: export: `", 15), write(1, vars->cmd,
+						ft_strlen(vars->cmd)), write(1,
+						"': not a valid identifier\n", 27), 0);
+			if (vars->cmd[i + 1] == '\0' && vars->cmd[i - 1] != ' ')
+				return (export_adding(export, vars->cmd), 0);
+			else if (vars->cmd[i - 1] == ' ')
+				return (write(1, "bash: export: `=': not a valid identifier",
+						41), 0);
+			else
+				return (export_adding(env, vars->cmd), export_adding(export,
+						vars->cmd), 0);
+		}
+		i++;
+	}
+	export_adding(export, vars->cmd);
+	return (0);
 }
 
-int compare_list(const char *str, t_env *env_list)
+int	compare_list(const char *str, t_env *env_list)
 {
-    t_env **current = &env_list;
-    char **name_value;
+	t_env	**current;
+	char	**name_value;
 
-    name_value = ft_split(str, '=');
-        while ((*current) != NULL)
-        {
-            if((*current)->value == NULL)
-                (*current)->value = ft_strdup("");
-            if (ft_strcmp(name_value[0], (*current)->name) == 0)
-            {
-                if(name_value[1] == NULL || ft_strcmp(name_value[1], (*current)->value) == 0)
-                        return 1;
-                else
-                {
-                    ft_free((*current)->value);
-                    (*current)->value = ft_strdup(name_value[1]);
-                    return 1;
-                }
-            }
-            (*current) = (*current)->next;
-        }
-    return 0; 
+	current = &env_list;
+	name_value = ft_split(str, '=');
+	while ((*current) != NULL)
+	{
+		if ((*current)->value == NULL)
+			(*current)->value = ft_strdup("");
+		if (ft_strcmp(name_value[0], (*current)->name) == 0)
+		{
+			if (name_value[1] == NULL || ft_strcmp(name_value[1],
+					(*current)->value) == 0)
+				return (1);
+			else
+			{
+				ft_free((*current)->value);
+				(*current)->value = ft_strdup(name_value[1]);
+				return (1);
+			}
+		}
+		(*current) = (*current)->next;
+	}
+	return (0);
 }
-

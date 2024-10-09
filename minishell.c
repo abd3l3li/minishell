@@ -45,7 +45,7 @@ void	input(t_ms *command, char **env)
 		command->tmp_s = readline(command->prompt);
 		if (!command->tmp_s)
 			(p_err("exit", g_status), ft_exitt(g_status));
-		command->s = ft_strtrim(command->tmp_s, " ", command);
+		command->s = ft_strtrim(command->tmp_s, " ");
 		if (command->s[0] == '\0' || ft_check(command->s))
 		{
 			(add_history(command->s), ft_free(command->s));

@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
 BOLD      = \033[1m

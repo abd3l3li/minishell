@@ -6,17 +6,20 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:09:32 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/07 21:14:05 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:15:35 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int list_size(t_env *list)
+int	list_size(t_env *list)
 {
-	int i = 0;
-	t_env *tmp = list;
-	while(tmp)
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = list;
+	while (tmp)
 	{
 		i++;
 		tmp = tmp->next;
@@ -24,14 +27,18 @@ int list_size(t_env *list)
 	return (i);
 }
 
-char **list_to_array(t_env *list)
+char	**list_to_array(t_env *list)
 {
-	int i = 0;
-	t_env *tmp = list;
-	int size = list_size(list);
-	char **envp;
+	int		i;
+	t_env	*tmp;
+	int		size;
+	char	**envp;
+
+	i = 0;
+	tmp = list;
+	size = list_size(list);
 	envp = ft_malloc(sizeof(char *) * (size + 1));
-	while(tmp)
+	while (tmp)
 	{
 		envp[i] = ft_strjoin(tmp->name, "=");
 		envp[i] = ft_strjoin(envp[i], tmp->value);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*ft_strtrim(char *s1, char const *set, t_ms *command)
+char	*ft_strtrim(char *s1, char const *set)
 {
 	size_t	len;
 	char	*result;
