@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:08:39 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:29:15 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:55:40 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	check_option(char **str, int *check)
 		{
 			return_value++;
 			s = *str + 2;
-			while (*s)
+			while (*s++)
 			{
 				if (*s != 'n')
 				{
@@ -101,6 +101,10 @@ int	check_option(char **str, int *check)
 						*check = 1;
 					return (return_value);
 				}
-				s++;
 			}
 		}
+	}
+	    if (return_value >= 2)
+        	*check = 1;
+    return return_value;
+}

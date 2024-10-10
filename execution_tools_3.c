@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:39 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:06:26 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:48:00 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ void	handle_output_redirection(t_list **list, t_exc *var, int *fd)
 			var->file = (*list)->next->next->content;
 		else
 			var->file = (*list)->next->content;
+		if(var->file == NULL)
+			return ;
 		*fd = open(var->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if(*fd == -1)
+			handle_error(&var->file,2);
 	}
 }
 
@@ -51,6 +55,8 @@ void	handle_output_append_redirection(t_list **list, t_exc *var, int *fd)
 		else
 			var->file = (*list)->next->content;
 		*fd = open(var->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if(*fd == -1)
+			handle_error(&var->file,2);
 	}
 }
 

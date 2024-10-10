@@ -31,6 +31,7 @@ void	get_init(t_ms **cmd)
 	(*cmd)->tmp_s = NULL;
 	(*cmd)->i = 0;
 	(*cmd)->done = 0;
+	
 }
 
 void	input(t_ms *command, char **env)
@@ -70,6 +71,7 @@ int	main(int ac, char **av, char **env)
 		ft_exitt(1);
 	get_init(&cmd);
 	cmd->vars = ft_malloc(sizeof(t_exc));
+	cmd->vars->file = NULL;
 	if (!cmd->vars)
 		(p_err("Malloc error", 54), exit(54));
 	cmd->vars->oldpwd = getcwd(NULL, 0);

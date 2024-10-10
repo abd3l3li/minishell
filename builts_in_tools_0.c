@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:42 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:19:44 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 05:10:07 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	unset_first(t_env **env, char *str, char **name_value)
 	{
 		tmp = *env;
 		*env = (*env)->next;
-		ft_free(tmp->name);
-		ft_free(tmp->value);
-		ft_free(tmp);
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
 		return (0);
 	}
 	return (1);

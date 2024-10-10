@@ -4,7 +4,7 @@ t_garbage	**get_data(void)
 {
 	static t_garbage	*data;
 
-	data = NULL;
+	//data = NULL;
 	return (&data);
 }
 

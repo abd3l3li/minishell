@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:32 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:21:01 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:39:51 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	handle_numeric_argument(t_exc *vars)
 		write(1, "bash: exit: ", 12);
 		put_str_fd(vars->cmd_args[1], 1);
 		write(1, ": numeric argument required\n", 29);
-		exit(2);
+		ft_exitt(2);
 	}
 	return (num);
 }
@@ -87,7 +87,7 @@ int	fill_env(t_env **env, char **envp)
 	i = 0;
 	if (!envp[0])
 		envp = create_own_env();
-	*env = malloc(sizeof(t_env));
+	*env = ft_malloc(sizeof(t_env));
 	tmp = *env;
 	while (envp[i])
 	{

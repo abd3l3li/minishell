@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:56 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:16:53 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 02:06:02 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_cd(t_exc *vars, t_env *env, t_env *export)
 	char	*new_pwd;
 
 	i = 0;
-	if (vars->cmd_args[1] == NULL)
+	if (!vars->cmd_args[1])
 	{
 		if (!getenv("HOME"))
 		{
@@ -93,16 +93,16 @@ int	ft_cd(t_exc *vars, t_env *env, t_env *export)
 	{
 		write(1, "bash: cd: ", 9);
 		write(1, vars->cmd_args[1], ft_strlen(vars->cmd_args[1]));
-		write(1, ": No such file or directory\n", 28);
+		write(1, ": no such file or directory\n", 28);
 		return (1);
 	}
 	new_pwd = getcwd(NULL, 0);
 	update_env_var(env, "PWD", new_pwd);
 	update_env_var(export, "PWD", new_pwd);
-	if (vars->oldpwd != NULL)
+	if (vars->oldpwd)
 	{
-		update_env_var(env, "OLDPWD", vars->oldpwd);
 		update_env_var(export, "OLDPWD", vars->oldpwd);
+		update_env_var(env, "OLDPWD", vars->oldpwd);
 	}
 	vars->oldpwd = new_pwd;
 	free(new_pwd);

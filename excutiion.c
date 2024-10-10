@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/08 22:50:21 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:39:57 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ void	protecting_executing(t_list *tmp, char **env, t_ms *ms, t_exc *vars)
 	if (tmp != NULL && g_status == 0 && (tmp->type == PIPE || (tmp->type == WORD
 				|| tmp->type == ENV_WORD)) && ms->pre_last->type != HERE_DOC)
 		last_child(tmp, env, vars, ms);
+	close(0);
 	if (tmp != NULL && g_status == 127 && vars->redirection_check == 0)
 	{
 		if (ft_strfind(tmp->content, '/') != 1)
 		{
 			put_str_fd(tmp->content, 2);
-			put_str_fd(": command not found\n", 2);
+			if(compare_list("PATH", ms->env_list) == 1)
+				put_str_fd(": command not found\n", 2);
+			else
+				put_str_fd(": no such file or directory\n", 2);
 			return ;
 		}
 	}
@@ -51,7 +55,7 @@ void	execute(char *argv, char **envp)
 		while (cmd[++i])
 			ft_free(cmd[i]);
 		ft_free(cmd);
-		exit(g_status);
+		ft_exitt(g_status);
 	}
 	execve(path, cmd, envp);
 }
@@ -60,11 +64,18 @@ void	child_process(t_ms *ms, char **envp, t_list *pre_last_list)
 {
 	t_child	*child;
 
-	child = (t_child *)malloc(sizeof(t_child));
+	child = (t_child *)ft_malloc(sizeof(t_child));
 	child->tmp = ms->node;
 	child->env_list = ms->env_list;
 	child->export = ms->export;
 	setup_redirections(ms, &child);
+	if(child->fd == -1)
+		{
+			ft_free(child);
+			return;
+		}
+	if(*ms->vars->fd == -1)
+		return ;
 	ms->vars->pid = fork();
 	if (ms->vars->pid == -1)
 		error(2);
@@ -98,7 +109,7 @@ char	*checking(char **env, t_ms *ms)
 {
 	t_list	*tmp;
 	t_exc	exc;
-
+	
 	if (!ms->node)
 		return (NULL);
 	initialize_execution(&exc, &env, ms);
@@ -106,13 +117,14 @@ char	*checking(char **env, t_ms *ms)
 	count_here_doc(ms->node);
 	while (ms->node)
 	{
-		if (ft_strfind(ms->node->content, '/') == 1)
+		if (ft_strfind(ms->node->content, '/') == 1 && !tmp)
 			return (handl_path(ms->node->content));
 		ms->pre_last = tmp;
 		child_process(ms, env, ms->pre_last);
 		tmp = ms->node;
 		ms->node = ms->node->next;
 	}
+	exc.oldpwd = ms->vars->oldpwd;
 	protecting_executing(tmp, env, ms, &exc);
 	dup2(exc.saved_stdout, STDOUT_FILENO);
 	dup2(exc.saved_stdin, STDIN_FILENO);

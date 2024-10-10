@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:05:53 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:20:35 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 02:07:51 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,22 @@ int	ft_print_env(t_env *env)
 	return (0);
 }
 
-void	update_env_var(t_env *env, char *name, char *new_value)
+void update_env_var(t_env *env,  char *name, char *new_value)
 {
-	t_env	*tmp;
+    t_env *tmp = env;
 
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->name, name, ft_strlen(name)) == 0)
-		{
-			ft_free(tmp->value);
-			tmp->value = ft_strdup(new_value);
-		}
-		tmp = tmp->next;
-	}
+    while (tmp)
+    {
+        if (ft_strncmp(tmp->name, name, ft_strlen(name)) == 0)
+        {
+            ft_free(tmp->value);
+            tmp->value = ft_strdup(new_value);
+			return ;
+        }
+        tmp = tmp->next;
+    }
 }
+
 
 int	validate_exit_args(t_exc *vars)
 {

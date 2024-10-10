@@ -13,6 +13,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <dirent.h>
 
 /*definitions section*/
 
@@ -182,13 +183,11 @@ char					**getpaths(char **envp);
 char					*find_path(char *cmd, char **envp);
 int						ft_print_env(t_env *env);
 t_env					*ft_lstlast(t_env *lst);
-void					update_env_var(t_env *env, char *name, char *new_value);
 int						ft_cd(t_exc *vars, t_env *env, t_env *export);
 int						check_values(t_env *env, t_env *export, t_exc *vars);
 int						compare_list(const char *str, t_env *env_list);
 int						ft_export(t_env *env, t_env *export, t_exc *vars);
 int						validate_exit_args(t_exc *vars);
-int						ft_exit(t_exc *vars);
 int						export_adding(t_env *list, char *args);
 void					update_env_var(t_env *env, char *name, char *new_value);
 int						handle_numeric_argument(t_exc *vars);

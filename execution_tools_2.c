@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:05:19 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 06:27:27 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void	setup_redirections(t_ms *ms, t_child **child)
 			break ;
 		}
 		ms->pre_last = ms->node;
+		if((*child)->fd == -1)
+			break;
 	}
+
 }
 
 void	handle_redirection_out(t_child *child, t_exc *var, char **envp)
@@ -56,8 +59,13 @@ void	handle_redirection_in(t_list **list, t_exc *var, t_child *child,
 	fd = open(var->file, O_RDONLY, 0666);
 	if (fd == -1)
 	{
-		write(2, var->file, ft_strlen(var->file));
-		write(2, ": No such file or directory\n", 28);
+		if(access(var->file,F_OK) == 0)
+			handle_error(&var->file,2);
+		else
+		{	
+			put_str_fd(var->file,2);
+			write(2, ": No such file or directory\n", 28);
+		}
 		ft_exitt(1);
 	}
 	dup2(fd, 0);
@@ -74,7 +82,6 @@ void	handle_heredoc_loop(int fd, char *file, char *str2)
 	str = readline("> ");
 	while (str)
 	{
-		write(fd, str, ft_strlen(str));
 		if (ft_strcmp(str, file) == 0)
 		{
 			close(fd);
@@ -83,6 +90,8 @@ void	handle_heredoc_loop(int fd, char *file, char *str2)
 			close(fd);
 			break ;
 		}
+		write(fd, str, ft_strlen(str));
+		write(fd,"\n",1);
 		str = readline("> ");
 	}
 }
@@ -93,6 +102,7 @@ void	handle_here_doc(t_list **list, t_exc *var, char **envp, t_child *child)
 	char	*str;
 	char	*str2;
 
+	printf("(*list)->content = %s\n",(*list)->content);
 	if ((*list)->next->type == HERE_DOC)
 		var->file = ft_strdup((*list)->next->next->content);
 	else
@@ -107,6 +117,8 @@ void	handle_here_doc(t_list **list, t_exc *var, char **envp, t_child *child)
 	handle_heredoc_loop(fd, var->file, str2);
 	if ((*list)->next->type == HERE_DOC)
 	{
+		dup2(fd,0);
+		close(fd);
 		if (!check_for_built_in((*list), child->env_list, var, child->export))
 			ft_exitt(0);
 		execute((*list)->content, envp);

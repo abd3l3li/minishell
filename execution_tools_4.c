@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:49:28 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:07:14 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:38:58 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	count_here_doc(t_list *list)
 	}
 	if (count >= 17)
 	{
-		put_str_fd("bash: syntax error: unexpected end of file\n", 2);
-		exit(2);
+		put_str_fd("bash: maximum here-document count exceeded\n", 2);
+		ft_exitt(2);
 	}
 	return (count);
 }
@@ -48,7 +48,7 @@ void	*handle_error(char **splited_cmd, int flag)
 	else if (flag == 3)
 	{
 		put_str_fd(splited_cmd[0], 2);
-		put_str_fd(": No such file or directory\n", 2);
+		put_str_fd(": no such file or directory\n", 2);
 		g_status = 127;
 	}
 	ft_free_tab(splited_cmd);
@@ -58,13 +58,15 @@ void	*handle_error(char **splited_cmd, int flag)
 char	*handl_path(char *cmd)
 {
 	t_cmd_Vars	var;
-
+	DIR			*dir;
+	
 	var.splited_cmd = ft_split(cmd, ' ');
 	if (access(var.splited_cmd[0], F_OK) == 0)
 	{
 		if (access(var.splited_cmd[0], X_OK) == 0)
 		{
-			if (ft_strfind(var.splited_cmd[0], '/') == 1 && !var.splited_cmd[1])
+			dir = opendir(var.splited_cmd[0]);
+			if (ft_strfind(var.splited_cmd[0], '/') == 1 && !var.splited_cmd[1] && dir)
 				return (handle_error(var.splited_cmd, 1));
 			ft_free_tab(var.splited_cmd);
 			return (cmd);

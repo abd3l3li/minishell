@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3 #-Wall -Wextra -Werror
 RM = rm -rf
 
 BOLD      = \033[1m
