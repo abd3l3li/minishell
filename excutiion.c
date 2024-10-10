@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 16:05:03 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:47:22 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	protecting_executing(t_list *tmp, char **env, t_ms *ms, t_exc *vars)
 		if (ft_strfind(tmp->content, '/') != 1)
 		{
 			put_str_fd(tmp->content, 2);
-			if(compare_list("PATH", ms->env_list) == 1)
+			if (compare_list("PATH", ms->env_list) == 1)
 				put_str_fd(": command not found\n", 2);
 			else
 				put_str_fd(": no such file or directory\n", 2);
@@ -69,19 +69,21 @@ void	child_process(t_ms *ms, char **envp, t_list *pre_last_list)
 	child->env_list = ms->env_list;
 	child->export = ms->export;
 	setup_redirections(ms, &child);
-	if(child->fd == -1)
-		{
-			ft_free(child);
-			return;
-		}
-	if(*ms->vars->fd == -1)
+	if (child->fd == -1)
+	{
+		ft_free(child);
+		return ;
+	}
+	if (*ms->vars->fd == -1)
 		return ;
 	ms->vars->pid = fork();
 	if (ms->vars->pid == -1)
 		error(2);
 	if (ms->vars->pid == 0)
 		execute_child_process(ms, envp, pre_last_list, child);
-	else if ((*ms->node).type == HERE_DOC || pre_last_list->type == HERE_DOC || (*ms->node).next->type == HERE_DOC)
+	else if ((*ms->node).next && ((*ms->node).type == HERE_DOC
+			|| pre_last_list->type == HERE_DOC
+			|| (*ms->node).next->type == HERE_DOC))
 		waitpid(ms->vars->pid, &g_status, 0);
 	signal(SIGINT, SIG_IGN);
 }
@@ -109,7 +111,7 @@ char	*checking(char **env, t_ms *ms)
 {
 	t_list	*tmp;
 	t_exc	exc;
-	
+
 	if (!ms->node)
 		return (NULL);
 	initialize_execution(&exc, &env, ms);

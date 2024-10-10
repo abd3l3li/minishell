@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:09:54 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/09 14:18:47 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:19:17 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,47 @@ char	*ft_strnstr(char *s1, char *s2)
 	return (NULL);
 }
 
-int	echo(t_exc *vars)
+int print_argument(t_exc *vars, int i)
 {
-	int		i;
-	int		check;
-	char	*str;
+    char *str;
 
-	check = 0;
-	i = check_option(vars->cmd_args, &check);
-	while (vars->cmd_args[i])
-	{
-		if (ft_strchr(vars->builtin_tmp, '\''))
-		{
-			str = ft_strchr(vars->builtin_tmp, '\'');
-			printf("%s", remove_qoute(str));
-			break ;
-		}
-		else if (ft_strchr(vars->builtin_tmp, '\"'))
-		{
-			str = ft_strchr(vars->builtin_tmp, '\"');
-			printf("%s", remove_qoute(str));
-			break ;
-		}
-		else
-		{
-			printf("%s", vars->cmd_args[i]);
-			if (vars->cmd_args[i + 1] != NULL)
-				printf(" ");
-		}
-		i++;
-	}
-	if (check == 0)
-		printf("\n");
-	return (g_status = 0, 0);
+    if (ft_strchr(vars->builtin_tmp, '\''))
+    {
+        str = ft_strchr(vars->builtin_tmp, '\'');
+        printf("%s", remove_qoute(str));
+        return 1;
+    }
+    else if (ft_strchr(vars->builtin_tmp, '\"'))
+    {
+        str = ft_strchr(vars->builtin_tmp, '\"');
+        printf("%s", remove_qoute(str));
+        return 1;
+    }
+    else
+    {
+        printf("%s", vars->cmd_args[i]);
+        if (vars->cmd_args[i + 1] != NULL)
+            printf(" ");
+    }
+    return 0;
+}
+
+int echo(t_exc *vars)
+{
+    int check;
+    int i;
+
+    check = 0;
+    i = check_option(vars->cmd_args, &check);
+    while (vars->cmd_args[i])
+    {
+        if (print_argument(vars, i))
+            break;
+        i++;
+    }
+    if (check == 0)
+        printf("\n");
+    return (g_status = 0, 0);
 }
 
 int	ft_unset(t_env **env, char *str)
