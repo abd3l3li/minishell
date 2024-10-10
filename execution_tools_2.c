@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 06:27:27 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:10:51 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	handle_here_doc(t_list **list, t_exc *var, char **envp, t_child *child)
 	char	*str;
 	char	*str2;
 
-	printf("(*list)->content = %s\n",(*list)->content);
+	printf("list->content: %s\n", (*list)->content);
 	if ((*list)->next->type == HERE_DOC)
 		var->file = ft_strdup((*list)->next->next->content);
 	else
@@ -115,7 +115,7 @@ void	handle_here_doc(t_list **list, t_exc *var, char **envp, t_child *child)
 	str2 = ft_strdup(str);
 	ft_free(str);
 	handle_heredoc_loop(fd, var->file, str2);
-	if ((*list)->next->type == HERE_DOC)
+	if ((*list)->next->type == HERE_DOC && (*list)->type == WORD)
 	{
 		dup2(fd,0);
 		close(fd);

@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:21:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 15:55:46 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:16:10 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	handle_word(t_list **list, char **envp)
 void	execute_child_process(t_ms *ms, char **envp, t_list *pre_last_list,
 		t_child *child)
 {
+	printf("pre_last_list->content: %s\n", pre_last_list->content);
 	if (child->tmp->next == NULL)
 		ft_exitt(0);
 	if (child->tmp->next->type == REDIRACTION_OUT_APPEND
@@ -39,7 +40,8 @@ void	execute_child_process(t_ms *ms, char **envp, t_list *pre_last_list,
 		handle_redirection_out(child, ms->vars, envp);
 	else if ((*ms->node).next->type == REDIRACTION_IN)
 		handle_redirection_in(&ms->node, ms->vars, child, envp);
-	else if ((*ms->node).next->type == HERE_DOC)
+	else if (((*ms->node).next->type == HERE_DOC && (*ms->node).type == WORD ) ||
+			 (*ms->node).type == HERE_DOC && pre_last_list->type == HERE_DOC)
 		handle_here_doc(&ms->node, ms->vars, envp, child);
 	else if ((*ms->node).next->type == PIPE)
 		handle_pipe(&ms->node, ms->vars, child, envp);

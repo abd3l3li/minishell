@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 15:39:57 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:05:03 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	child_process(t_ms *ms, char **envp, t_list *pre_last_list)
 		error(2);
 	if (ms->vars->pid == 0)
 		execute_child_process(ms, envp, pre_last_list, child);
-	else if ((*ms->node).type == HERE_DOC || pre_last_list->type == HERE_DOC)
+	else if ((*ms->node).type == HERE_DOC || pre_last_list->type == HERE_DOC || (*ms->node).next->type == HERE_DOC)
 		waitpid(ms->vars->pid, &g_status, 0);
 	signal(SIGINT, SIG_IGN);
 }
