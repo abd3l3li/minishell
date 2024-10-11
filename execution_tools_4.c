@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 22:49:28 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 20:40:52 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:41:14 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,20 @@ char	*handl_path(char *cmd)
 {
 	t_cmd_Vars	var;
 	DIR			*dir;
+	int			path;
 
+	path = 0;
 	var.splited_cmd = ft_split(cmd, ' ');
-	if (access(var.splited_cmd[0], F_OK) == 0)
+	while (var.splited_cmd[path])
+		path++;
+	path--;
+	if (access(var.splited_cmd[path], F_OK) == 0)
 	{
-		if (access(var.splited_cmd[0], X_OK) == 0)
+		if (access(var.splited_cmd[path], X_OK) == 0)
 		{
-			dir = opendir(var.splited_cmd[0]);
-			if (ft_strfind(var.splited_cmd[0], '/') == 1
-				&& !var.splited_cmd[1] && dir)
+			dir = opendir(var.splited_cmd[path]);
+			if (ft_strfind(var.splited_cmd[path], '/') == 1
+				&& !var.splited_cmd[path +1] && dir && path == 0)
 				return (handle_error(var.splited_cmd, 1));
 			ft_free_tab(var.splited_cmd);
 			return (cmd);
