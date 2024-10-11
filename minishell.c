@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abel-baz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/11 21:46:36 by abel-baz          #+#    #+#             */
+/*   Updated: 2024/10/11 21:46:45 by abel-baz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	g_status;
+int		g_status;
 
 void	ft_clear(t_ms *cmd)
 {
@@ -31,7 +43,6 @@ void	get_init(t_ms **cmd)
 	(*cmd)->tmp_s = NULL;
 	(*cmd)->i = 0;
 	(*cmd)->done = 0;
-	
 }
 
 void	input(t_ms *command, char **env)

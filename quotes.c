@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abel-baz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/11 21:47:09 by abel-baz          #+#    #+#             */
+/*   Updated: 2024/10/11 21:47:11 by abel-baz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_symbols(char c)
@@ -59,23 +71,24 @@ char	*remove_qoute(char *str)
 	res[j] = 0;
 	return (res);
 }
+
 void	ft_skip_q(t_ms *cmd)
 {
 	t_list	*tmp;
 	char	*newstr;
 	char	*temp;
 
-    tmp = cmd->node;
-    while (tmp)
-    {
-        if((ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"')) 
-            && (!ft_strnstr(tmp->content, "echo")))
-        {
-            newstr = remove_qoute(tmp->content);
-            temp = tmp->content;
-            tmp->content = newstr;
-            ft_free(temp);
-        }
-        tmp = tmp->next;
-    }
+	tmp = cmd->node;
+	while (tmp)
+	{
+		if ((ft_strchr(tmp->content, '\'') || ft_strchr(tmp->content, '\"'))
+			&& (!ft_strnstr(tmp->content, "echo")))
+		{
+			newstr = remove_qoute(tmp->content);
+			temp = tmp->content;
+			tmp->content = newstr;
+			ft_free(temp);
+		}
+		tmp = tmp->next;
+	}
 }

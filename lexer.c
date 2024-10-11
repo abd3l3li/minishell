@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abel-baz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/11 21:45:51 by abel-baz          #+#    #+#             */
+/*   Updated: 2024/10/11 21:45:53 by abel-baz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	env_var(t_ms *command, char *s)
@@ -5,7 +17,8 @@ int	env_var(t_ms *command, char *s)
 	int	i;
 
 	i = 0;
-	if ((s[i] == '$') && (s[i + 1] == '\0' || s[i + 1] == 32 || empty_check(s + 1)))
+	if ((s[i] == '$') && (s[i + 1] == '\0' || s[i + 1] == 32 || empty_check(s
+				+ 1)))
 	{
 		if (empty_check(s + 1))
 			ft_listadd_back(&(command->node), ft_listnew("", 1, ENV_WORD));

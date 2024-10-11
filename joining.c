@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   joining.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abel-baz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/11 21:45:35 by abel-baz          #+#    #+#             */
+/*   Updated: 2024/10/11 21:45:37 by abel-baz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_strcpy(char *dst, const char *src)
@@ -68,10 +80,7 @@ void	ft_merge(t_ms *cmd)
 				&& prev->type != REDIRACTION_OUT && prev->type != HERE_DOC)
 				ft_prev(&tmp, prev);
 		}
-		else
-		{
-			prev = tmp;
-			tmp = tmp->next;
-		}
+		prev = tmp;
+		tmp = tmp->next;
 	}
 }
