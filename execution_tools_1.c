@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:21:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 18:42:37 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:02:06 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute_child_process(t_ms *ms, char **envp, t_list *pre_last_list,
 	else if ((*ms->node).next->type == REDIRACTION_IN)
 		handle_redirection_in(&ms->node, ms->vars, child, envp);
 	else if (((*ms->node).next->type == HERE_DOC && (*ms->node).type == WORD)
-		|| (*ms->node).type == HERE_DOC && pre_last_list->type == HERE_DOC)
+		|| ((*ms->node).type == HERE_DOC && pre_last_list->type == HERE_DOC))
 		handle_here_doc(&ms->node, ms->vars, envp, child);
 	else if ((*ms->node).next->type == PIPE)
 		handle_pipe(&ms->node, ms->vars, child, envp);

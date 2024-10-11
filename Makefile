@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -g3 #-Wall -Wextra -Werror
+CFLAGS = -g3  -fsanitize=address  -Wall -Wextra -Werror
 RM = rm -rf
 
 BOLD      = \033[1m
@@ -14,7 +14,7 @@ SRC =	list.c lexer.c expand.c builts_in_tools_0.c  set_status.c\
 		excutiion.c built_in_main_functions.c built_in_main_functions_1.c \
 		builts_in_tools_1.c builts_in_tools_2.c builts_in_tools_3.c \
 		execution_tools_5.c execution_tools_4.c execution_tools_3.c \
-		execution_tools_2.c execution_tools_1.c execution_tools_0.c \
+		execution_tools_2.c execution_tools_1.c execution_tools_0.c built_in_main_functions_2.c \
 
 OBJ = ${SRC:.c=.o}
 

@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 18:43:25 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:09:25 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	handle_redirection_in(t_list **list, t_exc *var, t_child *child,
 		else
 		{
 			put_str_fd(var->file, 2);
-			write(2, ": No such file or directory\n", 28);
+			write(2, ": no such file or directory\n", 28);
 		}
 		ft_exitt(1);
 	}

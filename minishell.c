@@ -74,7 +74,6 @@ int	main(int ac, char **av, char **env)
 	cmd->vars->file = NULL;
 	if (!cmd->vars)
 		(p_err("Malloc error", 54), exit(54));
-	cmd->vars->oldpwd = getcwd(NULL, 0);
 	ms_signal();
 	input(cmd, env);
 }

@@ -6,23 +6,11 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:32 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 15:39:51 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:13:27 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**create_own_env(void)
-{
-	char	**env;
-
-	env = ft_malloc(sizeof(char **) * 4);
-	env[0] = ft_strjoin("PWD=", ft_strdup(getcwd(NULL, 0)));
-	env[1] = ft_strdup("SHLVL=1");
-	env[2] = ft_strdup("_=/usr/bin/env");
-	env[3] = NULL;
-	return (env);
-}
 
 int	handle_numeric_argument(t_exc *vars)
 {

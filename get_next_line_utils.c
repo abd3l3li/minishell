@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 14:38:20 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/08/21 19:52:51 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:57:58 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	found_new_line(t_glist *list)
 	{
 		if (list->content[i] == '\n')
 			return (true);
-	i++;
+		i++;
 	}
 	return (false);
 }

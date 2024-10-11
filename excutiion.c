@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 18:47:22 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:00:03 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	*checking(char **env, t_ms *ms)
 	count_here_doc(ms->node);
 	while (ms->node)
 	{
-		if (ft_strfind(ms->node->content, '/') == 1 && !tmp)
+		if (ft_strfind(ms->node->content, '/') == 1)
 			return (handl_path(ms->node->content));
 		ms->pre_last = tmp;
 		child_process(ms, env, ms->pre_last);

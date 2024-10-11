@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/11 21:14:26 by her-rehy          #+#    #+#             */
+/*   Updated: 2024/10/11 21:14:27 by her-rehy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 /*libraries section*/
 
+# include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
@@ -13,7 +26,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <dirent.h>
 
 /*definitions section*/
 
@@ -32,7 +44,7 @@
 # define BOLD "\001\x1B[1m\002"
 # define RESET "\001\x1B[0m\002"
 
-extern int		g_status;
+extern int				g_status;
 
 /*structs section*/
 
@@ -135,7 +147,7 @@ t_glist					*ft_lstglast(t_glist *lst);
 int						set_status(t_list *list, char **env, t_list *tmp);
 char					*trim_last_list_chars_helper(t_glist *last, int i);
 bool					found_new_line(t_glist *list);
-void *handle_error( char **splited_cmd, int flag );
+void					*handle_error(char **splited_cmd, int flag);
 int						list_size(t_env *list);
 int						is_built_in(char *cmd);
 char					**list_to_array(t_env *list);
@@ -159,6 +171,7 @@ void					input(t_ms *command, char **env);
 void					p_err(char *str, int n);
 int						check_q(char *s);
 int						count_q(char *s, char c);
+int						change_to_home(void);
 int						double_p(char *s);
 int						ft_symbols(char c);
 int						ms_split(t_ms *command, char *s);
@@ -176,7 +189,7 @@ int						ft_unset(t_env **env, char *str);
 int						ft_exit(t_exc *vars);
 int						fill_env(t_env **env, char **envp);
 int						export_sort(t_env **export);
-char 					*checking(char **env, t_ms *ms);
+char					*checking(char **env, t_ms *ms);
 char					*ft_strchr(char const *str, int c);
 void					*ft_memmove(void *dest, const void *src, size_t n);
 char					**getpaths(char **envp);
@@ -235,12 +248,15 @@ void					handle_output_append_redirection(t_list **list,
 							t_exc *var, int *fd);
 void					handle_last_redirection(t_list *pre_last, t_exc *var);
 void					setup_redirections(t_ms *ms, t_child **child);
-void					handle_redirection_out(t_child *child, t_exc *var, char **envp);
-void 					handle_redirection_in(t_list **list, t_exc *var, t_child *child, char **envp);
+void					handle_redirection_out(t_child *child, t_exc *var,
+							char **envp);
+void					handle_redirection_in(t_list **list, t_exc *var,
+							t_child *child, char **envp);
 void					handle_heredoc_loop(int fd, char *file, char *str2);
-void					handle_here_doc(t_list **list, t_exc *var,
-								 char **envp, t_child *child);
-void					handle_pipe(t_list **list, t_exc *var, t_child *child, char **envp);
+void					handle_here_doc(t_list **list, t_exc *var, char **envp,
+							t_child *child);
+void					handle_pipe(t_list **list, t_exc *var, t_child *child,
+							char **envp);
 void					handle_word(t_list **list, char **envp);
 void					execute_child_process(t_ms *ms, char **envp,
 							t_list *pre_last_list, t_child *child);
@@ -253,6 +269,7 @@ int						empty_check(char *s);
 char					*ft_strtrim(char *s1, char const *set);
 int						put_str_fd(char *str, int fd);
 void					*ft_malloc(size_t len);
+char					**create_own_env(void);
 void					ft_exitt(int n);
 void					ft_free(void *ptr);
 void					ft_listadd_back_plus(t_garbage **lst, t_garbage *new);
