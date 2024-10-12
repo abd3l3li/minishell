@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 09:57:47 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/11 21:19:12 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:39:11 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,28 @@ int	compare_list(const char *str, t_env *env_list)
 		(*current) = (*current)->next;
 	}
 	return (0);
+}
+
+int    ft_flags(char *s)
+{
+    return ((s[0] == '|' || s[0] == '<' || s[0] == '>') || (s[1] && (s[1] == '<'
+            || s[1] == '>')));
+}
+
+int    ft_more_parse(t_ms *cmd)
+{
+    t_list *tmp;
+
+    tmp = cmd->node;
+    while (tmp)
+    {
+        if (ft_flags(tmp->content))
+            if (tmp->next && ft_flags(tmp->next->content))
+            {
+                printf("bash: syntax error near unexpected token\n");
+                return (1);
+            }
+        tmp = tmp->next;
+    }
+    return (0);
 }

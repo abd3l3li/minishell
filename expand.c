@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abel-baz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:45:00 by abel-baz          #+#    #+#             */
-/*   Updated: 2024/10/11 21:45:04 by abel-baz         ###   ########.fr       */
+/*   Updated: 2024/10/12 20:11:20 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,23 @@ void	expand_env(t_ms *command, t_env *env_list)
 	command->tmp = command->node;
 	while (command->tmp)
 	{
+		command->tmp_env = env_list;
 		if (command->tmp->type == HERE_DOC)
 			command->tmp = command->tmp->next;
 		else if (command->tmp->type == ENV)
 		{
 			command->name = ft_strdup(command->tmp->content + 1);
 			command->value = NULL;
-			while (env_list && !command->done)
+			while (command->tmp_env)
 			{
-				to_be_continued(command, env_list);
-				env_list = env_list->next;
+				to_be_continued(command, command->tmp_env);
+				command->tmp_env = command->tmp_env->next;
 			}
 			ft_free(command->name);
 		}
 		else if ((command->tmp->content[0] == '>'
 				|| (command->tmp->content[0] == '<'
-					&& command->tmp->content[1] == '\0'))
-			&& (command->tmp->next
+					&& command->tmp->content[1] == '\0')) && (command->tmp->next
 				&& command->tmp->next->content[0] == '$'))
 			p_err("bash: ambiguous redirect", 1);
 		command->tmp = command->tmp->next;

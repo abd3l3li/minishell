@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:14:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/12 14:16:36 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:39:51 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_ms
 	char				*tmp_s;
 	t_env				*env_list;
 	t_env				*export;
+	t_env				*tmp_env;
 	const char			*prompt;
 	int					i;
 	int					done;
@@ -274,5 +275,6 @@ void					ft_free(void *ptr);
 void					ft_listadd_back_plus(t_garbage **lst, t_garbage *new);
 void					ft_remove_spaces(t_ms *command);
 int						valid_cmd(t_ms *cmd);
+int						ft_more_parse(t_ms *cmd);
 
 #endif

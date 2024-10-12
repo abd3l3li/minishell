@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   joining.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abel-baz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:45:35 by abel-baz          #+#    #+#             */
-/*   Updated: 2024/10/11 21:45:37 by abel-baz         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:33:06 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,17 @@ void	ft_merge(t_ms *cmd)
 	prev = NULL;
 	while (tmp)
 	{
-		if (tmp->type == ENV || tmp->type == ENV_WORD)
+		if (tmp->type == ENV || tmp->type == ENV_WORD || tmp->type == WORD)
 		{
 			if (tmp->next && tmp->next->type != PIPE
 				&& tmp->next->type != REDIRACTION_IN
 				&& tmp->next->type != REDIRACTION_OUT
+				&& tmp->next->type != REDIRACTION_OUT_APPEND
 				&& tmp->next->type != HERE_DOC)
 				ft_next(tmp);
 			else if (prev && prev->type != PIPE && prev->type != REDIRACTION_IN
-				&& prev->type != REDIRACTION_OUT && prev->type != HERE_DOC)
+				&& prev->type != REDIRACTION_OUT && prev->type != REDIRACTION_OUT_APPEND
+				&& prev->type != HERE_DOC)
 				ft_prev(&tmp, prev);
 		}
 		prev = tmp;

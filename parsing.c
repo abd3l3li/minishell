@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abel-baz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:46:55 by abel-baz          #+#    #+#             */
-/*   Updated: 2024/10/11 21:46:57 by abel-baz         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:39:58 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_check(char *s)
 		yes = 1;
 		printf("quote>\n");
 	}
-	if ((*(s + i) == '|' || s[last - 1] == '|') || double_p(s + i))
+	if ((*(s + i) == '|' || s[last - 1] == '|'))
 	{
 		yes = 1;
 		p_err("minishell: syntax error near unexpected token `|'", 2);
@@ -103,6 +103,7 @@ int	ft_pars(t_ms *cmd)
 		}
 		tmp = tmp->next;
 	}
+	i = ft_more_parse(cmd);
 	return (i);
 }
 
