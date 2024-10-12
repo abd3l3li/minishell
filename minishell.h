@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:14:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/11 21:14:27 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/12 14:16:36 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,6 @@ void					ft_lexer(char *s, t_ms *command);
 void					input(t_ms *command, char **env);
 void					p_err(char *str, int n);
 int						check_q(char *s);
-int						count_q(char *s, char c);
 int						change_to_home(void);
 int						double_p(char *s);
 int						ft_symbols(char c);

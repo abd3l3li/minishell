@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:39:55 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/11 22:40:22 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/12 14:59:31 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,10 @@ char	*checking(char **env, t_ms *ms)
 	count_here_doc(ms->node);
 	while (ms->node)
 	{
-		if (ft_strfind(ms->node->content, '/') == 1
-			&& !handl_path(ms->node->content))
+		if ((ms->node->next) && ((ft_strfind(ms->node->content, '/') == 1
+					&& !handl_path(ms->node->content))
+				|| (ft_strfind(ms->node->next->content, '/') == 1
+					&& !handl_path(ms->node->next->content))))
 			return (NULL);
 		ms->pre_last = tmp;
 		child_process(ms, env, ms->pre_last);
@@ -131,7 +133,5 @@ char	*checking(char **env, t_ms *ms)
 	protecting_executing(tmp, env, ms, &exc);
 	dup2(exc.saved_stdout, STDOUT_FILENO);
 	dup2(exc.saved_stdin, STDIN_FILENO);
-	close(exc.saved_stdout);
-	close(exc.saved_stdin);
-	return (NULL);
+	return (close(exc.saved_stdout), close(exc.saved_stdin), NULL);
 }
