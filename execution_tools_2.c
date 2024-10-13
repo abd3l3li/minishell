@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:22:03 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 20:09:25 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:09:07 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,21 @@ void	handle_redirection_in(t_list **list, t_exc *var, t_child *child,
 	execute((*list)->content, envp);
 }
 
-void	handle_heredoc_loop(int fd, char *file, char *str2)
+void	handle_heredoc_loop(int fd, char *file, char *str2, t_child *child)
 {
 	char	*str;
 
+	child->expanded = NULL;
 	str = readline("> ");
 	while (str)
 	{
+		child->expanded = extract_after_dollar(str);
+		if (child->expanded)
+		{
+			ft_free(str);
+			str = find_env_value(child->expanded, child->env_list);
+			ft_free(child->expanded);
+		}
 		if (ft_strcmp(str, file) == 0)
 		{
 			close(fd);
@@ -112,7 +120,7 @@ void	handle_here_doc(t_list **list, t_exc *var, char **envp, t_child *child)
 	fd = open(str, O_CREAT | O_RDWR | O_APPEND, 0777);
 	str2 = ft_strdup(str);
 	ft_free(str);
-	handle_heredoc_loop(fd, var->file, str2);
+	handle_heredoc_loop(fd, var->file, str2, child);
 	if ((*list)->next->type == HERE_DOC && (*list)->type == WORD)
 	{
 		dup2(fd, 0);

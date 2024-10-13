@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:45:35 by abel-baz          #+#    #+#             */
-/*   Updated: 2024/10/12 22:33:06 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:05:22 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	ft_merge(t_ms *cmd)
 				&& tmp->next->type != HERE_DOC)
 				ft_next(tmp);
 			else if (prev && prev->type != PIPE && prev->type != REDIRACTION_IN
-				&& prev->type != REDIRACTION_OUT && prev->type != REDIRACTION_OUT_APPEND
+				&& prev->type != REDIRACTION_OUT
+				&& prev->type != REDIRACTION_OUT_APPEND
 				&& prev->type != HERE_DOC)
 				ft_prev(&tmp, prev);
 		}

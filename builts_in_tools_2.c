@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:32 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/11 21:13:27 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:18:37 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int	fill_env(t_env **env, char **envp)
 	}
 	(*env)->next = NULL;
 	(*env) = tmp;
+	ft_free(envp);
 	return (0);
 }

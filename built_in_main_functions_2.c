@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 18:55:09 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/11 17:29:51 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:56:50 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,18 @@ int	pwd(void)
 	pwd = getcwd(NULL, 0);
 	printf("%s\n", pwd);
 	free(pwd);
+	return (0);
+}
+
+int	put_str_fd(char *str, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(fd, &str[i], 1);
+		i++;
+	}
 	return (0);
 }

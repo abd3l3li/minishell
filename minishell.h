@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:14:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/12 22:39:51 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/14 00:12:17 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_ms
 typedef struct s_child
 {
 	t_list				*tmp;
+	char				*expanded;
 	t_env				*env_list;
 	t_env				*export;
 	int					fd;
@@ -152,14 +153,18 @@ void					*handle_error(char **splited_cmd, int flag);
 int						list_size(t_env *list);
 int						is_built_in(char *cmd);
 char					**list_to_array(t_env *list);
+char					*ft_strncpy(char *dest, const char *src, size_t n);
 int						ft_strfind(const char *s, int c);
 void					free_glist(t_glist *list);
+char					*find_env_value(const char *name, t_env *env_list);
 char					*get_next_line(int fd);
 void					ft_free_tab(char **tab);
+char					*extract_after_dollar(char *str);
 void					generate_line(char **line, t_glist *list);
 void					error(int i);
 char					*remove_qoute(char *str);
 char					*ft_strnstr(char *s1, char *s2);
+int						ft_isspace(char c);
 int						ft_isdigit(int i);
 void					get_init(t_ms **cmd);
 int						ft_check(char *s);
@@ -252,9 +257,11 @@ void					handle_redirection_out(t_child *child, t_exc *var,
 							char **envp);
 void					handle_redirection_in(t_list **list, t_exc *var,
 							t_child *child, char **envp);
-void					handle_heredoc_loop(int fd, char *file, char *str2);
+void					handle_heredoc_loop(int fd, char *file, char *str2,
+							t_child *child);
 void					handle_here_doc(t_list **list, t_exc *var, char **envp,
 							t_child *child);
+void					ft_strcpy(char *dst, const char *src);
 void					handle_pipe(t_list **list, t_exc *var, t_child *child,
 							char **envp);
 void					handle_word(t_list **list, char **envp);

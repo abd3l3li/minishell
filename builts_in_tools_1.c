@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:05:53 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/11 21:15:18 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:15:18 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_print_env(t_env *env)
 {
 	while (env)
 	{
-		if (env->value != NULL)
+		if (env && env->value)
 			printf("%s=%s\n", env->name, env->value);
 		env = env->next;
 	}

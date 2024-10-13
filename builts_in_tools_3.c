@@ -80,31 +80,31 @@ int	free_tab(char **tab)
 	return (0);
 }
 
-int check_option(char **str, int *check)
+int	check_option(char **str, int *check)
 {
-    int     return_value;
-    char    *s;
+	int		return_value;
+	char	*s;
 
-    return_value = 1;
-    while (*(++str))
-    {
-        if (**str == '-' && *(*str + 1) == 'n')
-        {
-            s = *str + 1;
-            while (*s == 'n')
-                s++;
-            if (*s == '\0')
-                return_value++;
-            else
-            {
-                *check = 1;
-                return (return_value);
-            }
-        }
-        else
-            break;
-    }
-    if (return_value > 1)
-        *check = 1;
-    return (return_value);
+	return_value = 1;
+	while (*(++str))
+	{
+		if (**str == '-' && *(*str + 1) == 'n')
+		{
+			s = *str + 1;
+			while (*s == 'n')
+				s++;
+			if (*s == '\0')
+				return_value++;
+			else
+			{
+				*check = 1;
+				return (return_value);
+			}
+		}
+		else
+			break ;
+	}
+	if (return_value > 1)
+		*check = 1;
+	return (return_value);
 }

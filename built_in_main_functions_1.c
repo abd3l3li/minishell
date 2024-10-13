@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:09:54 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/10 18:53:20 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/13 23:31:22 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,24 @@ char	*ft_strnstr(char *s1, char *s2)
 	return (NULL);
 }
 
+void	print_until_quote(char **str, int i)
+{
+	while (str[i] && !ft_strchr(str[i], '\'') && !ft_strchr(str[i], '\"'))
+	{
+		printf("%s", str[i]);
+		if (str[i + 1] != NULL)
+			printf(" ");
+		i++;
+	}
+}
+
 int	print_argument(t_exc *vars, int i)
 {
 	char	*str;
 
+	if (ft_strchr(vars->builtin_tmp, '\'') || ft_strchr(vars->builtin_tmp,
+			'\"'))
+		print_until_quote(vars->cmd_args, i);
 	if (ft_strchr(vars->builtin_tmp, '\''))
 	{
 		str = ft_strchr(vars->builtin_tmp, '\'');
@@ -107,19 +121,6 @@ int	ft_unset(t_env **env, char *str)
 			return (0);
 		}
 		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int	put_str_fd(char *str, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		write(fd, &str[i], 1);
-		i++;
 	}
 	return (0);
 }

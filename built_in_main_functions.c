@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 10:49:56 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/11 17:28:57 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/14 00:06:12 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	ft_export(t_env *env, t_env *export, t_exc *vars)
 		vars->cmd_args[1] = ft_strdup(join_args);
 	if (vars->cmd_args[1] == NULL)
 		return (print_exported_variables(export), 0);
-	if (compare_list(vars->cmd_args[1], env) == 1
-		|| compare_list(vars->cmd_args[1], export) == 1)
+	if (compare_list(vars->cmd_args[1], export) == 1
+		|| compare_list(vars->cmd_args[1], env) == 1)
 		return (0);
 	vars->cmd = vars->cmd_args[1];
 	check_values(env, export, vars);

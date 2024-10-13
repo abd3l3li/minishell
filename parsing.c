@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:46:55 by abel-baz          #+#    #+#             */
-/*   Updated: 2024/10/12 22:39:58 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/13 22:32:29 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_check(char *s)
 	if (check_q(s + i))
 	{
 		yes = 1;
-		printf("quote>\n");
+		printf("syntax error>\n");
 	}
 	if ((*(s + i) == '|' || s[last - 1] == '|'))
 	{
