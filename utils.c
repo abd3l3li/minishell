@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 
+int	ft_quoted(t_ms *command, char *s, int i)
+{
+	char	c;
+	int		flag;
+
+	flag = 0;
+	while (s[i])
+	{
+		if ((s[i] == '\'' || s[i] == '\"') && !flag)
+		{
+			flag = 1;
+			c = s[i];
+			i++;
+		}
+		else if (flag && c == s[i])
+		{
+			flag = 0;
+			i++;
+			break ;
+		}
+		else
+			i++;
+	}
+	ft_listadd_back(&(command->node), ft_listnew(s, i, QUOTED));
+	return (i);
+}
+
 int	valid_cmd(t_ms *cmd)
 {
 	int	len;
@@ -66,7 +93,7 @@ int	check_q(char *str)
 		return (0);
 }
 
-int	double_p(char *s)
+/*int	double_p(char *s)
 {
 	int	i;
 
@@ -78,7 +105,7 @@ int	double_p(char *s)
 		i++;
 	}
 	return (0);
-}
+}*/
 
 char	*ft_strchr(char const *str, int c)
 {

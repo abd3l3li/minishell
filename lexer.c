@@ -94,6 +94,8 @@ int	ms_split(t_ms *command, char *s)
 			command->i++;
 		ft_listadd_back(&(command->node), ft_listnew(s, command->i, WORD));
 	}
+	else if (s[command->i] == '\'' || s[command->i] == '\"')
+		command->i += ft_quoted(command, s, command->i);
 	else if (s[command->i] == '$')
 		command->i += ft_var(command, s, command->i);
 	else
@@ -115,6 +117,8 @@ void	ft_lexer(char *s, t_ms *command)
 	i = 0;
 	while (s[i])
 		i += ms_split(command, s + i);
+	ft_check_env(command);
+	ft_merge_quoted(command);
 	ft_remove_spaces(command);
 	ft_skip_q(command);
 }

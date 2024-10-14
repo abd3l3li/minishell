@@ -14,7 +14,8 @@
 
 int	ft_symbols(char c)
 {
-	return (c == '$' || c == '<' || c == '>' || c == '|' || c == '\0');
+	return (c == '$' || c == '<' || c == '>' || c == '|' || c == '\0'
+		|| c == '\'' || c == '\"');
 }
 
 void	*ft_memset(void *s, int c, size_t n)

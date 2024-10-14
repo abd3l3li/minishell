@@ -37,6 +37,7 @@
 # define HERE_DOC 5
 # define REDIRACTION_OUT_APPEND 6
 # define ENV_WORD 7
+# define QUOTED 9
 # define BUFFER_SIZE 8
 
 # define CMAGENTA "\001\x1B[35m\002"
@@ -283,5 +284,9 @@ void					ft_listadd_back_plus(t_garbage **lst, t_garbage *new);
 void					ft_remove_spaces(t_ms *command);
 int						valid_cmd(t_ms *cmd);
 int						ft_more_parse(t_ms *cmd);
+int						ft_quoted(t_ms *command, char *s, int i);
+void					ft_merge_quoted(t_ms *cmd);
+void					ft_prev(t_list **tmp, t_list *prev);
+void					ft_check_env(t_ms	*command);
 
 #endif

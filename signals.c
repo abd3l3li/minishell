@@ -12,6 +12,28 @@
 
 #include "minishell.h"
 
+void	ft_check_env(t_ms *command)
+{
+	t_list	*tmp;
+
+	tmp = command->node;
+	while (tmp)
+	{
+		if (tmp->content[0] == '\"' && tmp->content[1] == '$')
+		{
+			ft_skip_q(command);
+			tmp->type = ENV;
+		}
+		else if (tmp->content[0] == '\"' && tmp->content[1] == '\''
+			&& tmp->content[2] == '$')
+		{
+			ft_skip_q(command);
+			tmp->type = ENV;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	handler(int sig)
 {
 	(void)sig;

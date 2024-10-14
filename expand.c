@@ -12,6 +12,25 @@
 
 #include "minishell.h"
 
+void	ft_merge_quoted(t_ms *cmd)
+{
+	t_list	*tmp;
+	t_list	*prev;
+
+	tmp = cmd->node;
+	prev = NULL;
+	while (tmp)
+	{
+		if (prev && prev->type == WORD && tmp->type == QUOTED)
+		{
+			ft_prev(&tmp, prev);
+			continue ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
+
 void	set_value(t_ms *command, char *new_value)
 {
 	if (command->tmp->content)
