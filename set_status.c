@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 09:57:47 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/14 00:13:13 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:16:15 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	compare_list(const char *str, t_env *env_list)
 
 	current = &env_list;
 	name_value = ft_split(str, '=');
-	while ((*current) != NULL)
+	while ((*current))
 	{
-		if ((*current)->value == NULL)
+		if (!(*current)->value)
 			(*current)->value = ft_strdup("");
 		if (ft_strcmp(name_value[0], (*current)->name) == 0)
 		{
-			if (name_value[1] == NULL || ft_strcmp(name_value[1],
+			if (!name_value[1] || ft_strcmp(name_value[1],
 					(*current)->value) == 0)
 				return (1);
 			else

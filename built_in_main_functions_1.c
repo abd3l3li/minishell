@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:09:54 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/13 23:31:22 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:41:40 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,9 @@ int	print_argument(t_exc *vars, int i)
 	if (ft_strchr(vars->builtin_tmp, '\'') || ft_strchr(vars->builtin_tmp,
 			'\"'))
 		print_until_quote(vars->cmd_args, i);
-	if (ft_strchr(vars->builtin_tmp, '\''))
+	if (find_first(vars->builtin_tmp, '\'', '\"'))
 	{
-		str = ft_strchr(vars->builtin_tmp, '\'');
-		printf("%s", remove_qoute(str));
-		return (1);
-	}
-	else if (ft_strchr(vars->builtin_tmp, '\"'))
-	{
-		str = ft_strchr(vars->builtin_tmp, '\"');
+		str = find_first(vars->builtin_tmp, '\'', '\"');
 		printf("%s", remove_qoute(str));
 		return (1);
 	}

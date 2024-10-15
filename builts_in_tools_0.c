@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 20:06:42 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/14 00:11:47 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:10:53 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	export_adding(t_env *list, char *args)
 	new = ft_malloc(sizeof(t_env));
 	if (args == NULL)
 		return (0);
-	if (ft_strchr(args, '='))
+	if (!ft_strchr(args, '='))
 	{
 		new->name = ft_strdup(args);
 		new->value = NULL;
@@ -63,6 +63,8 @@ int	export_adding(t_env *list, char *args)
 	new->name = ft_strdup(name_value[0]);
 	if (!name_value[1])
 		new->value = ft_strdup("");
+	else
+		new->value = ft_strdup(name_value[1]);
 	new->next = NULL;
 	lstadd_back(&list, new);
 	return (0);

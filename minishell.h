@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:14:26 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/14 00:12:17 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:41:57 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ int						compare_strings_ignore_case(const char *str1,
 							const char *str2);
 int						export_sort(t_env **export);
 int						fill_env(t_env **env, char **envp);
+char					*find_first( char	*str, char ch1, char ch2);
 void					ms_signal(void);
 int						ft_pars(t_ms *cmd);
 void					ft_skip_q(t_ms *cmd);

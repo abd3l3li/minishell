@@ -6,7 +6,7 @@
 /*   By: her-rehy <her-rehy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:55:13 by her-rehy          #+#    #+#             */
-/*   Updated: 2024/10/14 00:11:54 by her-rehy         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:42:51 by her-rehy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,15 @@ char	*extract_after_dollar(char *str)
 	ft_strncpy(result, dollar_ptr, length);
 	result[length] = '\0';
 	return (result);
+}
+
+char	*find_first(char *str, char ch1, char ch2)
+{
+	while (*str != '\0')
+	{
+		if (*str == ch1 || *str == ch2)
+			return (str);
+		str++;
+	}
+	return (NULL);
 }
