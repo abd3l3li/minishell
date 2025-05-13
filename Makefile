@@ -1,14 +1,21 @@
 NAME = minishell
 CC = cc
-CFLAGS = -g3 -fsanitize=address
+CFLAGS = -g 
 RM = rm -rf
 
 BOLD      = \033[1m
 CGREEN    = \033[32m
 CCYAN     = \033[36m
 
-SRC = checks.c free.c libft.c libftPlus.c list.c  signals.c joining.c \
-		minishell.c moreUtils.c spliting.c utils.c parsing.c expand.c
+
+SRC =  checks.c list.c spliting.c excutiion.c expand.c \
+	ft_memmove.c ft_strchr.c get_next_line.c free.c libftPlus.c built_in_main_functions.c built_in_main_functions_1.c \
+	libft.c minishell.c moreUtils.c utils.c ft_split.c signals.c \
+	builts_in_tools_0.c get_next_line_utils.c joining.c parsing.c set_status.c \
+	builts_in_tools_1.c builts_in_tools_2.c builts_in_tools_3.c \
+	execution_tools_5.c execution_tools_4.c execution_tools_3.c \
+	execution_tools_2.c execution_tools_1.c execution_tools_0.c \
+
 
 OBJ = ${SRC:.c=.o}
 

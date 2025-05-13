@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_list	*ft_lstnew(char *content, int len, int type)
+t_list	*ft_listnew(char *content, int len, int type)
 {
 	t_list	*new;
     char    *sub;
@@ -9,13 +9,15 @@ t_list	*ft_lstnew(char *content, int len, int type)
 	if (!new)
 		return (NULL);
     sub = ft_substr(content, 0, len);
+    if (!sub)
+        return (NULL);
 	new->content = sub;
 	new->next = NULL;
     new->type = type;
 	return (new);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_listadd_back(t_list **lst, t_list *new)
 {
 	t_list	*temp;
 
