@@ -13,4 +13,4 @@ This project is part of my journey into learning systems programming and buildin
 - 🚀 Functional (basic commands work)
 - 🔧 The enhanced version will be pushed soon
 
-- Thanks for checking it out! 🙂
+ Thanks for checking it out! 🙂
